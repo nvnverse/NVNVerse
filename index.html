@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>NVN Pinterest Style</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", sans-serif;
+    }
+    body {
+      background: #fff;
+      color: #333;
+      min-height: 100vh;
+      padding-bottom: 80px;
+    }
+
+    .top-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: #fff;
+      padding: 6px 18px;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      z-index: 999;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1rem;
+      letter-spacing: 1px;
+    }
+
+    .top-header h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      color: transparent;
+      background: linear-gradient(to right, #FF0051, #FF002E);
+      -webkit-background-clip: text;
+      background-clip: text;
+      margin: 0;
+    }
+
+    .page {
+      display: none;
+      padding: 80px 20px 20px;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    .bottom-header {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      background: rgba(255, 255, 255, 0.7);
+      border-radius: 40px;
+      padding: 12px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      z-index: 999;
+      backdrop-filter: blur(6px);
+    }
+
+    .nav-btn {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: linear-gradient(to right, #FF0051, #FF002E);
+      color: #fff;
+      font-size: 24px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.3s, box-shadow 0.2s;
+    }
+
+    .nav-btn:active {
+      transform: scale(0.95);
+    }
+
+    .nav-btn:hover {
+      background: linear-gradient(to right, #FF002E, #FF0051);
+      box-shadow: 0 0 10px rgba(255, 0, 80, 0.3);
+    }
+
+    .nav-btn.active {
+      background: linear-gradient(to right, #FF002E, #FF0051);
+      box-shadow: 0 0 20px rgba(255, 0, 80, 0.4);
+    }
+
+    h2 {
+      font-size: 1.2rem;
+      color: transparent;
+      background: linear-gradient(to right, #FF0051, #FF002E);
+      -webkit-background-clip: text;
+      background-clip: text;
+      margin-bottom: 10px;
+    }
+
+    .gallery {
+      column-count: 2;
+      column-gap: 12px;
+    }
+
+    .gallery img {
+      width: 100%;
+      margin-bottom: 12px;
+      border-radius: 12px;
+      break-inside: avoid;
+      transition: transform 0.2s ease;
+    }
+
+    .gallery img:hover {
+      transform: scale(1.02);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    @media (min-width: 768px) {
+      .gallery {
+        column-count: 3;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .gallery {
+        column-count: 4;
+      }
+    }
+
+    .card {
+      background: #fff;
+      padding: 20px;
+      margin-bottom: 15px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+</head>
+<body>
+
+<div class="top-header">
+  <h1>NVN Verse</h1>
+</div>
+
+<div id="home" class="page active">
+  <h2>All</h2>
+  <div class="gallery">
+    <img src="https://i.postimg.cc/mgKFx2y9/9d8262e5035b90564590b50dd6a6dd22.jpg">
+<img src="https://i.postimg.cc/L57mqhXB/5d73166a4814865403dbaffa609e7c93.jpg">
+<img src="https://i.postimg.cc/02T8P6h9/0d071f13691f0fd05078d9737fc18b83.jpg">
+<img src="https://i.postimg.cc/FsL4Wrz8/164cc36690157e2e74fd505772b29e8d.jpg">
+<img src="https://i.postimg.cc/FK9XH0pX/aaec2f05c1a128f977abb31424705020.jpg">
+<img src="https://i.postimg.cc/kgyXsJh9/2893602cbc49a7f8b07b26d0c201e8da.jpg">
+<img src="https://i.postimg.cc/6Q561kDZ/170c63e8eb7cd79528918239952d7952.jpg">
+<img src="https://i.postimg.cc/d3Y87VzT/1b99fd7fe9d0f446312e102279603b98.jpg">
+<img src="https://i.postimg.cc/L4ttcj1k/1d309e436f0c7ae91cabf4313b13904c.jpg">
+<img src="https://i.postimg.cc/90Yyyjhg/26d6eb9d893247be18f16ed97415f698.jpg">
+<img src="https://i.postimg.cc/15MptPMf/30f876e446d395fa56031c9247963eec.jpg">
+<img src="https://i.postimg.cc/SKY8D94M/3883e94ea5248936077d571fef4f97cb.jpg">
+<img src="https://i.postimg.cc/P5x1vcFK/5ac21fd794b1ee8e2b50620131aa4853.jpg">
+<img src="https://i.postimg.cc/vTh6cLrp/a25af8a7101e7c999183fda35e45ccf4.jpg">
+<img src="https://i.postimg.cc/bws2wnsB/bb186ef8855d6fb07cc7e6efc20d2a0d.jpg">
+<img src="https://i.postimg.cc/jSFPHXpT/c049a405a4a8003b4879b928b60c31f7.jpg">
+<img src="https://i.postimg.cc/4dCcM34F/c56a5612edcaf15e5bc2de1b8cf8d386.jpg">
+<img src="https://i.postimg.cc/SRkMStM6/d1464359e503d6960f587aa7171bba78.jpg">
+<img src="https://i.postimg.cc/dtQygpvv/eb311eb940ecc98a423acb062f513db0.jpg">
+<img src="https://i.postimg.cc/j5zfrrLq/f198260cfd48a5bbe297998b4e589f5a.jpg">
+<img src="https://i.postimg.cc/nzXFnvVc/b3323a6a474b5b0588612394e45e8c96.jpg">
+<img src="https://i.postimg.cc/kg772rMH/ba30dd5e71fe0ebf714eb7c97a69a1f8.jpg">
+<img src="https://i.postimg.cc/ZK2rmcT0/69fe2c41885ee9748e59ab353f70c287.jpg">
+<img src="https://i.postimg.cc/PJDT7txK/1231b7ec940d14e6a53f74dfd7d5d39a.jpg">
+<img src="https://i.postimg.cc/Pqffqs3r/1c74a8f8b9ae0e99e644bc37e9e631f7.jpg">
+<img src="https://i.postimg.cc/R0PS6sy1/201129f14293c1c6d712ac3cbf7fbc0c.jpg">
+<img src="https://i.postimg.cc/BnBQsQCV/300d90122a737905aec4d0605e5e4290.jpg">
+<img src="https://i.postimg.cc/FHpm8Crt/393e152700a2876d6c87641971ee7f56.jpg">
+<img src="https://i.postimg.cc/mZKrynD8/397329776eeed8a4701db9a6772b8c79.jpg">
+<img src="https://i.postimg.cc/mrTfSYCd/3ae07d3dd6ff55891825cce4ab94e9d2.jpg">
+<img src="https://i.postimg.cc/Y2F7MCrz/436b025eb21619fa96eb737293181d1a.jpg">
+<img src="https://i.postimg.cc/3x5Hk5RQ/5683d4d039c7049db20c08591e44f014.jpg">
+<img src="https://i.postimg.cc/YS8cDvxt/608b5841e407e671c3a69c736681372e.jpg">
+<img src="https://i.postimg.cc/NMP3YZVV/6590d042cf4c3a06b72b7b8096221d7b.jpg">
+<img src="https://i.postimg.cc/X7c0B1yZ/781486bebf9e1b30f2724507164250f3.jpg">
+<img src="https://i.postimg.cc/pTGHrm9s/7b525305f62f331ad874adbc8d8b4044.jpg">
+<img src="https://i.postimg.cc/5tkJNHQn/81154db4b0df4c10003e5c358a703840.jpg">
+<img src="https://i.postimg.cc/qq2HLjb5/85b878ea75b447777777b9d6cf63bdd5.jpg">
+<img src="https://i.postimg.cc/Kj6C3BmD/905bf21f0ee840e61b6c7b46ce41169f.jpg">
+<img src="https://i.postimg.cc/BZPSbCgD/915b1bf025b6b08d1de5ca7f9b92a896.jpg">
+<img src="https://i.postimg.cc/RVcvQV2Z/938c1d4af5c6f67b869eb0e300bb945a.jpg">
+<img src="https://i.postimg.cc/L4JXfSHJ/a1f132dc5a31f1e5ae6caaa52f54e2b9.jpg">
+<img src="https://i.postimg.cc/DzzFTQ0S/a5ac8e218d7c710ce966678f7f70665f.jpg">
+<img src="https://i.postimg.cc/Dwv3rQqx/a810f902a4a548e39a507b33dd64c8f7.jpg">
+<img src="https://i.postimg.cc/RVfZsTJ9/b1a9ba0fe8611680637911f570bb6205.jpg">
+<img src="https://i.postimg.cc/RZg5X3d4/b5a6a8ae6023bb5a645fae417a8fc970.jpg">
+<img src="https://i.postimg.cc/fThNLQkn/bc02a130fd47dc3458e1bcd64889a17e.jpg">
+<img src="https://i.postimg.cc/qRzk8cHP/bf43ebc6d7c6dbc1daedb7cb63c3253f.jpg">
+<img src="https://i.postimg.cc/5yYZtnWt/c20b79abfc78e49a4af04f7ce6cee790.jpg">
+<img src="https://i.postimg.cc/G28CBckr/c3cada40e56612941848090a353e7fa2.jpg">
+<img src="https://i.postimg.cc/htccCRqb/c3d2a02d548e34a993528b2ce457adb5.jpg">
+<img src="https://i.postimg.cc/ncQJVcn1/c6260a3830c50017e19dea5ebcf718d0.jpg">
+<img src="https://i.postimg.cc/PJCkwdYT/d0769e6aa1c25cf63adf0228a369e25c.jpg">
+<img src="https://i.postimg.cc/FR8hGf97/d74568f0e627069c32d5ab9b1e769b11.jpg">
+<img src="https://i.postimg.cc/CxgLWfb8/db82835d06c4883ad8759aa10f47ee25.jpg">
+<img src="https://i.postimg.cc/jSHYNgww/e3c6d5f3421d5cf3f528b23815511fac.jpg">
+<img src="https://i.postimg.cc/pTwtzgZj/e3d916a3b4ecb69cbf3e14195e11202e.jpg">
+<img src="https://i.postimg.cc/rF68rtnH/e82320f58f655c7dcddfde40e7138d2f.jpg">
+<img src="https://i.postimg.cc/cHJppdDw/f5d803c5faf1cc351c739be1fd076022.jpg">
+<img src="https://i.postimg.cc/T2sxXWvw/f6a36d8f98aa1491de8e23f14528881c.jpg">
+<img src="https://i.postimg.cc/jS8YCLFW/a3ffd55f14802e4225f9cd08a5b7a8f7.jpg">
+<img src="https://i.postimg.cc/gcKSG15j/c0b0024a5bfb51807df375066f70f2d1.jpg">
+<img src="https://i.postimg.cc/YqqX0bK3/6981a34e9030950d903de591c8121177.jpg">
+<img src="https://i.postimg.cc/FHYDgzKk/cf3db0747960a20b5cc0b22b6b4ccd33.jpg">
+<img src="https://i.postimg.cc/kgRvRHjx/62cc4f3ba3020461144b15d998d696bf.jpg">
+<img src="https://i.postimg.cc/VvHXd9nG/bcf31c3ed30dd7e8dfb62474d371743a.jpg">
+<img src="https://i.postimg.cc/Nf7fQ8vB/3034ea8302054e693520957c194decae.jpg">
+<img src="https://i.postimg.cc/TPv9nXHr/459ddc4bcd3d169941c950082281fa86.jpg">
+<img src="https://i.postimg.cc/9Q7b4f1m/611f03a3a2153605be58c3de9fac40ff.jpg">
+<img src="https://i.postimg.cc/9FS1F9dg/a0a31391ed666f4a26dc36eea52f504e.jpg">
+<img src="https://i.postimg.cc/CLdmg7qf/b751a089608615b867d846207bd42019.jpg">
+<img src="https://i.postimg.cc/bv0RTFK4/c40229c63a485e94d9f2f5156eae72ee.jpg">
+<img src="https://i.postimg.cc/BZmMkkX0/dcbd157b04419a78b80e7a9c46ecb055.jpg">
+<img src="https://i.postimg.cc/pX8Kfz25/0559d77530fad0f4418d9044ff973a66.jpg">
+<img src="https://i.postimg.cc/5yKf8qBD/0060664f5bfe992a35d6afe79c0c9ddb.jpg">
+<img src="https://i.postimg.cc/Kj08Jy2q/03ca4c845839a8b67bf334d808905ba4.jpg">
+<img src="https://i.postimg.cc/5tyq3xWG/06b2c57715a825390cacd849df97bd1a.jpg">
+<img src="https://i.postimg.cc/8k93f0MN/079862c42b6e684f1d6f501c2fa9f60e.jpg">
+<img src="https://i.postimg.cc/kgb7tSBh/087130a03c5e2a39637dc4bf80225081.jpg">
+<img src="https://i.postimg.cc/28TZXPGf/088980df09bb9c388deace5c818ba2ca.jpg">
+<img src="https://i.postimg.cc/j5LTtJ0X/0b099cfff88c6726fbbd6d2ec818a3d5.jpg">
+<img src="https://i.postimg.cc/Px9jxrdk/0d3324e8c56f1d04ef791ff5a3e01c06.jpg">
+<img src="https://i.postimg.cc/MZmMvhhj/0e8f8a577a488dd314ccdb66cef0ac94.jpg">
+<img src="https://i.postimg.cc/FKx5jVmG/0f2aca15b869777a310ef415a7056697.jpg">
+<img src="https://i.postimg.cc/BQfrwz6N/1644f5ce3e9df258aa3dcdad1aedb14c.jpg">
+<img src="https://i.postimg.cc/T1L4HV8z/195618839fd1d4fbdca4b78e05ce86e2.jpg">
+<img src="https://i.postimg.cc/TYy6ZbqY/1fd8309cf3d844e21ecf793b876baad5.jpg">
+<img src="https://i.postimg.cc/g0ydgPyV/23c2d147d76f907dba4c5de7324aa0d2.jpg">
+<img src="https://i.postimg.cc/Fsc9YcfC/25fd935651f7098cbacea4c8b3055e21.jpg">
+<img src="https://i.postimg.cc/gkB0hd4r/28cbb65a8941ae7d6115e9443ed1ea31.jpg">
+<img src="https://i.postimg.cc/xT9m50KR/29f56b175ec06e414a29f5de9604c0e1.jpg">
+<img src="https://i.postimg.cc/J0z1ydkb/2a76dc4533000c31ae82d5aa87e4a8d3.jpg">
+<img src="https://i.postimg.cc/HWyzRs81/2bec0f8f1b4b2c8b3b7595fee70e88ea.jpg">
+<img src="https://i.postimg.cc/sgVJMY63/2f7ebebcbced73c62e4e715af5fa6d24.jpg">
+<img src="https://i.postimg.cc/G2NMY4Bq/31228b6da82b733f2b312a6cd27bc344.jpg">
+<img src="https://i.postimg.cc/bNKh8v30/313ca95a97646db5e1b146ba539339a7.jpg">
+<img src="https://i.postimg.cc/9FfMzzdv/3438bd77daeb86bbe0b4b701fc97a582.jpg">
+<img src="https://i.postimg.cc/637kDJnb/34a1e9e60499309989a1ce41b46f5257.jpg">
+<img src="https://i.postimg.cc/R0JJhqBM/362ca8daae304a7bd96b4914add886a5.jpg">
+<img src="https://i.postimg.cc/2yMPzHFj/3acb7860b4cbb4daf5c56d7adda459d5.jpg">
+<img src="https://i.postimg.cc/W4yKmWCG/3c06641a288720716a933262fe064e3e.jpg">
+<img src="https://i.postimg.cc/zBXmpHGN/3ca36af59a6a63274a3d13c4dc233672.jpg">
+<img src="https://i.postimg.cc/3xFYBTFg/3d0107647d56ebfdca5b167564f56337.jpg">
+<img src="https://i.postimg.cc/LhFgjD4N/3e3b9d1c197b0f2dfd625b24764eb247.jpg">
+<img src="https://i.postimg.cc/1z8wFJp1/3e46bfdd1086678dc912334c51fb1aed.jpg">
+<img src="https://i.postimg.cc/Bvv9B160/40acf13725f928372bb9e142b5ac3a9e.jpg">
+<img src="https://i.postimg.cc/sg908f8g/41cf7c009746575a514abc38ebd67e74.jpg">
+<img src="https://i.postimg.cc/4N8Y1p4f/44bb0973621f99d53a61d5c7e24572cc.jpg">
+<img src="https://i.postimg.cc/G3KtcvyF/45d00a624f268ec9aeaa25c7880fd8c3.jpg">
+<img src="https://i.postimg.cc/LXZWxkFr/464f2a4433f2274a865517d2340ad159.jpg">
+<img src="https://i.postimg.cc/W1Bb9nBv/4f87f52df517127304a70ba94798abcd.jpg">
+<img src="https://i.postimg.cc/P5mBjQLh/4fc30447dee9c052d69b390a208aec1a.jpg">
+<img src="https://i.postimg.cc/h4QnYx04/4fcdcc80705e5df25a444b25a1b208c1.jpg">
+<img src="https://i.postimg.cc/L82MhWFh/50f630e9949d64a068e45ff8d8b916f9.jpg">
+<img src="https://i.postimg.cc/y8czNzbM/52238e8e35a210be2ed1d4e0457cc58a.jpg">
+<img src="https://i.postimg.cc/m21vdsBP/534aa6b1e9b185a13b58b69f8c07da50.jpg">
+<img src="https://i.postimg.cc/W45YNWsR/535aa0687457049524721d33464a116d.jpg">
+<img src="https://i.postimg.cc/x882jJw5/53b0d68e9bb1f301c3a69206d1323a29.jpg">
+<img src="https://i.postimg.cc/Hny6tTXH/545a7cf48898e09f64513718dddb1930.jpg">
+<img src="https://i.postimg.cc/28WtQ77v/54c0c8aab881676ad8e06f9c22736d00.jpg">
+<img src="https://i.postimg.cc/yNpn4DTs/55673485d9b4b8d4bee933a6f9c597c8.jpg">
+<img src="https://i.postimg.cc/GtGjyqnm/55dec9a4a934458811e2f903e4cdea6b.jpg">
+<img src="https://i.postimg.cc/cLgLMj5h/5606e3b231e7a36574bc11b043ce66a7.jpg">
+<img src="https://i.postimg.cc/T2gjQ7BR/5654c40cdff67d8e7d977d3a454be467.jpg">
+<img src="https://i.postimg.cc/Hndr627x/5e343cfb0d37848cbf39f68db8f04361.jpg">
+<img src="https://i.postimg.cc/Xq50ySvB/5f75ef81ac95442384f12ab250618967.jpg">
+<img src="https://i.postimg.cc/vHyrK7d5/5f9483e7a2b5206897c10566249e44d2.jpg">
+<img src="https://i.postimg.cc/2yRKMqz3/60279b032ca61d0ce1d3626b1cc869c7.jpg">
+<img src="https://i.postimg.cc/XYbndJdj/603d3d3fb6dc24652a119468431d438b.jpg">
+<img src="https://i.postimg.cc/rFGB69RT/676a3e641b7ee2cec1dcdeaad298f987.jpg">
+<img src="https://i.postimg.cc/Kj6HX1xR/6ad72f49da80cb9313fa10b8f8fcee37.jpg">
+<img src="https://i.postimg.cc/8k7kVxTS/6b77c7bea53672df8e57f27192796a68.jpg">
+<img src="https://i.postimg.cc/zD2Nt7hc/6ceeb004ed1a8753c720ceaee5b2d98b.jpg">
+<img src="https://i.postimg.cc/JhSJ5ZqD/701d2a13a96e1e0a54c5ceb80ad90953.jpg">
+<img src="https://i.postimg.cc/6QPVbD9Q/71ab4f49f78eae7206114fa12b11036e.jpg">
+<img src="https://i.postimg.cc/bvrWtcCY/731f573c578ef67b02969731d7ac3e62.jpg">
+<img src="https://i.postimg.cc/y8YF1Vxd/78775ce1f19d59fa2aa9a2687190f4e7.jpg">
+<img src="https://i.postimg.cc/Dwj1mt4c/79baedf3069b701d9a8aab41a39a7345.jpg">
+<img src="https://i.postimg.cc/vBM8ym82/7cf3a532792d0a2b6fb3bee2f3dd2a5d.jpg">
+<img src="https://i.postimg.cc/cCrpGq35/80bb47d7b85a7710e3cac540f71cfe9b.jpg">
+<img src="https://i.postimg.cc/7hk2p4jq/8147e70b034d6897f7926daf4dc9c7e1.jpg">
+<img src="https://i.postimg.cc/3wbMSJ4D/816b9ed194b48f01be52e9de8599351f.jpg">
+<img src="https://i.postimg.cc/DZC9NfSX/819e288fade24298d2c9485d7de5e163.jpg">
+<img src="https://i.postimg.cc/W4VcFHRh/81fdeb1a3b5a9ef6f148c94e192f083b.jpg">
+<img src="https://i.postimg.cc/BnGVMPmz/84c1f16a6a3ae8d3dd8ebe7b2615f4ea.jpg">
+<img src="https://i.postimg.cc/zvQ1yD5r/85a09f9831ee602ab9d003f15d2faac0.jpg">
+<img src="https://i.postimg.cc/vTfpZrPW/88b2c858a5b8e0e372a7cc416548f378.jpg">
+<img src="https://i.postimg.cc/YqjrMZk7/8cef4848c938d99ae3df86086f28af6d.jpg">
+<img src="https://i.postimg.cc/63s2vwWC/8f7f7705be8be8b6d6e99d34cd5e9e7f.jpg">
+<img src="https://i.postimg.cc/hGV4Nmn7/900426cb3201232d606c9545a4c8bff2.jpg">
+<img src="https://i.postimg.cc/HxBmC4hj/94acc9fb180ff3012387f1407e72e9cf.jpg">
+<img src="https://i.postimg.cc/CMGDbZf5/94b8b70fbbc0f7e7454b975dcdc197bb.jpg">
+<img src="https://i.postimg.cc/CKS9LnD8/94e668b5360eafde3bd86e00b0b9f6e9.jpg">
+<img src="https://i.postimg.cc/TP2GN4tB/9b6104fd21cea6c69be1c7477f303cd4.jpg">
+<img src="https://i.postimg.cc/Jnhgjwp4/a12cc1ecafe9f11b06e3bc657133ab87.jpg">
+<img src="https://i.postimg.cc/15KG1g92/a16d7268cb3bdbbf8d8287c9a55b7833.jpg">
+<img src="https://i.postimg.cc/zfY8wfhD/a5959b80170bbdac1bcf4af308feccad.jpg">
+<img src="https://i.postimg.cc/zBPQjdQw/a5b8165c47e0034a6d0b53b8df0e9207.jpg">
+<img src="https://i.postimg.cc/XJyfRQJk/a64bbd127aa1c1af03bffd6c456fc0e3.jpg">
+<img src="https://i.postimg.cc/CLbvBLws/a8cbd4a9d825d7e0f3008eb7746633a4.jpg">
+<img src="https://i.postimg.cc/NGdGhY3b/ae3b82b209e150b436203d3302d31e8b.jpg">
+<img src="https://i.postimg.cc/JzP5ZsvZ/ae3d52bc812714345178c1f79382bcfc.jpg">
+<img src="https://i.postimg.cc/SxvzmCHT/aeac87c3104e2bc6183de2d0e0f0b6e4.jpg">
+<img src="https://i.postimg.cc/RZ9gc5F5/b1cf69e667a0d6810f64470dcea96ef8.jpg">
+<img src="https://i.postimg.cc/ydwMKQT1/b30830cb326273859a0b527a61ffdc1b.jpg">
+<img src="https://i.postimg.cc/c47m19cD/b32df4009e5671b858c2453fdfcce862.jpg">
+<img src="https://i.postimg.cc/2SVV9334/b5cf93f98987989d46f2aa477f4bda5e.jpg">
+<img src="https://i.postimg.cc/JnqrzWGr/b8203b585d23158d0f1c28f216521754.jpg">
+<img src="https://i.postimg.cc/HnwQxnbJ/b95eadd604ff8c34bf3c136941aa963f.jpg">
+<img src="https://i.postimg.cc/bvyFjccH/ba026f492928d6974b52dce5bec81706.jpg">
+<img src="https://i.postimg.cc/3Rgyj6NV/babbd916cfc10d06dc28072e61539e88.jpg">
+<img src="https://i.postimg.cc/hvDGLtHQ/bb84b84e3a162de4db696188c132b253.jpg">
+<img src="https://i.postimg.cc/Fz5yN3k5/bbe5038d712a375a1b7bc595d802ab33.jpg">
+<img src="https://i.postimg.cc/90Y72SjZ/bda91062545fb0821f5c5134a1804e8d.jpg">
+<img src="https://i.postimg.cc/KzLTqjq9/be1d95ff8b67222ca6e9cb2e705ced20.jpg">
+<img src="https://i.postimg.cc/3xVWs7Dz/c1e81c0517e86b41a2f695c25f6206d9.jpg">
+<img src="https://i.postimg.cc/xTrQVCsv/c1ef166a19ffa644046a462935746d30.jpg">
+<img src="https://i.postimg.cc/nz6krN5W/c57a15064714fbc774a263f94fb3b1c8.jpg">
+<img src="https://i.postimg.cc/50Myt3g3/c5a70ee19b9c0ef9e349cab7f7ad12a8.jpg">
+<img src="https://i.postimg.cc/nhzD80S9/c6cfb77588051f845fe660f891342575.jpg">
+<img src="https://i.postimg.cc/B6c6PKwG/c75774002934c248c355dc6ee1f0b81b.jpg">
+<img src="https://i.postimg.cc/WpyR63LR/c778ebb866083981e69675f76018cf2d.jpg">
+<img src="https://i.postimg.cc/FzLJf8vY/cc8a1c075496d9f58038a05ce4ceec03.jpg">
+<img src="https://i.postimg.cc/SQBTxzbK/cf71a7d21d3e11f88cfa8c982c5a3de1.jpg">
+<img src="https://i.postimg.cc/QtXDPnSR/d15af0df9b9ba7d7d3ee70e87156e827.jpg">
+<img src="https://i.postimg.cc/hP4Jx2BZ/d17aca40ea19ee84b38b2cf31857bd6f.jpg">
+<img src="https://i.postimg.cc/YC3bRnG4/d2a952ac2af8bae58555fd13d6f08f61.jpg">
+<img src="https://i.postimg.cc/zDhm7NJV/d36746557d07185cb212bfcc73e86740.jpg">
+<img src="https://i.postimg.cc/X76LbS9G/d5124b03d95bd0c552eb1016a899d256.jpg">
+<img src="https://i.postimg.cc/k5jC0vZG/d672f196a5abb7f23a41d42f9d150fc6.jpg">
+<img src="https://i.postimg.cc/B6tYXTvj/da9e7821e1f88eaed9d88d7ad2ad65f4.jpg">
+<img src="https://i.postimg.cc/NfVgMDfH/db5239d1295df958fa3fb95702f2b525.jpg">
+<img src="https://i.postimg.cc/1zB2gRcj/def66484abab9da635f49fb9130765b9.jpg">
+<img src="https://i.postimg.cc/s2gKNY7T/e10f9da3ce0897dba82b4f69304f27af.jpg">
+<img src="https://i.postimg.cc/CxFWwfbq/e1f1b5a2aaed6040785fce00a1cee8dd.jpg">
+<img src="https://i.postimg.cc/4xCrqSxB/e334586b9dbdfbb7cf0af5224b63dbb9.jpg">
+<img src="https://i.postimg.cc/8kj95SFZ/e3e0b1f0047e5f6646f72853a36dfc40.jpg">
+<img src="https://i.postimg.cc/QdmZ7qjm/e5028627464c2d9cbab2e2eddcc67f01.jpg">
+<img src="https://i.postimg.cc/7LzbDc3h/ed1952b0e5666c90c808aa2d6520c128.jpg">
+<img src="https://i.postimg.cc/RF3dMvPf/f1bb6552faa4e1be2dbd807ec85c7e2c.jpg">
+<img src="https://i.postimg.cc/kGsBzbxy/f2e8a933e47dbe3123d572df0c04e2a2.jpg">
+<img src="https://i.postimg.cc/DfRvf5zb/f62f79a09b109c2c24c93f562be3e937.jpg">
+<img src="https://i.postimg.cc/WpFYVwKK/f7da1734e3854305978a73e953e909a6.jpg">
+<img src="https://i.postimg.cc/P520JrMF/fcd4af2daab6ab637579b3e73a93a685.jpg">
+<img src="https://i.postimg.cc/63yvyGj3/0b3179e74792a725e3f8dfa23ef9a084.jpg">
+<img src="https://i.postimg.cc/VshJH679/23d3bc4456180e2a9e4af8ad94bed099.jpg">
+<img src="https://i.postimg.cc/FH3kS4Vy/25eb3cf214fe43cbe7fde1a439c74200.jpg">
+<img src="https://i.postimg.cc/1XV3ZGWG/2c1a4b0d3eb352d6e21de37c250fq9960.jpg">
+<img src="https://i.postimg.cc/vmw92BZ2/2fafe89a0330fa69e840adb45c6a1d0e.jpg">
+<img src="https://i.postimg.cc/HxhkKZtW/33d2297ffc1b2ba65af008a06aff03b9.jpg">
+<img src="https://i.postimg.cc/ZKDxH4NX/3965ccbdc244ae92e34f7296b11cdcba.jpg">
+<img src="https://i.postimg.cc/3xFp6h0K/3c7a24f6a0b53153493e6dd3845582a9.jpg">
+<img src="https://i.postimg.cc/NMM0dqmP/41fbce282559d5e3911990333abc3c4e.jpg">
+<img src="https://i.postimg.cc/NGZ12pww/456b8d2f2da75687c331a75d9efa5ccf.jpg">
+<img src="https://i.postimg.cc/D0w1QMw2/45fa43c1d6bba1b55aaec5440b72c0ab.jpg">
+<img src="https://i.postimg.cc/RhgQjzD6/46f9d13ebd439f9b440f7f0bf785924a.jpg">
+<img src="https://i.postimg.cc/28JnvTRD/4b12b4454feccf75c0cee96d5425ec2a.jpg">
+<img src="https://i.postimg.cc/zG6pz8XT/598cd145a4a71c0f8b45f0c385e6c026.jpg">
+<img src="https://i.postimg.cc/Zq6PJNQh/5b974c46d3a0df47dcb807e3fb233570.jpg">
+<img src="https://i.postimg.cc/wjX3vk9F/5f7b6a8a41b4192affc5c634e7ee0c95.jpg">
+<img src="https://i.postimg.cc/KjpB0D1t/63066ac41a07e64d88614e1e3ae409cd.jpg">
+<img src="https://i.postimg.cc/GmwHdfnH/654e1b3595fb198b157dd1918b44662a.jpg">
+<img src="https://i.postimg.cc/g0pXqTgf/6eacffdbbed2b77dcc277392fad5545e.jpg">
+<img src="https://i.postimg.cc/g2Cq9sND/7a8fd8814fbd5b67a00d16a388ec32e7.jpg">
+<img src="https://i.postimg.cc/59QzJLQK/8ae14369dcaa2365bba8f38593dd3211.jpg">
+<img src="https://i.postimg.cc/5yDjH7HK/8baf3e1bdb8d9a46f3570591afc0be03.jpg">
+<img src="https://i.postimg.cc/MTKngj25/91e5b01aa3aa82febf4c3cac76728667.jpg">
+<img src="https://i.postimg.cc/PqdJ88xH/971bd5b54a7f42264c80a3bf6545db6a.jpg">
+<img src="https://i.postimg.cc/4xmBRmZJ/97f72ae9e1cb85047d54b1e32daa8e9f.jpg">
+<img src="https://i.postimg.cc/SNKGcJnW/98af3b2839d40ae102fa371f8a638fee.jpg">
+<img src="https://i.postimg.cc/sDZMFr8k/9a089fc82342d806e97c908dccc97a9c.jpg">
+<img src="https://i.postimg.cc/3N8FSwnQ/a05803c8ffb9371e150db33179fa894c.jpg">
+<img src="https://i.postimg.cc/PxhWJxGv/a5b8ffb57ee1a84a7218b184afd08908.jpg">
+<img src="https://i.postimg.cc/44P5Kzxf/a5c260c54078d223b9383ed3757afc4b.jpg">
+<img src="https://i.postimg.cc/6qP4r6P0/a64defc7fd881e921df07bad0ef1131c.jpg">
+<img src="https://i.postimg.cc/6q8ypJQG/a695cdf64db4bfeb7dfa161097cb11d3.jpg">
+<img src="https://i.postimg.cc/50qmSz5m/ab55ddf63b29e685623e5097c119ee79.jpg">
+<img src="https://i.postimg.cc/Jh3XfLyr/ac21c852e02ad7a78fa51d0b7e8f4b12.jpg">
+<img src="https://i.postimg.cc/jqMHqtMC/ac757d72c46a4e128bd98df1c4cbd25a.jpg">
+<img src="https://i.postimg.cc/fLhKdCdL/b164b0574ca482955eb5607fdc637520.jpg">
+<img src="https://i.postimg.cc/02rpbF4n/b4aa7d80dc69bcd5e0f4ea48dbb12428.jpg">
+<img src="https://i.postimg.cc/V6RjC81G/b543f9509405b523bc2e281434d80665.jpg">
+<img src="https://i.postimg.cc/RFsWmVvB/b6243ede2bd7ed631c60069df165ffbc.jpg">
+<img src="https://i.postimg.cc/Ls0qK89M/file-00000000657861f7883bdf50ae7e0f25-conversation-id-67fd06d4-34c4-8008-9f2e-e86a8a6b6fef-message-i.png">
+<img src="https://i.postimg.cc/mgzN6JNk/bb461ecb39f14e1b2ebdcd10793b1abd.jpg">
+<img src="https://i.postimg.cc/qRSCnMSG/c2de06055f832cf198f1afed146043c4.jpg">
+<img src="https://i.postimg.cc/KYQz7vkM/d03d619e82aca31f53b6821a8e60fb4e.jpg">
+<img src="https://i.postimg.cc/4nCN4YMr/d0c7d9f56d0db73e31be47913be1c4be.jpg">
+<img src="https://i.postimg.cc/G34Fp6VQ/d2180a5b57bbd53834c2767fbafa4751.jpg">
+<img src="https://i.postimg.cc/yxR3TCzC/d56900f5f4041f43fbd34cfa62cef065.jpg">
+<img src="https://i.postimg.cc/Px2wqQz0/db6b4d972dc01fe8071f83f679eb7e47.jpg">
+<img src="https://i.postimg.cc/fRNmByL2/df30f4ef8472f44f27727d584b473e04.jpg">
+<img src="https://i.postimg.cc/t4xWzPpV/e7d0fd6508dd8fa43106e896791729c3.jpg">
+<img src="https://i.postimg.cc/3JyvKpyb/e88b508e7425c62e52391e45782e0901.jpg">
+<img src="https://i.postimg.cc/0NC6t03r/f48d2050e69dea10b651e57231cc5f51.jpg">
+<img src="https://i.postimg.cc/900qwwL0/f9269ecd964a976a6a9dc121ef4d062d.jpg">
+<img src="https://i.postimg.cc/1zR61dDD/fbe7a76e14e1d4d669e0525dc651992f.jpg">
+<img src="https://i.postimg.cc/DytbmZLf/fd2923eaacc258261aedcbd99513d529.jpg">
+<img src="https://i.postimg.cc/rm84cPWS/fe554f46ba73351a8f3a6b1605ad317f.jpg">
+<img src="https://i.postimg.cc/kMYS3w5b/fea1e323edebac41115978db841c6c1d.jpg">
+
+  </div>
+</div>
+
+<div id="search" class="page">
+  <h2>Search</h2>
+  <div class="card">
+    <p>Search functionality coming soon.</p>
+  </div>
+</div>
+
+<div id="upload" class="page">
+  <h2>Upload</h2>
+  <div class="card">
+    <input type="file" id="fileInput" />
+    <button onclick="uploadFile()">Upload Pin</button>
+    <p id="uploadStatus"></p>
+  </div>
+</div>
+
+<div id="message" class="page">
+  <h2>Messages</h2>
+  <div class="card">
+    <p>Your messages will be here.</p>
+  </div>
+</div>
+
+<div id="profile" class="page">
+  <h2>Profile</h2>
+  <div class="card">
+    <p>Edit your profile information here.</p>
+  </div>
+</div>
+
+<div class="bottom-header">
+  <button class="nav-btn active" onclick="showPage('home')"><i class="fas fa-home"></i></button>
+  <button class="nav-btn" onclick="showPage('search')"><i class="fas fa-search"></i></button>
+  <button class="nav-btn" onclick="showPage('upload')"><i class="fas fa-plus"></i></button>
+  <button class="nav-btn" onclick="showPage('message')"><i class="fas fa-comment-dots"></i></button>
+  <button class="nav-btn" onclick="showPage('profile')"><i class="fas fa-user"></i></button>
+</div>
+
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyDeCuvhXwENUZvy-3PgUOAQPPu5hE11pLA",
+    authDomain: "nvn-profile-app.firebaseapp.com",
+    projectId: "nvn-profile-app",
+    storageBucket: "nvn-profile-app.appspot.com",
+    messagingSenderId: "532119816249",
+    appId: "1:532119816249:web:ba1a7a2a03a48e58ed65e8"
+  };
+
+  const app = firebase.initializeApp(firebaseConfig);
+  const storage = firebase.storage();
+  const storageRef = storage.ref();
+
+  function showPage(pageId) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(pageId).classList.add('active');
+
+    document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+    const icons = {
+      home: 'fa-home',
+      search: 'fa-search',
+      upload: 'fa-plus',
+      message: 'fa-comment-dots',
+      profile: 'fa-user'
+    };
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+      if (btn.querySelector('i').classList.contains(icons[pageId])) {
+        btn.classList.add('active');
+      }
+    });
+  }
+
+  function uploadFile() {
+    const fileInput = document.getElementById('fileInput');
+    const file = fileInput.files[0];
+
+    if (!file) {
+      document.getElementById('uploadStatus').innerText = "No file selected!";
+      return;
+    }
+
+    const fileRef = storageRef.child('pins/' + file.name);
+    const uploadTask = fileRef.put(file);
+
+    uploadTask.on('state_changed',
+      (snapshot) => {
+        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        document.getElementById('uploadStatus').innerText = 'Upload is ' + progress.toFixed(0) + '% done';
+      },
+      (error) => {
+        document.getElementById('uploadStatus').innerText = 'Upload failed. Please try again.';
+      },
+      () => {
+        document.getElementById('uploadStatus').innerText = 'Upload completed!';
+      }
+    );
+  }
+</script>
+</body>
+</html>
