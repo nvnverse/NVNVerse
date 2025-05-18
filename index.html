@@ -197,7 +197,12 @@ margin-top: 80px;
 </div>    <div id="notifications" class="page">  
     <p class="upload-container">No notifications yet.</p>  
   </div>    <div id="profile" class="page">  
-    <p class="upload-container">Edit profile coming soon.</p>  
+    <p class="upload-container">Edit profile coming soon.
+
+
+
+
+Version 1.2.2</p>  
   </div>    <div id="upload" class="page">  
     <div class="upload-container" id="uploadStart">  
       <button class="upload-btn" onclick="startUpload()">Upload Verse</button>  
@@ -220,7 +225,10 @@ margin-top: 80px;
     <button class="nav-btn" onclick="showPage('upload')"><i class="fas fa-plus"></i></button>  
     <button class="nav-btn" onclick="showPage('notifications')"><i class="fas fa-bell"></i></button>  
     <button class="nav-btn" onclick="showPage('profile')"><i class="fas fa-user"></i></button>  
-  </div>    <script>  
+  </div>    
+  <script>  
+	  const API_KEY = "$2a$10$K.chzzKu4LgCioSKsWppo.4WpEkWm1PXR2rU0Rs4G8k.Up8dUyDpm";
+const BIN_ID = "682971078a456b7966a01f19";
     function showPage(id) {  
       document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));  
       document.getElementById(id).classList.add('active');  
@@ -254,65 +262,98 @@ margin-top: 80px;
       }  
     }  
   
-    function uploadImage() {  
-      const file = document.getElementById('imageInput').files[0];  
-      const title = document.getElementById('imgTitle').value;  
-      if (!file) return;  
+    async function uploadImage() {
+  const file = document.getElementById("imageInput").files[0];
+  const title = document.getElementById("imgTitle").value;
+  if (!file) return;
+
+  document.getElementById("uploadUI").style.display = "none";
+  document.getElementById("uploadProgress").style.display = "flex";
+  const progress = document.getElementById("progressBar");
+  progress.style.width = "0%";
+
+  const formData = new FormData();
+  formData.append("key", "27b2c3d5c8a0bd62a61ed7f0f5905824");
+  formData.append("image", file);
+  if (title) formData.append("name", title);
+
+  let percent = 0;
+  const simulate = setInterval(() => {
+    percent += 10;
+    if (percent > 90) clearInterval(simulate);
+    progress.style.width = percent + "%";
+  }, 200);
+
+  try {
+    const res = await fetch("https://api.imgbb.com/1/upload", {
+      method: "POST",
+      body: formData,
+    });
+    const data = await res.json();
+    clearInterval(simulate);
+    progress.style.width = "100%";
+    const imageUrl = data.data.url;
+
+    // Step: Get existing from JSONBin
+    const getRes = await fetch("https://api.jsonbin.io/v3/b/" + BIN_ID + "/latest", {
+      headers: {
+        "X-Master-Key": API_KEY,
+      },
+    });
+    const getData = await getRes.json();
+    const existing = getData.record.images || [];
+
+    existing.unshift(imageUrl);
+
+    // Step: Update JSONBin
+    await fetch("https://api.jsonbin.io/v3/b/" + BIN_ID, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Master-Key": API_KEY,
+      },
+      body: JSON.stringify({ images: existing }),
+    });
+
+    setTimeout(() => {
+      document.getElementById("uploadProgress").style.display = "none";
+      document.getElementById("uploadSuccess").style.display = "flex";
+      setTimeout(() => {
+        document.getElementById("uploadSuccess").style.display = "none";
+        document.getElementById("uploadStart").style.display = "flex";
+        document.getElementById("imageInput").value = "";
+        document.getElementById("imgTitle").value = "";
+        document.getElementById("preview").style.display = "none";
+      }, 3000);
+    }, 500);
+  } catch (error) {
+    alert("Upload failed. Try again.");
+    console.error(error);
+  }
+}
   
-      document.getElementById('uploadUI').style.display = 'none';  
-      document.getElementById('uploadProgress').style.display = 'flex';  
-      const progress = document.getElementById('progressBar');  
-      progress.style.width = "0%";  
-  
-      const formData = new FormData();  
-      formData.append("key", "27b2c3d5c8a0bd62a61ed7f0f5905824");  
-      formData.append("image", file);  
-      if (title) formData.append("name", title);  
-  
-      let percent = 0;  
-      const simulate = setInterval(() => {  
-        percent += 10;  
-        if (percent > 90) clearInterval(simulate);  
-        progress.style.width = percent + "%";  
-      }, 200);  
-  
-      fetch("https://api.imgbb.com/1/upload", {  
-        method: "POST",  
-        body: formData  
-      })  
-      .then(res => res.json())  
-      .then(data => {  
-        clearInterval(simulate);  
-        progress.style.width = "100%";  
-        const imageUrl = data.data.url;  
-        const existing = JSON.parse(localStorage.getItem('uploadedImages') || "[]");  
-        existing.unshift(imageUrl);  
-        localStorage.setItem('uploadedImages', JSON.stringify(existing));  
-        setTimeout(() => {  
-          document.getElementById('uploadProgress').style.display = 'none';  
-          document.getElementById('uploadSuccess').style.display = 'flex';  
-          setTimeout(() => {  
-            document.getElementById('uploadSuccess').style.display = 'none';  
-            document.getElementById('uploadStart').style.display = 'flex';  
-            document.getElementById('imageInput').value = '';  
-            document.getElementById('imgTitle').value = '';  
-            document.getElementById('preview').style.display = 'none';  
-          }, 3000);  
-        }, 500);  
-      })  
-      .catch(() => alert("Upload failed. Try again."));  
-    }  
-  
-    function loadUploadedImages() {  
-      const gallery = document.getElementById("gallery");  
-      gallery.innerHTML = '';  
-      const images = JSON.parse(localStorage.getItem("uploadedImages") || "[]");  
-      images.forEach(url => {  
-        const img = document.createElement("img");  
-        img.src = url;  
-        gallery.appendChild(img);  
-      });  
-    }  
+    async function loadUploadedImages() {
+  const gallery = document.getElementById("gallery");
+  gallery.innerHTML = "";
+
+  try {
+    const res = await fetch("https://api.jsonbin.io/v3/b/" + BIN_ID + "/latest", {
+      headers: {
+        "X-Master-Key": API_KEY,
+      },
+    });
+    const data = await res.json();
+    const images = data.record.images || [];
+
+    images.forEach(url => {
+      const img = document.createElement("img");
+      img.src = url;
+      gallery.appendChild(img);
+    });
+  } catch (err) {
+    console.error("Error loading images from JSONBin:", err);
+  }
+}
   
     function performSearch() {  
   const query = document.getElementById("searchInput").value.toLowerCase();  
@@ -336,5 +377,5 @@ margin-top: 80px;
   
     window.onload = loadUploadedImages;  
   </script>
- </body>  
+ </body>
 </html>
