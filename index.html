@@ -1,4 +1,5 @@
-5<!DOCTYPE html>  <html lang="en">  
+<!DOCTYPE html>  
+<html lang="en">  
 <head>  
   <meta charset="UTF-8" />  
   <title>NVN Verse</title>  
@@ -61,144 +62,269 @@
     .gallery {  
       column-count: 2; column-gap: 12px;  
     }  
-    .gallery img {  
-      width: 100%; margin-bottom: 12px;  
-      border-radius: 12px; break-inside: avoid;  
-      transition: transform 0.2s ease;  
-    }  
+    .gallery img {
+      width: 100%;
+      margin-bottom: 12px;
+      border-radius: 12px;
+      break-inside: avoid;
+      transition: transform 0.2s ease;
+      position: relative;
+      z-index: 1;
+      cursor: pointer;
+    }
+
+    .gallery img::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -8px;
+      height: 16px;
+      border-radius: 50%;
+      background: linear-gradient(to right, #FF0051, #FF002E);
+      filter: blur(8px);
+      z-index: -1;
+    }
     .gallery img:hover {  
       transform: scale(1.02);  
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);  
     }  
     @media (min-width: 768px) { .gallery { column-count: 3; } }  
-    @media (min-width: 1024px) { .gallery { column-count: 4; } }  .search-bar-container {  
-  position: fixed;  
-  top: 54px;  
-  left: 50%;  
-  transform: translateX(-50%);  
-  width: 90%;  
-  z-index: 998;  
-}  
-.search-wrapper {
+    @media (min-width: 1024px) { .gallery { column-count: 4; } }  
+    
+    .search-bar-container {  
+      position: fixed;  
+      top: 54px;  
+      left: 50%;  
+      transform: translateX(-50%);  
+      width: 90%;  
+      z-index: 998;  
+    }  
+    .search-wrapper {
+      position: fixed;
+      top: 60px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      max-width: 500px;
+      z-index: 1000;
+      background: linear-gradient(to right, #FF0051, #FF002E);
+      padding: 2px;
+      border-radius: 9999px;
+    }
 
-position: fixed;
-top: 60px;
-left: 50%;
-transform: translateX(-50%);
-width: 90%;
-max-width: 500px;
-z-index: 1000;
-background: linear-gradient(to right, #FF0051, #FF002E);
-padding: 2px;
-border-radius: 9999px; /* FULLY rounded */
-}
+    .search-inner {
+      display: flex;
+      align-items: center;
+      background: #fff;
+      border-radius: 9999px;
+      padding-left: 16px;
+      position: relative;
+    }
 
-.search-inner {
-display: flex;
-align-items: center;
-background: #fff;
-border-radius: 9999px;
-padding-left: 16px;
-position: relative;
-}
+    .search-bar {
+      width: 100%;
+      padding: 12px 16px 12px 0;
+      border: none;
+      font-size: 16px;
+      color: #333;
+      background: transparent;
+      outline: none;
+      border-radius: 9999px;
+    }
 
-.search-bar {
-width: 100%;
-padding: 12px 16px 12px 0;
-border: none;
-font-size: 16px;
-color: #333;
-background: transparent;
-outline: none;
-border-radius: 9999px;
-}
+    .search-icon-btn {
+      position: absolute;
+      right: 12px;
+      background: none;
+      border: none;
+      color: #333;
+      font-size: 18px;
+      cursor: pointer;
+    }
+    .search-results {
+      margin-top: 80px;
+    }
 
-.search-icon-btn {
-position: absolute;
-right: 12px;
-background: none;
-border: none;
-color: #333;
-font-size: 18px;
-cursor: pointer;
-}
-.search-results {
-margin-top: 80px;
-}
+    /* Image Modal Styles */
+    .image-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 9999;
+      overflow-y: auto;
+    }
 
-/* Upload, Success, Profile, Notifications — same styles from previous code */  
-.upload-container {  
-  display: flex; flex-direction: column;  
-  align-items: center; justify-content: center;  
-  position: fixed;  
-  top: 50%; left: 50%;  
-  transform: translate(-50%, -50%);  
-  width: 100%;  
-  z-index: 1;  
-}  
-.upload-btn {  
-  background: linear-gradient(to right, #FF0051, #FF002E);  
-  border: none; color: white; font-size: 18px;  
-  padding: 12px 30px;  
-  border-radius: 30px;  
-  cursor: pointer; margin: 10px 0;  
-  box-shadow: 0 4px 12px rgba(255, 0, 80, 0.2);  
-}  
-.preview-img {  
-  width: 48%; max-width: 300px;  
-  border-radius: 12px;  
-  margin-bottom: 15px;  
-  display: none;  
-}  
-.title-input {  
-  padding: 10px; border: 2px solid #FF0051;  
-  border-radius: 25px; width: 80%; max-width: 300px;  
-  margin: 10px 0;  
-}  
-.loading-line {  
-  width: 80%; max-width: 300px;  
-  height: 6px; background: #eee;  
-  border-radius: 4px; overflow: hidden;  
-  margin-top: 15px;  
-}  
-.loading-progress {  
-  width: 0%; height: 100%;  
-  background: linear-gradient(to right, #FF0051, #FF002E);  
-  transition: width 0.3s;  
-}  
-.success-msg {  
-  color: #fff;  
-  background: linear-gradient(to right, #FF0051, #FF002E);  
-  padding: 12px 20px;  
-  border-radius: 25px;  
-  margin-top: 20px;  
-  animation: fadeOut 3s forwards;  
-}  
-@keyframes fadeOut {  
-  0% { opacity: 1; }  
-  80% { opacity: 1; }  
-  100% { opacity: 0; display: none; }  
-}
+    .modal-content {
+      position: relative;
+      width: 100%;
+      max-width: 500px;
+      margin: 20px auto;
+      padding: 20px;
+    }
 
+    .modal-image {
+      width: 100%;
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      color: #fff;
+      font-size: 30px;
+      cursor: pointer;
+      z-index: 10000;
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-bottom: 30px;
+    }
+
+    .action-btn {
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 24px;
+      cursor: pointer;
+      padding: 10px;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .action-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: scale(1.1);
+    }
+
+    .action-btn.liked {
+      color: #FF0051;
+    }
+
+    .related-images {
+      margin-top: 20px;
+    }
+
+    .related-title {
+      color: #fff;
+      font-size: 18px;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    .related-gallery {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .related-gallery img {
+      width: 100%;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .related-gallery img:hover {
+      transform: scale(1.05);
+    }
+    
+    .upload-container {  
+      display: flex; flex-direction: column;  
+      align-items: center; justify-content: center;  
+      position: fixed;  
+      top: 50%; left: 50%;  
+      transform: translate(-50%, -50%);  
+      width: 100%;  
+      z-index: 1;  
+    }  
+    .upload-btn {  
+      background: linear-gradient(to right, #FF0051, #FF002E);  
+      border: none; color: white; font-size: 18px;  
+      padding: 12px 30px;  
+      border-radius: 30px;  
+      cursor: pointer; margin: 10px 0;  
+      box-shadow: 0 4px 12px rgba(255, 0, 80, 0.2);  
+    }  
+    .preview-img {  
+      width: 48%; max-width: 300px;  
+      border-radius: 12px;  
+      margin-bottom: 15px;  
+      display: none;  
+    }  
+    .title-input {  
+      padding: 10px; border: 2px solid #FF0051;  
+      border-radius: 25px; width: 80%; max-width: 300px;  
+      margin: 10px 0;  
+    }  
+    .loading-line {  
+      width: 80%; max-width: 300px;  
+      height: 6px; background: #eee;  
+      border-radius: 4px; overflow: hidden;  
+      margin-top: 15px;  
+    }  
+    .loading-progress {  
+      width: 0%; height: 100%;  
+      background: linear-gradient(to right, #FF0051, #FF002E);  
+      transition: width 0.3s;  
+    }  
+    .success-msg {  
+      color: #fff;  
+      background: linear-gradient(to right, #FF0051, #FF002E);  
+      padding: 12px 20px;  
+      border-radius: 25px;  
+      margin-top: 20px;  
+      animation: fadeOut 3s forwards;  
+    }  
+    @keyframes fadeOut {  
+      0% { opacity: 1; }  
+      80% { opacity: 1; }  
+      100% { opacity: 0; display: none; }  
+    }
   </style>  
 </head>  
-<body>    <div class="top-header"><h1>NVN Verse</h1></div>    <div id="home" class="page active">  
-  <div class="gallery" id="gallery"></div>  
-</div>    <div id="search" class="page">  
-  <div class="search-wrapper">  
-    <div class="search-inner">  
-      <input id="searchInput" type="text" placeholder="Search..." class="search-bar" />  
-      <button class="search-icon-btn" onclick="performSearch()">  
-        <i class="fas fa-search"></i>  
-      </button>  
+<body>    
+  <div class="top-header"><h1>NVN Verse</h1></div>    
+  
+  <div id="home" class="page active">  
+    <div class="gallery" id="gallery"></div>  
+  </div>    
+  
+  <div id="search" class="page">  
+    <div class="search-wrapper">  
+      <div class="search-inner">  
+        <input id="searchInput" type="text" placeholder="Search..." class="search-bar" />  
+        <button class="search-icon-btn" onclick="performSearch()">  
+          <i class="fas fa-search"></i>  
+        </button>  
+      </div>  
     </div>  
-  </div>  
-  <div class="gallery" id="searchResults" style="margin-top: 120px;"></div>  
-</div>    <div id="notifications" class="page">  
+    <div class="gallery" id="searchResults" style="margin-top: 120px;"></div>  
+  </div>    
+  
+  <div id="notifications" class="page">  
     <p class="upload-container">No notifications yet.</p>  
-  </div>    <div id="profile" class="page">  
-    <p class="upload-container">Edit profile coming Soon</p>  
-  </div>    <div id="upload" class="page">  
+  </div>    
+  
+  <div id="profile" class="page">  
+    <p class="upload-container">Edit profile coming soon.<br><br>Version 1.2.2</p>  
+  </div>    
+  
+  <div id="upload" class="page">  
     <div class="upload-container" id="uploadStart">  
       <button class="upload-btn" onclick="startUpload()">Upload Verse</button>  
     </div>  
@@ -214,16 +340,48 @@ margin-top: 80px;
     <div class="upload-container" id="uploadSuccess" style="display:none">  
       <div class="success-msg">Verse uploaded successfully!</div>  
     </div>  
-  </div>    <div class="bottom-header">  
+  </div>    
+  
+  <!-- Image Modal -->
+  <div id="imageModal" class="image-modal">
+    <div class="modal-content">
+      <span class="modal-close" onclick="closeModal()">&times;</span>
+      <img id="modalImage" class="modal-image" />
+      
+      <div class="modal-actions">
+        <button class="action-btn" id="likeBtn" onclick="toggleLike()">
+          <i class="fas fa-heart"></i>
+        </button>
+        <button class="action-btn" onclick="downloadImage()">
+          <i class="fas fa-download"></i>
+        </button>
+        <button class="action-btn" onclick="shareImage()">
+          <i class="fas fa-share"></i>
+        </button>
+      </div>
+      
+      <div class="related-images">
+        <div class="related-title">More Images</div>
+        <div class="related-gallery" id="relatedGallery"></div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="bottom-header">  
     <button class="nav-btn active" onclick="showPage('home')"><i class="fas fa-home"></i></button>  
     <button class="nav-btn" onclick="showPage('search')"><i class="fas fa-search"></i></button>  
     <button class="nav-btn" onclick="showPage('upload')"><i class="fas fa-plus"></i></button>  
     <button class="nav-btn" onclick="showPage('notifications')"><i class="fas fa-bell"></i></button>  
     <button class="nav-btn" onclick="showPage('profile')"><i class="fas fa-user"></i></button>  
   </div>    
+  
   <script>  
-	  const API_KEY = "$2a$10$P6MeZQIjBrN/EJrGKJCpF.VVL5VcwGO40ZL4tuMmSQgt8Fl084vIW";
-const BIN_ID = "6829d3268a456b7966a05cb4";
+    const API_KEY = "$2a$10$P6MeZQIjBrN/EJrGKJCpF.VVL5VcwGO40ZL4tuMmSQgt8Fl084vIW";
+    const BIN_ID = "6829d3268a456b7966a05cb4";
+    let allImages = [];
+    let likedImages = [];
+    let currentImageUrl = '';
+
     function showPage(id) {  
       document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));  
       document.getElementById(id).classList.add('active');  
@@ -258,136 +416,220 @@ const BIN_ID = "6829d3268a456b7966a05cb4";
     }  
   
     async function uploadImage() {
-  const file = document.getElementById("imageInput").files[0];
-  const title = document.getElementById("imgTitle").value;
-  if (!file) return;
+      const file = document.getElementById("imageInput").files[0];
+      const title = document.getElementById("imgTitle").value;
+      if (!file) return;
 
-  document.getElementById("uploadUI").style.display = "none";
-  document.getElementById("uploadProgress").style.display = "flex";
-  const progress = document.getElementById("progressBar");
-  progress.style.width = "0%";
+      document.getElementById("uploadUI").style.display = "none";
+      document.getElementById("uploadProgress").style.display = "flex";
+      const progress = document.getElementById("progressBar");
+      progress.style.width = "0%";
 
-  const formData = new FormData();
-  formData.append("key", "27b2c3d5c8a0bd62a61ed7f0f5905824");
-  formData.append("image", file);
-  if (title) formData.append("name", title);
+      const formData = new FormData();
+      formData.append("key", "27b2c3d5c8a0bd62a61ed7f0f5905824");
+      formData.append("image", file);
+      if (title) formData.append("name", title);
 
-  let percent = 0;
-  const simulate = setInterval(() => {
-    percent += 10;
-    if (percent > 90) clearInterval(simulate);
-    progress.style.width = percent + "%";
-  }, 200);
+      let percent = 0;
+      const simulate = setInterval(() => {
+        percent += 10;
+        if (percent > 90) clearInterval(simulate);
+        progress.style.width = percent + "%";
+      }, 200);
 
-  try {
-    const res = await fetch("https://api.imgbb.com/1/upload", {
-      method: "POST",
-      body: formData,
-    });
-    const data = await res.json();
-    clearInterval(simulate);
-    progress.style.width = "100%";
-    const imageUrl = data.data.url;
+      try {
+        const res = await fetch("https://api.imgbb.com/1/upload", {
+          method: "POST",
+          body: formData,
+        });
+        const data = await res.json();
+        clearInterval(simulate);
+        progress.style.width = "100%";
+        const imageUrl = data.data.url;
 
-    // Step: Get existing from JSONBin
-    const getRes = await fetch("https://api.jsonbin.io/v3/b/" + BIN_ID + "/latest", {
-      headers: {
-        "X-Master-Key": API_KEY,
-      },
-    });
-    const getData = await getRes.json();
-    const existing = getData.record.images || [];
+        const getRes = await fetch("https://api.jsonbin.io/v3/b/" + BIN_ID + "/latest", {
+          headers: {
+            "X-Master-Key": API_KEY,
+          },
+        });
+        const getData = await getRes.json();
+        const existing = getData.record.images || [];
 
-    existing.unshift(imageUrl);
+        existing.unshift(imageUrl);
 
-    // Step: Update JSONBin
-    await fetch("https://api.jsonbin.io/v3/b/" + BIN_ID, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        "X-Master-Key": API_KEY,
-      },
-      body: JSON.stringify({ images: existing }),
-    });
+        await fetch("https://api.jsonbin.io/v3/b/" + BIN_ID, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            "X-Master-Key": API_KEY,
+          },
+          body: JSON.stringify({ images: existing }),
+        });
 
-    setTimeout(() => {
-      document.getElementById("uploadProgress").style.display = "none";
-      document.getElementById("uploadSuccess").style.display = "flex";
-      setTimeout(() => {
-        document.getElementById("uploadSuccess").style.display = "none";
-        document.getElementById("uploadStart").style.display = "flex";
-        document.getElementById("imageInput").value = "";
-        document.getElementById("imgTitle").value = "";
-        document.getElementById("preview").style.display = "none";
-      }, 3000);
-    }, 500);
-  } catch (error) {
-    alert("Upload failed. Try again.");
-    console.error(error);
-  }
-}
+        setTimeout(() => {
+          document.getElementById("uploadProgress").style.display = "none";
+          document.getElementById("uploadSuccess").style.display = "flex";
+          setTimeout(() => {
+            document.getElementById("uploadSuccess").style.display = "none";
+            document.getElementById("uploadStart").style.display = "flex";
+            document.getElementById("imageInput").value = "";
+            document.getElementById("imgTitle").value = "";
+            document.getElementById("preview").style.display = "none";
+          }, 3000);
+        }, 500);
+      } catch (error) {
+        alert("Upload failed. Try again.");
+        console.error(error);
+      }
+    }
   
     async function loadUploadedImages() {
-  const gallery = document.getElementById("gallery");
-  gallery.innerHTML = "";
+      const gallery = document.getElementById("gallery");
+      gallery.innerHTML = "";
 
-  try {
-    const res = await fetch("https://api.jsonbin.io/v3/b/" + BIN_ID + "/latest", {
-      headers: {
-        "X-Master-Key": API_KEY,
-      },
-    });
-    const data = await res.json();
-    const images = data.record.images || [];
+      try {
+        const res = await fetch("https://api.jsonbin.io/v3/b/" + BIN_ID + "/latest", {
+          headers: {
+            "X-Master-Key": API_KEY,
+          },
+        });
+        const data = await res.json();
+        allImages = data.record.images || [];
 
-    images.forEach(url => {
-      const img = document.createElement("img");
-      img.src = url;
-      gallery.appendChild(img);
-    });
-  } catch (err) {
-    console.error("Error loading images from JSONBin:", err);
-  }
-}
-  document.getElementById("searchInput").addEventListener("keydown", function (event) {
-  if (event.key === "Enter") {
-    event.preventDefault();
-    performSearch();
-  }
-});
-    async function performSearch() {
-  const query = document.getElementById("searchInput").value.toLowerCase();
-  const resultsContainer = document.getElementById("searchResults");
-  resultsContainer.innerHTML = "";
-
-  try {
-    const res = await fetch("https://api.jsonbin.io/v3/b/" + BIN_ID + "/latest", {
-      headers: {
-        "X-Master-Key": API_KEY,
-      },
-    });
-    const data = await res.json();
-    const images = data.record.images || [];
-
-    const filtered = images.filter(url => url.toLowerCase().includes(query));
-
-    if (filtered.length === 0) {
-      resultsContainer.innerHTML = "<p style='text-align:center; color:#666;'>No results found.</p>";
-      return;
+        allImages.forEach(url => {
+          const img = document.createElement("img");
+          img.src = url;
+          img.onclick = () => openModal(url);
+          gallery.appendChild(img);
+        });
+      } catch (err) {
+        console.error("Error loading images from JSONBin:", err);
+      }
     }
 
-    filtered.forEach(url => {
-      const img = document.createElement("img");
-      img.src = url;
-      resultsContainer.appendChild(img);
+    // Modal Functions
+    function openModal(imageUrl) {
+      currentImageUrl = imageUrl;
+      document.getElementById('modalImage').src = imageUrl;
+      document.getElementById('imageModal').style.display = 'block';
+      
+      // Update like button state
+      const likeBtn = document.getElementById('likeBtn');
+      if (likedImages.includes(imageUrl)) {
+        likeBtn.classList.add('liked');
+      } else {
+        likeBtn.classList.remove('liked');
+      }
+      
+      // Load related images
+      loadRelatedImages(imageUrl);
+      
+      // Prevent body scroll
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      document.getElementById('imageModal').style.display = 'none';
+      document.body.style.overflow = 'auto';
+    }
+
+    function toggleLike() {
+      const likeBtn = document.getElementById('likeBtn');
+      if (likedImages.includes(currentImageUrl)) {
+        likedImages = likedImages.filter(url => url !== currentImageUrl);
+        likeBtn.classList.remove('liked');
+      } else {
+        likedImages.push(currentImageUrl);
+        likeBtn.classList.add('liked');
+      }
+    }
+
+    function downloadImage() {
+      const link = document.createElement('a');
+      link.href = currentImageUrl;
+      link.download = 'nvn-verse-image.jpg';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    function shareImage() {
+      if (navigator.share) {
+        navigator.share({
+          title: 'NVN Verse Image',
+          url: currentImageUrl
+        });
+      } else {
+        // Fallback - copy to clipboard
+        navigator.clipboard.writeText(currentImageUrl).then(() => {
+          alert('Image link copied to clipboard!');
+        });
+      }
+    }
+
+    function loadRelatedImages(currentUrl) {
+      const relatedGallery = document.getElementById('relatedGallery');
+      relatedGallery.innerHTML = '';
+      
+      // Show other images (exclude current)
+      const otherImages = allImages.filter(url => url !== currentUrl).slice(0, 6);
+      
+      otherImages.forEach(url => {
+        const img = document.createElement('img');
+        img.src = url;
+        img.onclick = () => openModal(url);
+        relatedGallery.appendChild(img);
+      });
+    }
+
+    // Close modal when clicking outside
+    document.getElementById('imageModal').onclick = function(e) {
+      if (e.target === this) {
+        closeModal();
+      }
+    }
+
+    document.getElementById("searchInput").addEventListener("keydown", function (event) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        performSearch();
+      }
     });
-  } catch (err) {
-    console.error("Search failed:", err);
-    resultsContainer.innerHTML = "<p style='text-align:center; color:#666;'>Error loading search results.</p>";
-  }
-}
+
+    async function performSearch() {
+      const query = document.getElementById("searchInput").value.toLowerCase();
+      const resultsContainer = document.getElementById("searchResults");
+      resultsContainer.innerHTML = "";
+
+      try {
+        const res = await fetch("https://api.jsonbin.io/v3/b/" + BIN_ID + "/latest", {
+          headers: {
+            "X-Master-Key": API_KEY,
+          },
+        });
+        const data = await res.json();
+        const images = data.record.images || [];
+
+        const filtered = images.filter(url => url.toLowerCase().includes(query));
+
+        if (filtered.length === 0) {
+          resultsContainer.innerHTML = "<p style='text-align:center; color:#666;'>No results found.</p>";
+          return;
+        }
+
+        filtered.forEach(url => {
+          const img = document.createElement('img');
+          img.src = url;
+          img.onclick = () => openModal(url);
+          resultsContainer.appendChild(img);
+        });
+      } catch (err) {
+        console.error("Search failed:", err);
+        resultsContainer.innerHTML = "<p style='text-align:center; color:#666;'>Error loading search results.</p>";
+      }
+    }
   
     window.onload = loadUploadedImages;  
   </script>
- </body>  
-	      </html>
+</body>  
+	</html>
