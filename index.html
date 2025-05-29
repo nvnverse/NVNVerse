@@ -62,29 +62,12 @@
     .gallery {  
       column-count: 2; column-gap: 12px;  
     }  
-    .gallery img {
-      width: 100%;
-      margin-bottom: 12px;
-      border-radius: 12px;
-      break-inside: avoid;
-      transition: transform 0.2s ease;
-      position: relative;
-      z-index: 1;
-      cursor: pointer;
-    }
-
-    .gallery img::after {
-      content: '';
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: -8px;
-      height: 16px;
-      border-radius: 50%;
-      background: linear-gradient(to right, #FF0051, #FF002E);
-      filter: blur(8px);
-      z-index: -1;
-    }
+    .gallery img {  
+      width: 100%; margin-bottom: 12px;  
+      border-radius: 12px; break-inside: avoid;  
+      transition: transform 0.2s ease;  
+      cursor: pointer;  
+    }  
     .gallery img:hover {  
       transform: scale(1.02);  
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);  
@@ -92,14 +75,6 @@
     @media (min-width: 768px) { .gallery { column-count: 3; } }  
     @media (min-width: 1024px) { .gallery { column-count: 4; } }  
     
-    .search-bar-container {  
-      position: fixed;  
-      top: 54px;  
-      left: 50%;  
-      transform: translateX(-50%);  
-      width: 90%;  
-      z-index: 998;  
-    }  
     .search-wrapper {
       position: fixed;
       top: 60px;
@@ -142,104 +117,139 @@
       font-size: 18px;
       cursor: pointer;
     }
-    .search-results {
-      margin-top: 80px;
-    }
 
-    /* Image Modal Styles */
-    .image-modal {
+    /* Image Viewer Styles */
+    .image-viewer {
+      padding: 80px 20px 20px;
       display: none;
+    }
+    
+    .image-viewer.active {
+      display: block;
+    }
+    
+    .back-btn {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.9);
-      z-index: 9999;
-      overflow-y: auto;
-    }
-
-    .modal-content {
-      position: relative;
-      width: 100%;
-      max-width: 500px;
-      margin: 20px auto;
-      padding: 20px;
-    }
-
-    .modal-image {
-      width: 100%;
-      border-radius: 12px;
-      margin-bottom: 20px;
-    }
-
-    .modal-close {
-      position: absolute;
-      top: 10px;
-      right: 15px;
-      color: #fff;
-      font-size: 30px;
-      cursor: pointer;
-      z-index: 10000;
-    }
-
-    .modal-actions {
-      display: flex;
-      justify-content: center;
-      gap: 30px;
-      margin-bottom: 30px;
-    }
-
-    .action-btn {
-      background: none;
-      border: none;
-      color: #fff;
-      font-size: 24px;
-      cursor: pointer;
-      padding: 10px;
-      border-radius: 50%;
+      top: 70px;
+      left: 20px;
       width: 50px;
       height: 50px;
+      background: linear-gradient(to right, #FF0051, #FF002E);
+      border: none;
+      border-radius: 50%;
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+      z-index: 1000;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(255, 0, 80, 0.3);
     }
-
-    .action-btn:hover {
-      background: rgba(255, 255, 255, 0.1);
-      transform: scale(1.1);
+    
+    .main-image-container {
+      text-align: center;
+      margin-bottom: 20px;
     }
-
-    .action-btn.liked {
-      color: #FF0051;
+    
+    .main-image {
+      width: 100%;
+      max-width: 400px;
+      border-radius: 20px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
     }
-
-    .related-images {
-      margin-top: 20px;
+    
+    .image-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 20px 0;
+      gap: 15px;
     }
-
-    .related-title {
-      color: #fff;
-      font-size: 18px;
-      margin-bottom: 15px;
+    
+    .image-title {
+      background: linear-gradient(to right, #FF0051, #FF002E);
+      color: white;
+      padding: 12px 20px;
+      border-radius: 25px;
+      font-size: 16px;
+      font-weight: 500;
+      flex: 1;
       text-align: center;
     }
-
-    .related-gallery {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
+    
+    .action-buttons {
+      display: flex;
+      gap: 15px;
     }
-
-    .related-gallery img {
-      width: 100%;
-      border-radius: 8px;
+    
+    .action-btn {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: none;
+      background: linear-gradient(to right, #FF0051, #FF002E);
+      color: white;
+      font-size: 20px;
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(255, 0, 80, 0.3);
       transition: transform 0.2s ease;
     }
-
-    .related-gallery img:hover {
+    
+    .action-btn:hover {
+      transform: scale(1.1);
+    }
+    
+    .action-btn:active {
+      transform: scale(0.95);
+    }
+    
+    .related-images {
+      margin-top: 30px;
+    }
+    
+    .related-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 15px;
+      color: #333;
+    }
+    
+    .related-scroll {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      padding-bottom: 10px;
+    }
+    
+    .related-scroll::-webkit-scrollbar {
+      height: 6px;
+    }
+    
+    .related-scroll::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 10px;
+    }
+    
+    .related-scroll::-webkit-scrollbar-thumb {
+      background: linear-gradient(to right, #FF0051, #FF002E);
+      border-radius: 10px;
+    }
+    
+    .related-img {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 12px;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: transform 0.2s ease;
+    }
+    
+    .related-img:hover {
       transform: scale(1.05);
     }
     
@@ -298,7 +308,7 @@
   </style>  
 </head>  
 <body>    
-  <div class="top-header"><h1>NVN Verse</h1></div>    
+  <div class="top-header"><h1>NVN VERSE</h1></div>    
   
   <div id="home" class="page active">  
     <div class="gallery" id="gallery"></div>  
@@ -321,7 +331,7 @@
   </div>    
   
   <div id="profile" class="page">  
-    <p class="upload-container">Edit profile coming soon.<br><br>Version 1.2.2</p>  
+    <p class="upload-container">Edit profile coming Soon</p>  
   </div>    
   
   <div id="upload" class="page">  
@@ -342,27 +352,32 @@
     </div>  
   </div>    
   
-  <!-- Image Modal -->
-  <div id="imageModal" class="image-modal">
-    <div class="modal-content">
-      <span class="modal-close" onclick="closeModal()">&times;</span>
-      <img id="modalImage" class="modal-image" />
-      
-      <div class="modal-actions">
-        <button class="action-btn" id="likeBtn" onclick="toggleLike()">
+  <!-- Image Viewer Page -->
+  <div id="imageViewer" class="image-viewer">
+    <button class="back-btn" onclick="closeImageViewer()">
+      <i class="fas fa-arrow-left"></i>
+    </button>
+    
+    <div class="main-image-container">
+      <img id="viewerImage" class="main-image" src="" alt="Image">
+    </div>
+    
+    <div class="image-actions">
+      <div class="image-title" id="viewerTitle">IMAGE TITLE SHOW HERE</div>
+      <div class="action-buttons">
+        <button class="action-btn" onclick="likeImage()">
           <i class="fas fa-heart"></i>
         </button>
         <button class="action-btn" onclick="downloadImage()">
           <i class="fas fa-download"></i>
         </button>
-        <button class="action-btn" onclick="shareImage()">
-          <i class="fas fa-share"></i>
-        </button>
       </div>
-      
-      <div class="related-images">
-        <div class="related-title">More Images</div>
-        <div class="related-gallery" id="relatedGallery"></div>
+    </div>
+    
+    <div class="related-images">
+      <h3 class="related-title">Related Images</h3>
+      <div class="related-scroll" id="relatedImages">
+        <!-- Related images will be populated here -->
       </div>
     </div>
   </div>
@@ -379,12 +394,11 @@
     const API_KEY = "$2a$10$P6MeZQIjBrN/EJrGKJCpF.VVL5VcwGO40ZL4tuMmSQgt8Fl084vIW";
     const BIN_ID = "6829d3268a456b7966a05cb4";
     let allImages = [];
-    let likedImages = [];
-    let currentImageUrl = '';
-
+    
     function showPage(id) {  
       document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));  
       document.getElementById(id).classList.add('active');  
+      document.getElementById('imageViewer').classList.remove('active');
   
       document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));  
       const icons = {  
@@ -496,96 +510,14 @@
         const data = await res.json();
         allImages = data.record.images || [];
 
-        allImages.forEach(url => {
+        allImages.forEach((url, index) => {
           const img = document.createElement("img");
           img.src = url;
-          img.onclick = () => openModal(url);
+          img.onclick = () => openImageViewer(url, index);
           gallery.appendChild(img);
         });
       } catch (err) {
         console.error("Error loading images from JSONBin:", err);
-      }
-    }
-
-    // Modal Functions
-    function openModal(imageUrl) {
-      currentImageUrl = imageUrl;
-      document.getElementById('modalImage').src = imageUrl;
-      document.getElementById('imageModal').style.display = 'block';
-      
-      // Update like button state
-      const likeBtn = document.getElementById('likeBtn');
-      if (likedImages.includes(imageUrl)) {
-        likeBtn.classList.add('liked');
-      } else {
-        likeBtn.classList.remove('liked');
-      }
-      
-      // Load related images
-      loadRelatedImages(imageUrl);
-      
-      // Prevent body scroll
-      document.body.style.overflow = 'hidden';
-    }
-
-    function closeModal() {
-      document.getElementById('imageModal').style.display = 'none';
-      document.body.style.overflow = 'auto';
-    }
-
-    function toggleLike() {
-      const likeBtn = document.getElementById('likeBtn');
-      if (likedImages.includes(currentImageUrl)) {
-        likedImages = likedImages.filter(url => url !== currentImageUrl);
-        likeBtn.classList.remove('liked');
-      } else {
-        likedImages.push(currentImageUrl);
-        likeBtn.classList.add('liked');
-      }
-    }
-
-    function downloadImage() {
-      const link = document.createElement('a');
-      link.href = currentImageUrl;
-      link.download = 'nvn-verse-image.jpg';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
-
-    function shareImage() {
-      if (navigator.share) {
-        navigator.share({
-          title: 'NVN Verse Image',
-          url: currentImageUrl
-        });
-      } else {
-        // Fallback - copy to clipboard
-        navigator.clipboard.writeText(currentImageUrl).then(() => {
-          alert('Image link copied to clipboard!');
-        });
-      }
-    }
-
-    function loadRelatedImages(currentUrl) {
-      const relatedGallery = document.getElementById('relatedGallery');
-      relatedGallery.innerHTML = '';
-      
-      // Show other images (exclude current)
-      const otherImages = allImages.filter(url => url !== currentUrl).slice(0, 6);
-      
-      otherImages.forEach(url => {
-        const img = document.createElement('img');
-        img.src = url;
-        img.onclick = () => openModal(url);
-        relatedGallery.appendChild(img);
-      });
-    }
-
-    // Close modal when clicking outside
-    document.getElementById('imageModal').onclick = function(e) {
-      if (e.target === this) {
-        closeModal();
       }
     }
 
@@ -595,7 +527,7 @@
         performSearch();
       }
     });
-
+    
     async function performSearch() {
       const query = document.getElementById("searchInput").value.toLowerCase();
       const resultsContainer = document.getElementById("searchResults");
@@ -617,10 +549,10 @@
           return;
         }
 
-        filtered.forEach(url => {
-          const img = document.createElement('img');
+        filtered.forEach((url, index) => {
+          const img = document.createElement("img");
           img.src = url;
-          img.onclick = () => openModal(url);
+          img.onclick = () => openImageViewer(url, allImages.indexOf(url));
           resultsContainer.appendChild(img);
         });
       } catch (err) {
@@ -628,8 +560,68 @@
         resultsContainer.innerHTML = "<p style='text-align:center; color:#666;'>Error loading search results.</p>";
       }
     }
+    
+    function openImageViewer(imageSrc, imageIndex) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById('imageViewer').classList.add('active');
+      
+      document.getElementById('viewerImage').src = imageSrc;
+      
+      // Extract title from URL or use default
+      const urlParts = imageSrc.split('/');
+      const filename = urlParts[urlParts.length - 1];
+      const title = filename.split('.')[0].replace(/[^a-zA-Z0-9]/g, ' ').toUpperCase() || 'UNTITLED IMAGE';
+      document.getElementById('viewerTitle').textContent = title;
+      
+      // Load related images
+      loadRelatedImages(imageIndex);
+    }
+    
+    function loadRelatedImages(currentIndex) {
+      const relatedContainer = document.getElementById('relatedImages');
+      relatedContainer.innerHTML = '';
+      
+      // Show other images as related (excluding current one)
+      const otherImages = allImages.filter((img, index) => index !== currentIndex);
+      
+      otherImages.slice(0, 10).forEach((url, index) => {
+        const img = document.createElement('img');
+        img.src = url;
+        img.className = 'related-img';
+        img.onclick = () => openImageViewer(url, allImages.indexOf(url));
+        relatedContainer.appendChild(img);
+      });
+    }
+    
+    function closeImageViewer() {
+      document.getElementById('imageViewer').classList.remove('active');
+      document.getElementById('home').classList.add('active');
+    }
+    
+    function likeImage() {
+      const heartBtn = event.target.closest('.action-btn');
+      heartBtn.style.background = '#ff1744';
+      heartBtn.style.transform = 'scale(1.2)';
+      setTimeout(() => {
+        heartBtn.style.transform = 'scale(1)';
+      }, 200);
+      
+      // Here you can add functionality to save likes
+      console.log('Image liked!');
+    }
+    
+    function downloadImage() {
+      const imageUrl = document.getElementById('viewerImage').src;
+      const link = document.createElement('a');
+      link.href = imageUrl;
+      link.download = 'nvn-verse-image.jpg';
+      link.target = '_blank';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
   
     window.onload = loadUploadedImages;  
   </script>
 </body>  
-	</html>
+</html>
