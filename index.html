@@ -198,7 +198,7 @@
       box-shadow: 0 4px 12px rgba(255, 0, 80, 0.3);
       transition: transform 0.2s ease;
     }
-    
+     
     .action-btn:hover {
       transform: scale(1.1);
     }
@@ -253,6 +253,7 @@
       transform: scale(1.05);
     }
     
+    /* Updated Upload Page Styles */
     .upload-container {  
       display: flex; flex-direction: column;  
       align-items: center; justify-content: center;  
@@ -270,16 +271,58 @@
       cursor: pointer; margin: 10px 0;  
       box-shadow: 0 4px 12px rgba(255, 0, 80, 0.2);  
     }  
-    .preview-img {  
-      width: 48%; max-width: 300px;  
-      border-radius: 12px;  
-      margin-bottom: 15px;  
-      display: none;  
-    }  
+    
+    /* New Enhanced Preview Styles */
+    .preview-border {
+      margin-top: 20px;
+      padding: 2px;
+      border-radius: 12px;
+      background: linear-gradient(to right, #FF0051, #FF002E);
+      position: relative;
+      display: inline-block;
+    }
+
+    .preview-img {
+      width: 220px;
+      height: auto;
+      border-radius: 10px;
+      display: block;
+      background: #fff;
+      padding: 3px;
+      margin-bottom: 0;
+    }
+
+    .edit-icon {
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      background: linear-gradient(to right, #FF0051, #FF002E);
+      opacity: 0.4;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: opacity 0.2s ease;
+    }
+
+    .edit-icon:hover {
+      opacity: 0.7;
+    }
+
+    .edit-icon svg {
+      width: 16px;
+      height: 16px;
+      fill: #fff;
+    }
+
     .title-input {  
       padding: 10px; border: 2px solid #FF0051;  
-      border-radius: 25px; width: 80%; max-width: 300px;  
-      margin: 10px 0;  
+      border-radius: 25px; width: 220px;
+      margin: 12px 0 10px 0;
+      outline: none;
     }  
     .loading-line {  
       width: 80%; max-width: 300px;  
@@ -339,7 +382,16 @@
       <button class="upload-btn" onclick="startUpload()">Upload Verse</button>  
     </div>  
     <div class="upload-container" id="uploadUI" style="display:none">  
-      <img id="preview" class="preview-img" />  
+      <div class="preview-border">
+        <img id="preview" class="preview-img" />  
+        <div class="edit-icon" onclick="startUpload()">
+          <svg viewBox="0 0 24 24">
+            <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 
+                     7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34a.9959.9959 
+                     0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+          </svg>
+        </div>
+      </div>
       <input id="imgTitle" class="title-input" placeholder="Verse Title">  
       <button class="upload-btn" onclick="uploadImage()">Upload</button>  
     </div>  
@@ -347,7 +399,7 @@
     <div class="upload-container" id="uploadProgress" style="display:none">  
       <div class="loading-line"><div id="progressBar" class="loading-progress"></div></div>  
     </div>  
-    <div class="upload-container" id="uploadSuccess" style="display:none">  
+        <div class="upload-container" id="uploadSuccess" style="display:none">  
       <div class="success-msg">Verse uploaded successfully!</div>  
     </div>  
   </div>    
@@ -421,7 +473,6 @@
         const reader = new FileReader();  
         reader.onload = e => {  
           document.getElementById('preview').src = e.target.result;  
-          document.getElementById('preview').style.display = "block";  
           document.getElementById('uploadStart').style.display = 'none';  
           document.getElementById('uploadUI').style.display = 'flex';  
         };  
@@ -488,7 +539,6 @@
             document.getElementById("uploadStart").style.display = "flex";
             document.getElementById("imageInput").value = "";
             document.getElementById("imgTitle").value = "";
-            document.getElementById("preview").style.display = "none";
           }, 3000);
         }, 500);
       } catch (error) {
@@ -548,7 +598,7 @@
           resultsContainer.innerHTML = "<p style='text-align:center; color:#666;'>No results found.</p>";
           return;
         }
-
+        
         filtered.forEach((url, index) => {
           const img = document.createElement("img");
           img.src = url;
