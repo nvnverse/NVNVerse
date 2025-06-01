@@ -118,139 +118,157 @@
       cursor: pointer;
     }
 
-    /* Image Viewer Styles */
+    /* New Image Viewer Styles */
     .image-viewer {
-      padding: 80px 20px 20px;
       display: none;
+      padding: 20px;
+      background-color: #ffffff;
+      font-family: Arial, sans-serif;
     }
     
     .image-viewer.active {
       display: block;
     }
     
-    .back-btn {
-      position: fixed;
-      top: 70px;
-      left: 20px;
-      width: 50px;
-      height: 50px;
-      background: linear-gradient(to right, #FF0051, #FF002E);
-      border: none;
-      border-radius: 50%;
-      color: white;
-      font-size: 20px;
-      cursor: pointer;
-      z-index: 1000;
+    .image-wrapper {
+      max-width: 800px;
+      margin: auto;
+      margin-top: 60px;
+    }
+
+    .image-container {
+      position: relative;
       display: flex;
-      align-items: center;
       justify-content: center;
-      box-shadow: 0 4px 12px rgba(255, 0, 80, 0.3);
+      align-items: flex-start;
+      flex-direction: column;
     }
-    
-    .main-image-container {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    
-    .main-image {
+
+    .image-container img {
       width: 100%;
-      max-width: 400px;
       border-radius: 20px;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
     }
-    
-    .image-actions {
+
+    .back-button {
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      background: linear-gradient(135deg, #ff0051, #ff002e);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 42px;
+      height: 42px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      font-size: 18px;
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    .back-button i {
+      pointer-events: none;
+    }
+
+    .title-row {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      margin: 20px 0;
-      gap: 15px;
+      margin-top: 5px;
     }
-    
-    .image-title {
-      background: linear-gradient(to right, #FF0051, #FF002E);
+
+    .title-bar {
+      background: linear-gradient(135deg, #ff0051, #ff002e);
+      border-radius: 50px;
+      padding: 9px 20px;
       color: white;
-      padding: 12px 20px;
-      border-radius: 25px;
-      font-size: 16px;
-      font-weight: 500;
-      flex: 1;
-      text-align: center;
+      font-size: 18px;
+      font-weight: bold;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: calc(100% - 90px);
     }
-    
-    .action-buttons {
+
+    .icon-container {
+      margin-left: 10px;
       display: flex;
-      gap: 15px;
+      gap: 10px;
+      position: relative;
     }
-    
-    .action-btn {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      border: none;
-      background: linear-gradient(to right, #FF0051, #FF002E);
-      color: white;
+
+    .icon-container i {
       font-size: 20px;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 12px rgba(255, 0, 80, 0.3);
+      background: linear-gradient(135deg, #ff0051, #ff002e);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-fill-color: transparent;
       transition: transform 0.2s ease;
     }
-     
-    .action-btn:hover {
-      transform: scale(1.1);
+
+    .icon-container i:hover {
+      transform: scale(1.2);
     }
-    
-    .action-btn:active {
-      transform: scale(0.95);
+
+    .particle {
+      position: absolute;
+      font-size: 10px;
+      opacity: 0;
+      animation: explode 0.6s forwards;
+      pointer-events: none;
     }
-    
-    .related-images {
-      margin-top: 30px;
+
+    @keyframes explode {
+      0% {
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(var(--x), var(--y)) scale(0.5);
+        opacity: 0;
+      }
     }
-    
-    .related-title {
-      font-size: 18px;
-      font-weight: 600;
-      margin-bottom: 15px;
-      color: #333;
+
+    .divider-line {
+      height: 1px;
+      width: 100%;
+      background-color: #ff002e;
+      margin-top: 15px;
+      border-radius: 1px;
     }
-    
-    .related-scroll {
-      display: flex;
-      gap: 12px;
-      overflow-x: auto;
-      padding-bottom: 10px;
+
+    .related-images-section {
+      margin-top: 20px;
     }
-    
-    .related-scroll::-webkit-scrollbar {
-      height: 6px;
+
+    .related-images-grid {
+      column-count: 2;
+      column-gap: 12px;
+      margin-top: 10px;
     }
-    
-    .related-scroll::-webkit-scrollbar-track {
-      background: #f1f1f1;
-      border-radius: 10px;
-    }
-    
-    .related-scroll::-webkit-scrollbar-thumb {
-      background: linear-gradient(to right, #FF0051, #FF002E);
-      border-radius: 10px;
-    }
-    
-    .related-img {
-      width: 120px;
-      height: 120px;
-      object-fit: cover;
+
+    .related-images-grid img {
+      width: 100%;
+      margin-bottom: 12px;
       border-radius: 12px;
-      cursor: pointer;
-      flex-shrink: 0;
+      break-inside: avoid;
       transition: transform 0.2s ease;
+      cursor: pointer;
     }
-    
-    .related-img:hover {
-      transform: scale(1.05);
+
+    .related-images-grid img:hover {
+      transform: scale(1.02);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    @media (min-width: 768px) { 
+      .related-images-grid { column-count: 3; } 
+    }
+    @media (min-width: 1024px) { 
+      .related-images-grid { column-count: 4; } 
     }
     
     /* Updated Upload Page Styles */
@@ -273,7 +291,7 @@
     }  
     
     /* New Enhanced Preview Styles */
-    .preview-border {
+      .preview-border {
       margin-top: 20px;
       padding: 2px;
       border-radius: 12px;
@@ -291,7 +309,7 @@
       padding: 3px;
       margin-bottom: 0;
     }
-
+    
     .edit-icon {
       position: absolute;
       top: 6px;
@@ -399,37 +417,34 @@
     <div class="upload-container" id="uploadProgress" style="display:none">  
       <div class="loading-line"><div id="progressBar" class="loading-progress"></div></div>  
     </div>  
-        <div class="upload-container" id="uploadSuccess" style="display:none">  
+    <div class="upload-container" id="uploadSuccess" style="display:none">  
       <div class="success-msg">Verse uploaded successfully!</div>  
     </div>  
   </div>    
   
-  <!-- Image Viewer Page -->
+  <!-- New Image Viewer Page -->
   <div id="imageViewer" class="image-viewer">
-    <button class="back-btn" onclick="closeImageViewer()">
-      <i class="fas fa-arrow-left"></i>
-    </button>
-    
-    <div class="main-image-container">
-      <img id="viewerImage" class="main-image" src="" alt="Image">
-    </div>
-    
-    <div class="image-actions">
-      <div class="image-title" id="viewerTitle">IMAGE TITLE SHOW HERE</div>
-      <div class="action-buttons">
-        <button class="action-btn" onclick="likeImage()">
-          <i class="fas fa-heart"></i>
+    <div class="image-wrapper">
+      <div class="image-container">
+        <button class="back-button" onclick="closeImageViewer()">
+          <i class="fas fa-arrow-left"></i>
         </button>
-        <button class="action-btn" onclick="downloadImage()">
-          <i class="fas fa-download"></i>
-        </button>
+        <img id="viewerImage" src="" alt="Preview Image" />
       </div>
-    </div>
-    
-    <div class="related-images">
-      <h3 class="related-title">Related Images</h3>
-      <div class="related-scroll" id="relatedImages">
-        <!-- Related images will be populated here -->
+      
+      <div class="title-row">
+        <div class="title-bar" id="viewerTitle">Image Title</div>
+        <div class="icon-container">
+          <i class="fas fa-heart" title="Like" id="heart-icon"></i>
+          <i class="fas fa-download" title="Download" onclick="downloadImage()"></i>
+        </div>
+      </div>
+      <div class="divider-line"></div>
+      
+      <div class="related-images-section">
+        <div class="related-images-grid" id="relatedImages">
+          <!-- Related images will be populated here -->
+        </div>
       </div>
     </div>
   </div>
@@ -598,7 +613,7 @@
           resultsContainer.innerHTML = "<p style='text-align:center; color:#666;'>No results found.</p>";
           return;
         }
-        
+
         filtered.forEach((url, index) => {
           const img = document.createElement("img");
           img.src = url;
@@ -634,10 +649,9 @@
       // Show other images as related (excluding current one)
       const otherImages = allImages.filter((img, index) => index !== currentIndex);
       
-      otherImages.slice(0, 10).forEach((url, index) => {
+      otherImages.forEach((url, index) => {
         const img = document.createElement('img');
         img.src = url;
-        img.className = 'related-img';
         img.onclick = () => openImageViewer(url, allImages.indexOf(url));
         relatedContainer.appendChild(img);
       });
@@ -646,18 +660,6 @@
     function closeImageViewer() {
       document.getElementById('imageViewer').classList.remove('active');
       document.getElementById('home').classList.add('active');
-    }
-    
-    function likeImage() {
-      const heartBtn = event.target.closest('.action-btn');
-      heartBtn.style.background = '#ff1744';
-      heartBtn.style.transform = 'scale(1.2)';
-      setTimeout(() => {
-        heartBtn.style.transform = 'scale(1)';
-      }, 200);
-      
-      // Here you can add functionality to save likes
-      console.log('Image liked!');
     }
     
     function downloadImage() {
@@ -670,6 +672,28 @@
       link.click();
       document.body.removeChild(link);
     }
+
+    // Heart icon particle effect
+    const heartIcon = document.getElementById('heart-icon');
+    
+    heartIcon.addEventListener('click', () => {
+      const container = heartIcon.parentElement;
+      const icons = ['fa-heart', 'fa-star', 'fa-circle'];
+      for (let i = 0; i < 8; i++) {
+        const particle = document.createElement('i');
+        particle.classList.add('fas', icons[Math.floor(Math.random() * icons.length)], 'particle');
+        const angle = (Math.PI * 2 * i) / 8;
+        const radius = 30;
+        const x = Math.cos(angle) * radius;
+        const y = Math.sin(angle) * radius;
+        particle.style.setProperty('--x', `${x}px`);
+        particle.style.setProperty('--y', `${y}px`);
+        container.appendChild(particle);
+        setTimeout(() => {
+          particle.remove();
+        }, 600);
+      }
+    });
   
     window.onload = loadUploadedImages;  
   </script>
