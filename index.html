@@ -1,80 +1,88 @@
-<!DOCTYPE html>  
-<html lang="en">  
-<head>  
-  <meta charset="UTF-8" />  
-  <title>NVN Verse</title>  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />  
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet" />  
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />  
-  <style>  
-    * {  
-      margin: 0; padding: 0; box-sizing: border-box;  
-      font-family: "Segoe UI", sans-serif;  
-    }  
-    body {  
-      background: #fff;  
-      color: #333;  
-      min-height: 100vh;  
-      padding-bottom: 80px;  
-    }  
-    .top-header {  
-      position: fixed; top: 0; left: 0; width: 100%;  
-      background: #fff; padding: 6px 18px;  
-      display: flex; justify-content: flex-start; align-items: center;  
-      z-index: 999;  
-      font-family: 'Bebas Neue', sans-serif;  
-      font-size: 1rem;  
-    }  
-    .top-header h1 {  
-      background: linear-gradient(to right, #FF0051, #FF002E);  
-      -webkit-background-clip: text;  
-      color: transparent;  
-      font-family: 'Bebas Neue', sans-serif;  
-    }  
-    .page { display: none; padding: 80px 20px 20px; }  
-    .page.active { display: block; }  
-    .bottom-header {  
-      position: fixed; bottom: 20px; left: 50%;  
-      transform: translateX(-50%);  
-      width: 90%;  
-      background: rgba(255, 255, 255, 0.7);  
-      border-radius: 40px;  
-      padding: 12px;  
-      display: flex; justify-content: space-around; align-items: center;  
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);  
-      z-index: 999;  
-      backdrop-filter: blur(6px);  
-    }  
-    .nav-btn {  
-      width: 50px; height: 50px; border-radius: 50%;  
-      background: linear-gradient(to right, #FF0051, #FF002E);  
-      color: #fff; font-size: 24px;  
-      display: flex; justify-content: center; align-items: center;  
-      border: none; cursor: pointer;  
-      transition: transform 0.2s ease, background 0.3s;  
-      box-shadow: 0 4px 10px rgba(255, 0, 80, 0.2);  
-    }  
-    .nav-btn:active { transform: scale(0.95); }  
-    .nav-btn.active {  
-      background: linear-gradient(to right, #FF002E, #FF0051);  
-      box-shadow: 0 0 20px rgba(255, 0, 80, 0.4);  
-    }  
-    .gallery {  
-      column-count: 2; column-gap: 12px;  
-    }  
-    .gallery img {  
-      width: 100%; margin-bottom: 12px;  
-      border-radius: 12px; break-inside: avoid;  
-      transition: transform 0.2s ease;  
-      cursor: pointer;  
-    }  
-    .gallery img:hover {  
-      transform: scale(1.02);  
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);  
-    }  
-    @media (min-width: 768px) { .gallery { column-count: 3; } }  
-    @media (min-width: 1024px) { .gallery { column-count: 4; } }  
-    
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>NVN Verse</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+      font-family: "Segoe UI", sans-serif;
+    }
+    body {
+      background: #fff;
+      color: #333;
+      min-height: 100vh;
+      padding-bottom: 80px;
+    }
+    .top-header {
+      position: fixed; top: 0; left: 0; width: 100%;
+      background: #fff; padding: 6px 18px;
+      display: flex; justify-content: space-between; align-items: center;
+      z-index: 999;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1rem;
+    }
+    .top-header h1 {
+      background: linear-gradient(to right, #FF0051, #FF002E);
+      -webkit-background-clip: text;
+      color: transparent;
+      font-family: 'Bebas Neue', sans-serif;
+    }
+    .three-dots {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      color: #FF0051;
+    }
+    .page { display: none; padding: 80px 20px 20px; }
+    .page.active { display: block; }
+    .bottom-header {
+      position: fixed; bottom: 20px; left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      background: rgba(255, 255, 255, 0.7);
+      border-radius: 40px;
+      padding: 12px;
+      display: flex; justify-content: space-around; align-items: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      z-index: 999;
+      backdrop-filter: blur(6px);
+    }
+    .nav-btn {
+      width: 50px; height: 50px; border-radius: 50%;
+      background: linear-gradient(to right, #FF0051, #FF002E);
+      color: #fff; font-size: 24px;
+      display: flex; justify-content: center; align-items: center;
+      border: none; cursor: pointer;
+      transition: transform 0.2s ease, background 0.3s;
+      box-shadow: 0 4px 10px rgba(255, 0, 80, 0.2);
+    }
+    .nav-btn:active { transform: scale(0.95); }
+    .nav-btn.active {
+      background: linear-gradient(to right, #FF002E, #FF0051);
+      box-shadow: 0 0 20px rgba(255, 0, 80, 0.4);
+    }
+    .gallery {
+      column-count: 2; column-gap: 12px;
+    }
+    .gallery img {
+      width: 100%; margin-bottom: 12px;
+      border-radius: 12px; break-inside: avoid;
+      transition: transform 0.2s ease;
+      cursor: pointer;
+    }
+    .gallery img:hover {
+      transform: scale(1.02);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    @media (min-width: 768px) { .gallery { column-count: 3; } }
+    @media (min-width: 1024px) { .gallery { column-count: 4; } }
+
     .search-wrapper {
       position: fixed;
       top: 60px;
@@ -118,7 +126,439 @@
       cursor: pointer;
     }
 
-    /* New Image Viewer Styles */
+    /* Authentication Styles */
+    .auth-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 90%;
+      max-width: 400px;
+      z-index: 1;
+    }
+
+    .auth-title {
+      background: linear-gradient(to right, #FF0051, #FF002E);
+      -webkit-background-clip: text;
+      color: transparent;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+
+    .auth-subtitle {
+      color: #666;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .auth-input {
+      padding: 12px 20px;
+      border: 2px solid #FF0051;
+      border-radius: 25px;
+      width: 100%;
+      margin: 10px 0;
+      outline: none;
+      font-size: 16px;
+      transition: all 0.3s ease;
+    }
+
+    .auth-input:focus {
+      border-color: #FF002E;
+      box-shadow: 0 0 0 3px rgba(255, 0, 80, 0.1);
+    }
+
+    .auth-btn {
+      background: linear-gradient(to right, #FF0051, #FF002E);
+      border: none;
+      color: white;
+      font-size: 16px;
+      font-weight: 600;
+      padding: 12px 30px;
+      border-radius: 25px;
+      cursor: pointer;
+      margin: 15px 0;
+      width: 100%;
+      box-shadow: 0 4px 12px rgba(255, 0, 80, 0.2);
+      transition: transform 0.2s ease;
+    }
+
+    .auth-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 0, 80, 0.3);
+    }
+
+    .divider {
+      position: relative;
+      margin: 20px 0;
+      text-align: center;
+      color: #666;
+    }
+
+    .divider::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: #ddd;
+    }
+
+    .divider span {
+      background: #fff;
+      padding: 0 15px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .google-btn {
+      background: #fff;
+      border: 2px solid #ddd;
+      color: #333;
+      font-size: 16px;
+      padding: 12px 20px;
+      border-radius: 25px;
+      cursor: pointer;
+      margin: 10px 0;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: all 0.3s ease;
+    }
+
+    .google-btn:hover {
+      border-color: #FF0051;
+      background: rgba(255, 0, 80, 0.05);
+    }
+
+    .auth-link {
+      color: #FF0051;
+      text-decoration: none;
+      font-weight: 600;
+      margin-top: 15px;
+      text-align: center;
+    }
+
+    .auth-link:hover {
+      text-decoration: underline;
+    }
+
+    .email-verify {
+      background: rgba(255, 183, 77, 0.1);
+      border: 1px solid #FFB74D;
+      color: #F57C00;
+      padding: 15px;
+      border-radius: 10px;
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    /* Profile Setup Styles */
+    .profile-setup {
+      text-align: center;
+    }
+
+    .profile-avatar {
+      position: relative;
+      margin: 20px auto;
+      width: 120px;
+      height: 120px;
+    }
+
+    .avatar-circle {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: linear-gradient(to right, #FF0051, #FF002E);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 48px;
+      position: relative;
+      cursor: pointer;
+      overflow: hidden;
+    }
+
+    .avatar-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    .avatar-upload {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      background: #fff;
+      border: 2px solid #FF0051;
+      border-radius: 50%;
+      width: 35px;
+      height: 35px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: #FF0051;
+    }
+
+    /* User Profile Page Styles */
+    .profile-header {
+      text-align: center;
+      padding: 20px 0;
+    }
+
+    .profile-user-avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: linear-gradient(to right, #FF0051, #FF002E);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 36px;
+      margin: 0 auto 15px;
+      overflow: hidden;
+    }
+
+    .profile-user-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    .profile-username {
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 5px;
+    }
+
+    .profile-bio {
+      color: #666;
+      margin-bottom: 15px;
+    }
+
+    .profile-stats {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin: 20px 0;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 20px;
+      font-weight: bold;
+      color: #FF0051;
+    }
+
+    .stat-label {
+      font-size: 14px;
+      color: #666;
+    }
+
+    /* Settings Menu Styles */
+    .settings-menu {
+      padding: 20px;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    .settings-profile-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 30px;
+    }
+
+    .settings-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(to right, #FF0051, #FF002E);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 28px;
+      overflow: hidden;
+    }
+
+    .settings-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    .settings-item {
+      display: flex;
+      align-items: center;
+      padding: 15px 0;
+      border-bottom: 1px solid #f0f0f0;
+      cursor: pointer;
+      color: #333;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .settings-item:hover {
+      color: #FF0051;
+    }
+
+    .settings-item i {
+      width: 40px;
+      font-size: 18px;
+      margin-right: 15px;
+      color: #FF0051;
+    }
+
+    .about-content {
+      padding: 20px;
+      max-width: 500px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    .about-content h3 {
+      color: #FF0051;
+      margin-bottom: 15px;
+      font-size: 18px;
+    }
+
+    .about-content p {
+      color: #666;
+      margin-bottom: 15px;
+    }
+
+    .contact-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(to right, #FF0051, #FF002E);
+      color: white;
+      padding: 12px 25px;
+      border-radius: 25px;
+      text-decoration: none;
+      margin: 10px 0;
+      transition: transform 0.2s ease;
+    }
+
+    .contact-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(255, 0, 80, 0.3);
+    }
+
+    /* Upload Page Styles */
+    .upload-container {
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      position: fixed;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100%;
+      z-index: 1;
+    }
+    .upload-btn {
+      background: linear-gradient(to right, #FF0051, #FF002E);
+      border: none; color: white; font-size: 18px;
+      padding: 12px 30px;
+      border-radius: 30px;
+      cursor: pointer; margin: 10px 0;
+      box-shadow: 0 4px 12px rgba(255, 0, 80, 0.2);
+    }
+
+    .preview-border {
+      margin-top: 20px;
+      padding: 2px;
+      border-radius: 12px;
+      background: linear-gradient(to right, #FF0051, #FF002E);
+      position: relative;
+      display: inline-block;
+    }
+
+    .preview-img {
+      width: 220px;
+      height: auto;
+      border-radius: 10px;
+      display: block;
+      background: #fff;
+      padding: 3px;
+      margin-bottom: 0;
+    }
+
+    .edit-icon {
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      background: linear-gradient(to right, #FF0051, #FF002E);
+      opacity: 0.4;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: opacity 0.2s ease;
+    }
+
+    .edit-icon:hover {
+      opacity: 0.7;
+    }
+
+    .edit-icon svg {
+      width: 16px;
+      height: 16px;
+      fill: #fff;
+    }
+
+    .title-input {
+      padding: 10px; border: 2px solid #FF0051;
+      border-radius: 25px; width: 220px;
+      margin: 12px 0 10px 0;
+      outline: none;
+    }
+    .loading-line {
+      width: 80%; max-width: 300px;
+      height: 6px; background: #eee;
+      border-radius: 4px; overflow: hidden;
+      margin-top: 15px;
+    }
+    .loading-progress {
+      width: 0%; height: 100%;
+      background: linear-gradient(to right, #FF0051, #FF002E);
+      transition: width 0.3s;
+    }
+    .success-msg {
+      color: #fff;
+      background: linear-gradient(to right, #FF0051, #FF002E);
+      padding: 12px 20px;
+      border-radius: 25px;
+      margin-top: 20px;
+      animation: fadeOut 3s forwards;
+    }
+    @keyframes fadeOut {
+      0% { opacity: 1; }
+      80% { opacity: 1; }
+      100% { opacity: 0; display: none; }
+    }
+
+    /* Image Viewer Styles */
     .image-viewer {
       display: none;
       padding: 20px;
@@ -270,141 +710,235 @@
     @media (min-width: 1024px) { 
       .related-images-grid { column-count: 4; } 
     }
-    
-    /* Updated Upload Page Styles */
-    .upload-container {  
-      display: flex; flex-direction: column;  
-      align-items: center; justify-content: center;  
-      position: fixed;  
-      top: 50%; left: 50%;  
-      transform: translate(-50%, -50%);  
-      width: 100%;  
-      z-index: 1;  
-    }  
-    .upload-btn {  
-      background: linear-gradient(to right, #FF0051, #FF002E);  
-      border: none; color: white; font-size: 18px;  
-      padding: 12px 30px;  
-      border-radius: 30px;  
-      cursor: pointer; margin: 10px 0;  
-      box-shadow: 0 4px 12px rgba(255, 0, 80, 0.2);  
-    }  
-    
-    /* New Enhanced Preview Styles */
-      .preview-border {
-      margin-top: 20px;
-      padding: 2px;
-      border-radius: 12px;
-      background: linear-gradient(to right, #FF0051, #FF002E);
-      position: relative;
-      display: inline-block;
-    	  }
 
-    .preview-img {
-      width: 220px;
-      height: auto;
-      border-radius: 10px;
-      display: block;
-      background: #fff;
-      padding: 3px;
-      margin-bottom: 0;
-    }
-    
-    .edit-icon {
-      position: absolute;
-      top: 6px;
-      left: 6px;
-      background: linear-gradient(to right, #FF0051, #FF002E);
-      opacity: 0.4;
-      border-radius: 50%;
-      width: 30px;
-      height: 30px;
+    .message {
       display: flex;
-      align-items: center;
       justify-content: center;
-      cursor: pointer;
-      transition: opacity 0.2s ease;
+      align-items: center;
+      padding: 12px 20px;
+      border-radius: 500px;
+      color: white;
+      font-size: 15px;
+      max-width: 90%;
+      margin: 0 auto;
+      text-align: center;
+}
+
+    .message.success {
+      background: linear-gradient(to right, #ff002e, #ff0051);
     }
 
-    .edit-icon:hover {
-      opacity: 0.7;
+    .message.error {
+      background: linear-gradient(to right, #ff002e, #ff0051);
     }
+  </style>
+  <script async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+</head>
+<body>
+  <div class="top-header">
+    <h1>NVN VERSE</h1>
+    <button class="three-dots" id="threeDots" onclick="showSettings()">
+      <i class="fas fa-ellipsis-v"></i>
+    </button>
+  </div>
 
-    .edit-icon svg {
-      width: 16px;
-      height: 16px;
-      fill: #fff;
-    }
+  <div id="home" class="page active">
+    <div class="gallery" id="gallery"></div>
+  </div>
 
-    .title-input {  
-      padding: 10px; border: 2px solid #FF0051;  
-      border-radius: 25px; width: 220px;
-      margin: 12px 0 10px 0;
-      outline: none;
-    }  
-    .loading-line {  
-      width: 80%; max-width: 300px;  
-      height: 6px; background: #eee;  
-      border-radius: 4px; overflow: hidden;  
-      margin-top: 15px;  
-    }  
-    .loading-progress {  
-      width: 0%; height: 100%;  
-      background: linear-gradient(to right, #FF0051, #FF002E);  
-      transition: width 0.3s;  
-    }  
-    .success-msg {  
-      color: #fff;  
-      background: linear-gradient(to right, #FF0051, #FF002E);  
-      padding: 12px 20px;  
-      border-radius: 25px;  
-      margin-top: 20px;  
-      animation: fadeOut 3s forwards;  
-    }  
-    @keyframes fadeOut {  
-      0% { opacity: 1; }  
-      80% { opacity: 1; }  
-      100% { opacity: 0; display: none; }  
-    }
-  </style>  
-	<!-- 100% privacy-first analytics -->
-<script async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
-	
-</head>  
-<body>    
-  <div class="top-header"><h1>NVN VERSE</h1></div>    
-  
-  <div id="home" class="page active">  
-    <div class="gallery" id="gallery"></div>  
-  </div>    
-  
-  <div id="search" class="page">  
-    <div class="search-wrapper">  
-      <div class="search-inner">  
-        <input id="searchInput" type="text" placeholder="Search..." class="search-bar" />  
-        <button class="search-icon-btn" onclick="performSearch()">  
-          <i class="fas fa-search"></i>  
-        </button>  
-      </div>  
-    </div>  
-    <div class="gallery" id="searchResults" style="margin-top: 120px;"></div>  
-  </div>    
-  
-  <div id="notifications" class="page">  
-    <p class="upload-container">No notifications yet.</p>  
-  </div>    
-  
-  <div id="profile" class="page">  
-    <p class="upload-container">Edit profile coming Soon</p>  
-  </div>    
-  
-  <div id="upload" class="page">  
-    <div class="upload-container" id="uploadStart">  
-      <button class="upload-btn" onclick="startUpload()">Upload Verse</button>  
-	  </div>  
-    <div class="upload-container" id="uploadUI" style="display:none">  
+  <div id="search" class="page">
+    <div class="search-wrapper">
+      <div class="search-inner">
+        <input id="searchInput" type="text" placeholder="Search..." class="search-bar" />
+        <button class="search-icon-btn" onclick="performSearch()">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+    </div>
+    <div class="gallery" id="searchResults" style="margin-top: 120px;"></div>
+  </div>
+
+  <div id="notifications" class="page">
+    <p class="upload-container">No notifications yet.</p>
+  </div>
+
+  <!-- User Authentication Pages -->
+  <div id="login" class="page">
+    <div class="auth-container">
+      <h2 class="auth-title">NVN VERSE</h2>
+      <p class="auth-subtitle">Welcome back to NVN VERSE! Sign in to continue exploring amazing content.</p>
+      
+      <form id="loginForm">
+        <input type="email" id="loginEmail" class="auth-input" placeholder="Email Address" required>
+        <input type="password" id="loginPassword" class="auth-input" placeholder="Password" required>
+        <button type="submit" class="auth-btn">Login</button>
+      </form>
+      
+      <div class="divider">
+        <span>or</span>
+      </div>
+      
+      <button class="google-btn" onclick="signInWithGoogle()">
+        <i class="fab fa-google"></i>
+        Continue with Google
+      </button>
+      
+      <a href="#" class="auth-link" onclick="showSignup()">Don't have an account? Create new account</a>
+    </div>
+  </div>
+
+  <div id="signup" class="page">
+    <div class="auth-container">
+      <h2 class="auth-title">JOIN NVN VERSE</h2>
+      <p class="auth-subtitle">Create your account and start sharing your amazing content with the world!</p>
+      
+      <form id="signupForm">
+        <input type="text" id="signupName" class="auth-input" placeholder="Full Name" required>
+        <input type="email" id="signupEmail" class="auth-input" placeholder="Email Address" required>
+        <input type="password" id="signupPassword" class="auth-input" placeholder="Password" required>
+        <button type="submit" class="auth-btn">Create Account</button>
+      </form>
+      
+      <div class="divider">
+        <span>or</span>
+      </div>
+      
+      <button class="google-btn" onclick="signInWithGoogle()">
+        <i class="fab fa-google"></i>
+        Sign up with Google
+      </button>
+      
+      <a href="#" class="auth-link" onclick="showLogin()">Already have an account? Sign in here</a>
+    </div>
+  </div>
+
+  <div id="emailVerify" class="page">
+    <div class="auth-container">
+      <h2 class="auth-title">VERIFY EMAIL</h2>
+      <div class="email-verify">
+        <i class="fas fa-envelope" style="font-size: 48px; margin-bottom: 15px; color: #F57C00;"></i>
+        <h3>Please check your email</h3>
+        <p>We've sent a verification link to your email address. Please click the link to verify your account.</p>
+        <button class="auth-btn" onclick="resendVerification()" style="margin-top: 15px;">Resend Email</button>
+      </div>
+      <a href="#" class="auth-link" onclick="showLogin()">Back to Login</a>
+    </div>
+  </div>
+
+  <div id="profileSetup" class="page">
+    <div class="auth-container profile-setup">
+      <h2 class="auth-title">COMPLETE PROFILE</h2>
+      <p class="auth-subtitle">Set up your profile to get started</p>
+      
+      <div class="profile-avatar">
+        <div class="avatar-circle" onclick="selectProfileImage()">
+          <i class="fas fa-user" id="defaultAvatar"></i>
+          <img id="profileImagePreview" style="display: none;" class="avatar-img">
+        </div>
+        <div class="avatar-upload" onclick="selectProfileImage()">
+          <i class="fas fa-camera"></i>
+        </div>
+        <input type="file" id="profileImageInput" style="display: none;" accept="image/*" onchange="previewProfileImage()">
+      </div>
+      
+      <input type="text" id="setupUsername" class="auth-input" placeholder="Username" required>
+      <textarea id="setupBio" class="auth-input" placeholder="Bio (optional)" style="min-height: 80px; resize: vertical;"></textarea>
+      
+      <button class="auth-btn" onclick="completeProfile()">Complete Setup</button>
+    </div>
+  </div>
+
+  <div id="profile" class="page">
+    <div class="profile-header">
+      <div class="profile-user-avatar" id="userAvatar">
+        <i class="fas fa-user"></i>
+      </div>
+      <div class="profile-username" id="displayUsername">Loading...</div>
+      <div class="profile-bio" id="displayBio">Welcome to my profile!</div>
+      
+      <div class="profile-stats">
+        <div class="stat-item">
+          <div class="stat-number" id="userPostsCount">0</div>
+          <div class="stat-label">Posts</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">125</div>
+          <div class="stat-label">Followers</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">89</div>
+          <div class="stat-label">Following</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="gallery" id="userGallery"></div>
+  </div>
+
+  <div id="settings" class="page">
+    <div class="settings-menu">
+      <div class="settings-profile-header">
+        <div class="settings-avatar" id="settingsAvatar">
+          <i class="fas fa-user"></i>
+        </div>
+      </div>
+      
+      <a href="#" class="settings-item" onclick="editProfile()">
+        <i class="fas fa-edit"></i>
+        <span>Edit Profile</span>
+      </a>
+      
+      <a href="#" class="settings-item" onclick="showAppSettings()">
+        <i class="fas fa-cog"></i>
+        <span>Settings</span>
+      </a>
+      
+      <a href="#" class="settings-item" onclick="showAbout()">
+        <i class="fas fa-info-circle"></i>
+        <span>About App</span>
+      </a>
+      
+      <a href="#" class="settings-item" onclick="contactSupport()">
+        <i class="fas fa-envelope"></i>
+        <span>Contact Us</span>
+      </a>
+      
+      <a href="#" class="settings-item" onclick="logout()" style="color: #f44336;">
+        <i class="fas fa-sign-out-alt" style="color: #f44336;"></i>
+        <span>Logout</span>
+      </a>
+    </div>
+  </div>
+
+  <div id="about" class="page">
+    <div class="about-content">
+      <h3>About NVN VERSE</h3>
+      <p>NVN VERSE is a creative platform where users can share, discover, and explore amazing visual content. Our mission is to connect creators and inspire creativity through beautiful imagery and meaningful interactions.</p>
+      
+      <h3>Features</h3>
+      <p>• Upload and share your creative content</p>
+      <p>• Discover amazing content from other creators</p>
+      <p>• Search and explore diverse categories</p>
+      <p>• Build your personal collection</p>
+      <p>• Connect with like-minded creators</p>
+      
+      <h3>Version</h3>
+      <p>NVN VERSE v2.0 - Enhanced with user profiles and social features</p>
+      
+      <a href="mailto:support.nvn@gmail.com" class="contact-btn">
+        <i class="fas fa-envelope"></i>
+        Contact Support
+      </a>
+    </div>
+  </div>
+
+  <div id="upload" class="page">
+    <div class="upload-container" id="uploadStart">
+      <button class="upload-btn" onclick="startUpload()">Upload Verse</button>
+    </div>
+    <div class="upload-container" id="uploadUI" style="display:none">
       <div class="preview-border">
-        <img id="preview" class="preview-img" />  
+        <img id="preview" class="preview-img" />
         <div class="edit-icon" onclick="startUpload()">
           <svg viewBox="0 0 24 24">
             <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 
@@ -413,19 +947,18 @@
           </svg>
         </div>
       </div>
-      <input id="imgTitle" class="title-input" placeholder="Verse Title">  
-      <button class="upload-btn" onclick="uploadImage()">Upload</button>  
-    </div>  
-    <input type="file" id="imageInput" accept="image/*" style="display:none" onchange="previewImage()">  
-    <div class="upload-container" id="uploadProgress" style="display:none">  
-      <div class="loading-line"><div id="progressBar" class="loading-progress"></div></div>  
-    </div>  
-    <div class="upload-container" id="uploadSuccess" style="display:none">  
-      <div class="success-msg">Verse uploaded successfully!</div>  
-    </div>  
-  </div>    
-  
-  <!-- New Image Viewer Page -->
+      <input id="imgTitle" class="title-input" placeholder="Verse Title">
+      <button class="upload-btn" onclick="uploadImage()">Upload</button>
+    </div>
+    <input type="file" id="imageInput" accept="image/*" style="display:none" onchange="previewImage()">
+    <div class="upload-container" id="uploadProgress" style="display:none">
+      <div class="loading-line"><div id="progressBar" class="loading-progress"></div></div>
+    </div>
+    <div class="upload-container" id="uploadSuccess" style="display:none">
+      <div class="success-msg">Verse uploaded successfully!</div>
+    </div>
+  </div>
+
   <div id="imageViewer" class="image-viewer">
     <div class="image-wrapper">
       <div class="image-container">
@@ -445,63 +978,358 @@
       <div class="divider-line"></div>
       
       <div class="related-images-section">
-        <div class="related-images-grid" id="relatedImages">
-          <!-- Related images will be populated here -->
-        </div>
+        <div class="related-images-grid" id="relatedImages"></div>
       </div>
     </div>
   </div>
-  
-  <div class="bottom-header">  
-    <button class="nav-btn active" onclick="showPage('home')"><i class="fas fa-home"></i></button>  
-    <button class="nav-btn" onclick="showPage('search')"><i class="fas fa-search"></i></button>  
-    <button class="nav-btn" onclick="showPage('upload')"><i class="fas fa-plus"></i></button>  
-    <button class="nav-btn" onclick="showPage('notifications')"><i class="fas fa-bell"></i></button>  
-    <button class="nav-btn" onclick="showPage('profile')"><i class="fas fa-user"></i></button>  
-  </div>    
-  
-  <script>  
+
+  <div class="bottom-header">
+    <button class="nav-btn active" onclick="showPage('home')"><i class="fas fa-home"></i></button>
+    <button class="nav-btn" onclick="showPage('search')"><i class="fas fa-search"></i></button>
+    <button class="nav-btn" onclick="showPage('upload')"><i class="fas fa-plus"></i></button>
+    <button class="nav-btn" onclick="showPage('notifications')"><i class="fas fa-bell"></i></button>
+    <button class="nav-btn" onclick="showPage('profile')"><i class="fas fa-user"></i></button>
+  </div>
+
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL = "https://scljuwuznhqnlglanijg.supabase.co";
+    const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNjbGp1d3V6bmhxbmxnbGFuaWpnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ4MzMyODcsImV4cCI6MjA3MDQwOTI4N30.TYTgGq6yHU_JLweMq5TeGRhP0OKnCAkCSp2CCbo2FDQ";
+    
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
     const API_KEY = "$2a$10$P6MeZQIjBrN/EJrGKJCpF.VVL5VcwGO40ZL4tuMmSQgt8Fl084vIW";
     const BIN_ID = "6829d3268a456b7966a05cb4";
     let allImages = [];
-    
-    function showPage(id) {  
-      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));  
-      document.getElementById(id).classList.add('active');  
+    let currentUser = null;
+    let pageHistory = [];
+
+    function showPage(id) {
+      if (currentUser === null && (id === 'profile' || id === 'upload')) {
+        showLogin();
+        return;
+      }
+
+      pageHistory.push(getCurrentActivePage());
+      
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
       document.getElementById('imageViewer').classList.remove('active');
-  
-      document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));  
-      const icons = {  
-        home: 'fa-home', search: 'fa-search',  
-        upload: 'fa-plus', notifications: 'fa-bell', profile: 'fa-user'  
-      };  
-      document.querySelectorAll('.nav-btn').forEach(btn => {  
-        if (btn.querySelector('i').classList.contains(icons[id])) btn.classList.add('active');  
-      });  
-      if (id === 'home') loadUploadedImages();  
-    }  
-  
-    function startUpload() {  
-      document.getElementById('imageInput').click();  
-    }  
-  
-    function previewImage() {  
-      const file = document.getElementById('imageInput').files[0];  
-      if (file) {  
-        const reader = new FileReader();  
-        reader.onload = e => {  
-          document.getElementById('preview').src = e.target.result;  
-          document.getElementById('uploadStart').style.display = 'none';  
-          document.getElementById('uploadUI').style.display = 'flex';  
-        };  
-        reader.readAsDataURL(file);  
-      }  
-    }  
-  
+
+      document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+      const icons = {
+        home: 'fa-home', search: 'fa-search',
+        upload: 'fa-plus', notifications: 'fa-bell', profile: 'fa-user'
+      };
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        if (btn.querySelector('i').classList.contains(icons[id])) btn.classList.add('active');
+      });
+
+      const threeDots = document.getElementById('threeDots');
+      if (id === 'profile' && currentUser) {
+        threeDots.style.display = 'block';
+      } else {
+        threeDots.style.display = 'none';
+      }
+
+      if (id === 'home') loadUploadedImages();
+      if (id === 'profile' && currentUser) loadUserProfile();
+    }
+
+    function getCurrentActivePage() {
+      const activePage = document.querySelector('.page.active');
+      return activePage ? activePage.id : 'home';
+    }
+
+    function handleBackNavigation() {
+      if (pageHistory.length > 0) {
+        const previousPage = pageHistory.pop();
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById(previousPage).classList.add('active');
+        document.getElementById('imageViewer').classList.remove('active');
+        return true;
+      }
+      return false;
+    }
+
+    window.addEventListener('popstate', function(event) {
+      handleBackNavigation();
+    });
+
+    async function checkAuthState() {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        currentUser = session.user;
+        updateUIForLoggedInUser();
+      }
+    }
+
+    function showLogin() {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById('login').classList.add('active');
+      document.getElementById('threeDots').style.display = 'none';
+    }
+
+    function showSignup() {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById('signup').classList.add('active');
+    }
+
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
+
+      try {
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email: email,
+          password: password
+        });
+
+        if (error) throw error;
+
+        currentUser = data.user;
+        showMessage('Login successful! Welcome back to NVN VERSE', 'success');
+        updateUIForLoggedInUser();
+        showPage('profile');
+        
+      } catch (error) {
+        showMessage('Error: ' + error.message, 'error');
+      }
+    });
+
+    document.getElementById('signupForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = document.getElementById('signupName').value;
+      const email = document.getElementById('signupEmail').value;
+      const password = document.getElementById('signupPassword').value;
+
+      if (password.length < 6) {
+        showMessage('Password must be at least 6 characters long', 'error');
+        return;
+      }
+
+      try {
+        const { data, error } = await supabase.auth.signUp({
+          email: email,
+          password: password,
+          options: {
+            data: {
+              full_name: name
+            }
+          }
+        });
+
+        if (error) throw error;
+
+        if (data.user) {
+          showMessage('Account created! Please check your email to verify.', 'success');
+          document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+          document.getElementById('emailVerify').classList.add('active');
+        }
+      } catch (error) {
+        showMessage('Error: ' + error.message, 'error');
+      }
+    });
+
+    async function signInWithGoogle() {
+      try {
+        const { data, error } = await supabase.auth.signInWithOAuth({
+          provider: 'google',
+          options: {
+            redirectTo: window.location.origin
+          }
+        });
+
+        if (error) throw error;
+        
+      } catch (error) {
+        showMessage('Error: ' + error.message, 'error');
+      }
+    }
+
+    async function resendVerification() {
+      const email = document.getElementById('signupEmail').value;
+      if (!email) return;
+
+      try {
+        const { error } = await supabase.auth.resend({
+          type: 'signup',
+          email: email
+        });
+
+        if (error) throw error;
+        showMessage('Verification email sent!', 'success');
+      } catch (error) {
+        showMessage('Error: ' + error.message, 'error');
+      }
+    }
+
+    function selectProfileImage() {
+      document.getElementById('profileImageInput').click();
+    }
+
+    function previewProfileImage() {
+      const file = document.getElementById('profileImageInput').files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          document.getElementById('defaultAvatar').style.display = 'none';
+          document.getElementById('profileImagePreview').style.display = 'block';
+          document.getElementById('profileImagePreview').src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    async function completeProfile() {
+      const username = document.getElementById('setupUsername').value;
+      const bio = document.getElementById('setupBio').value;
+      
+      if (!username.trim()) {
+        showMessage('Please enter a username', 'error');
+        return;
+      }
+
+      try {
+        const { error } = await supabase
+          .from('profiles')
+          .upsert({
+            id: currentUser.id,
+            username: username,
+            bio: bio,
+            full_name: currentUser.user_metadata?.full_name || username
+          });
+
+        if (error) throw error;
+
+        const userProfile = {
+          id: currentUser.id,
+          email: currentUser.email,
+          username: username,
+          bio: bio,
+          full_name: currentUser.user_metadata?.full_name || username
+        };
+        
+        localStorage.setItem('nvn_user_profile', JSON.stringify(userProfile));
+        
+        showMessage('Profile setup complete!', 'success');
+        updateUIForLoggedInUser();
+        showPage('profile');
+        
+      } catch (error) {
+        showMessage('Error: ' + error.message, 'error');
+      }
+    }
+
+    function updateUIForLoggedInUser() {
+      const profile = JSON.parse(localStorage.getItem('nvn_user_profile') || '{}');
+      
+      const displayUsername = profile.username || currentUser.user_metadata?.full_name || currentUser.email.split('@')[0];
+      const displayBio = profile.bio || 'Welcome to my profile!';
+      
+      document.getElementById('displayUsername').textContent = displayUsername;
+      document.getElementById('displayBio').textContent = displayBio;
+      
+      const avatarElements = ['userAvatar', 'settingsAvatar'];
+      avatarElements.forEach(id => {
+        const avatar = document.getElementById(id);
+        const initials = displayUsername.substring(0, 2).toUpperCase();
+        avatar.innerHTML = initials;
+      });
+    }
+
+    function showSettings() {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById('settings').classList.add('active');
+    }
+
+    function editProfile() {
+      showMessage('Profile editing feature coming soon!', 'success');
+    }
+
+    function showAppSettings() {
+      showMessage('App settings coming soon!', 'success');
+    }
+
+    function showAbout() {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById('about').classList.add('active');
+    }
+
+    function contactSupport() {
+      window.open('mailto:support.nvn@gmail.com?subject=NVN VERSE Support&body=Hello, I need help with...');
+    }
+
+    async function logout() {
+      try {
+        const { error } = await supabase.auth.signOut();
+        if (error) throw error;
+
+        currentUser = null;
+        localStorage.removeItem('nvn_user_profile');
+        document.getElementById('threeDots').style.display = 'none';
+        showMessage('Logged out successfully', 'success');
+        showPage('home');
+        
+      } catch (error) {
+        showMessage('Error: ' + error.message, 'error');
+      }
+    }
+
+    async function loadUserProfile() {
+      if (!currentUser) return;
+      
+      try {
+        const res = await fetch("https://api.jsonbin.io/v3/b/" + BIN_ID + "/latest", {
+          headers: { "X-Master-Key": API_KEY }
+        });
+        const data = await res.json();
+        const userImages = data.record.images || [];
+        
+        document.getElementById('userPostsCount').textContent = userImages.length;
+        
+        const userGallery = document.getElementById('userGallery');
+        userGallery.innerHTML = '';
+        
+        userImages.forEach((url, index) => {
+          const img = document.createElement('img');
+          img.src = url;
+          img.onclick = () => openImageViewer(url, index);
+          userGallery.appendChild(img);
+        });
+        
+      } catch (error) {
+        console.error('Error loading user profile:', error);
+      }
+    }
+
+    function startUpload() {
+      if (!currentUser) {
+        showMessage('Please login to upload content', 'error');
+        showLogin();
+        return;
+      }
+      document.getElementById('imageInput').click();
+    }
+
+    function previewImage() {
+      const file = document.getElementById('imageInput').files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = e => {
+          document.getElementById('preview').src = e.target.result;
+          document.getElementById('uploadStart').style.display = 'none';
+          document.getElementById('uploadUI').style.display = 'flex';
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
     async function uploadImage() {
       const file = document.getElementById("imageInput").files[0];
       const title = document.getElementById("imgTitle").value;
-	  if (!file) return;
+      if (!file) return;
 
       document.getElementById("uploadUI").style.display = "none";
       document.getElementById("uploadProgress").style.display = "flex";
@@ -531,9 +1359,7 @@
         const imageUrl = data.data.url;
 
         const getRes = await fetch("https://api.jsonbin.io/v3/b/" + BIN_ID + "/latest", {
-          headers: {
-            "X-Master-Key": API_KEY,
-          },
+          headers: { "X-Master-Key": API_KEY }
         });
         const getData = await getRes.json();
         const existing = getData.record.images || [];
@@ -564,16 +1390,14 @@
         console.error(error);
       }
     }
-  
+
     async function loadUploadedImages() {
       const gallery = document.getElementById("gallery");
       gallery.innerHTML = "";
 
       try {
         const res = await fetch("https://api.jsonbin.io/v3/b/" + BIN_ID + "/latest", {
-          headers: {
-            "X-Master-Key": API_KEY,
-          },
+          headers: { "X-Master-Key": API_KEY }
         });
         const data = await res.json();
         allImages = data.record.images || [];
@@ -585,7 +1409,7 @@
           gallery.appendChild(img);
         });
       } catch (err) {
-        console.error("Error loading images from JSONBin:", err);
+        console.error("Error loading images:", err);
       }
     }
 
@@ -595,17 +1419,15 @@
         performSearch();
       }
     });
-    
+
     async function performSearch() {
       const query = document.getElementById("searchInput").value.toLowerCase();
       const resultsContainer = document.getElementById("searchResults");
       resultsContainer.innerHTML = "";
 
-    try {
+      try {
         const res = await fetch("https://api.jsonbin.io/v3/b/" + BIN_ID + "/latest", {
-          headers: {
-            "X-Master-Key": API_KEY,
-          },
+          headers: { "X-Master-Key": API_KEY }
         });
         const data = await res.json();
         const images = data.record.images || [];
@@ -628,28 +1450,25 @@
         resultsContainer.innerHTML = "<p style='text-align:center; color:#666;'>Error loading search results.</p>";
       }
     }
-    
+
     function openImageViewer(imageSrc, imageIndex) {
       document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
       document.getElementById('imageViewer').classList.add('active');
       
       document.getElementById('viewerImage').src = imageSrc;
       
-      // Extract title from URL or use default
       const urlParts = imageSrc.split('/');
       const filename = urlParts[urlParts.length - 1];
       const title = filename.split('.')[0].replace(/[^a-zA-Z0-9]/g, ' ').toUpperCase() || 'UNTITLED IMAGE';
       document.getElementById('viewerTitle').textContent = title;
       
-      // Load related images
       loadRelatedImages(imageIndex);
     }
-    
+
     function loadRelatedImages(currentIndex) {
       const relatedContainer = document.getElementById('relatedImages');
       relatedContainer.innerHTML = '';
       
-      // Show other images as related (excluding current one)
       const otherImages = allImages.filter((img, index) => index !== currentIndex);
       
       otherImages.forEach((url, index) => {
@@ -659,12 +1478,12 @@
         relatedContainer.appendChild(img);
       });
     }
-    
+
     function closeImageViewer() {
       document.getElementById('imageViewer').classList.remove('active');
       document.getElementById('home').classList.add('active');
     }
-    
+
     function downloadImage() {
       const imageUrl = document.getElementById('viewerImage').src;
       const link = document.createElement('a');
@@ -676,7 +1495,6 @@
       document.body.removeChild(link);
     }
 
-    // Heart icon particle effect
     const heartIcon = document.getElementById('heart-icon');
     
     heartIcon.addEventListener('click', () => {
@@ -697,8 +1515,62 @@
         }, 600);
       }
     });
-  
-    window.onload = loadUploadedImages;  
+
+    function showMessage(text, type) {
+      const existing = document.querySelector('.message');
+      if (existing) existing.remove();
+
+      const message = document.createElement('div');
+      message.className = `message ${type}`;
+      message.textContent = text;
+      document.body.appendChild(message);
+
+      setTimeout(() => {
+        message.remove();
+      }, 4000);
+    }
+
+    supabase.auth.onAuthStateChange(async (event, session) => {
+      if (event === 'SIGNED_IN' && session) {
+        currentUser = session.user;
+        
+        try {
+          const { data, error } = await supabase
+            .from('profiles')
+            .select('username, bio, full_name')
+            .eq('id', session.user.id)
+            .single();
+
+          if (data && data.username) {
+            const userProfile = {
+              id: session.user.id,
+              email: session.user.email,
+              username: data.username,
+              bio: data.bio,
+              full_name: data.full_name
+            };
+            localStorage.setItem('nvn_user_profile', JSON.stringify(userProfile));
+            updateUIForLoggedInUser();
+            showPage('profile');
+          } else {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById('profileSetup').classList.add('active');
+          }
+        } catch (error) {
+          document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+          document.getElementById('profileSetup').classList.add('active');
+        }
+      } else if (event === 'SIGNED_OUT') {
+        currentUser = null;
+        localStorage.removeItem('nvn_user_profile');
+        document.getElementById('threeDots').style.display = 'none';
+      }
+    });
+
+    window.onload = async () => {
+      await checkAuthState();
+      loadUploadedImages();
+    };
   </script>
-</body>  
+</body>
 </html>
