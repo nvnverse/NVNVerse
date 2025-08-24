@@ -1,944 +1,779 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>NVN Verse</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+<html lang="en">  
+<head>  
+  <meta charset="UTF-8" />  
+  <title>NVN Verse</title>  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />  
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet" />  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />  
+  
+  <!-- CSS will be added in step 2 -->
   <style>
-    * {
-      margin: 0; padding: 0; box-sizing: border-box;
-      font-family: "Segoe UI", sans-serif;
-    }
-    body {
-      background: #fff;
-      color: #333;
-      min-height: 100vh;
-      padding-bottom: 80px;
-    }
-    .top-header {
-      position: fixed; top: 0; left: 0; width: 100%;
-      background: #fff; padding: 6px 18px;
-      display: flex; justify-content: space-between; align-items: center;
-      z-index: 999;
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1rem;
-    }
-    .top-header h1 {
-      background: linear-gradient(to right, #FF0051, #FF002E);
-      -webkit-background-clip: text;
-      color: transparent;
-      font-family: 'Bebas Neue', sans-serif;
-    }
-    .three-dots {
-      display: none;
-      background: none;
-      border: none;
-      font-size: 20px;
-      cursor: pointer;
-      color: #FF0051;
-    }
-    .page { display: none; padding: 80px 20px 20px; }
-    .page.active { display: block; }
-    .bottom-header {
-      position: fixed; bottom: 20px; left: 50%;
-      transform: translateX(-50%);
-      width: 90%;
-      background: rgba(255, 255, 255, 0.7);
-      border-radius: 40px;
-      padding: 12px;
-      display: flex; justify-content: space-around; align-items: center;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      z-index: 999;
-      backdrop-filter: blur(6px);
-    }
-    .nav-btn {
-      width: 50px; height: 50px; border-radius: 50%;
-      background: linear-gradient(to right, #FF0051, #FF002E);
-      color: #fff; font-size: 24px;
-      display: flex; justify-content: center; align-items: center;
-      border: none; cursor: pointer;
-      transition: transform 0.2s ease, background 0.3s;
-      box-shadow: 0 4px 10px rgba(255, 0, 80, 0.2);
-    }
-    .nav-btn:active { transform: scale(0.95); }
-    .nav-btn.active {
-      background: linear-gradient(to right, #FF002E, #FF0051);
-      box-shadow: 0 0 20px rgba(255, 0, 80, 0.4);
-    }
-    .gallery {
-      column-count: 2; column-gap: 12px;
-    }
-    .gallery img {
-      width: 100%; margin-bottom: 12px;
-      border-radius: 12px; break-inside: avoid;
-      transition: transform 0.2s ease;
-      cursor: pointer;
-    }
-    .gallery img:hover {
-      transform: scale(1.02);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    }
-    @media (min-width: 768px) { .gallery { column-count: 3; } }
-    @media (min-width: 1024px) { .gallery { column-count: 4; } }
-
-    .search-wrapper {
-      position: fixed;
-      top: 60px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 90%;
-      max-width: 500px;
-      z-index: 1000;
-      background: linear-gradient(to right, #FF0051, #FF002E);
-      padding: 2px;
-      border-radius: 9999px;
-    }
-
-    .search-inner {
-      display: flex;
-      align-items: center;
-      background: #fff;
-      border-radius: 9999px;
-      padding-left: 16px;
-      position: relative;
-    }
-
-    .search-bar {
-      width: 100%;
-      padding: 12px 16px 12px 0;
-      border: none;
-      font-size: 16px;
-      color: #333;
-      background: transparent;
-      outline: none;
-      border-radius: 9999px;
-    }
-
-    .search-icon-btn {
-      position: absolute;
-      right: 12px;
-      background: none;
-      border: none;
-      color: #333;
-      font-size: 18px;
-      cursor: pointer;
-    }
-
-    /* Authentication Styles */
-    .auth-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 90%;
-      max-width: 400px;
-      z-index: 1;
-    }
-
-    .auth-title {
-      background: linear-gradient(to right, #FF0051, #FF002E);
-      -webkit-background-clip: text;
-      color: transparent;
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 2.5rem;
-      margin-bottom: 10px;
-    }
-
-    .auth-subtitle {
-      color: #666;
-      margin-bottom: 30px;
-      text-align: center;
-    }
-
-    .auth-input {
-      padding: 12px 20px;
-      border: 2px solid #FF0051;
-      border-radius: 25px;
-      width: 100%;
-      margin: 10px 0;
-      outline: none;
-      font-size: 16px;
-      transition: all 0.3s ease;
-    }
-
-    .auth-input:focus {
-      border-color: #FF002E;
-      box-shadow: 0 0 0 3px rgba(255, 0, 80, 0.1);
-    }
-
-    .auth-btn {
-      background: linear-gradient(to right, #FF0051, #FF002E);
-      border: none;
-      color: white;
-      font-size: 16px;
-      font-weight: 600;
-      padding: 12px 30px;
-      border-radius: 25px;
-      cursor: pointer;
-      margin: 15px 0;
-      width: 100%;
-      box-shadow: 0 4px 12px rgba(255, 0, 80, 0.2);
-      transition: transform 0.2s ease;
-    }
-
-    .auth-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(255, 0, 80, 0.3);
-    }
-
-    .divider {
-      position: relative;
-      margin: 20px 0;
-      text-align: center;
-      color: #666;
-    }
-
-    .divider::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 0;
-      right: 0;
-      height: 1px;
-      background: #ddd;
-    }
-
-    .divider span {
-      background: #fff;
-      padding: 0 15px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .google-btn {
-      background: #fff;
-      border: 2px solid #ddd;
-      color: #333;
-      font-size: 16px;
-      padding: 12px 20px;
-      border-radius: 25px;
-      cursor: pointer;
-      margin: 10px 0;
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      transition: all 0.3s ease;
-    }
-
-    .google-btn:hover {
-      border-color: #FF0051;
-      background: rgba(255, 0, 80, 0.05);
-    }
-
-    .auth-link {
-      color: #FF0051;
-      text-decoration: none;
-      font-weight: 600;
-      margin-top: 15px;
-      text-align: center;
-    }
-
-    .auth-link:hover {
-      text-decoration: underline;
-    }
-
-    .email-verify {
-      background: rgba(255, 183, 77, 0.1);
-      border: 1px solid #FFB74D;
-      color: #F57C00;
-      padding: 15px;
-      border-radius: 10px;
-      text-align: center;
-      margin: 20px 0;
-    }
-
-    /* Profile Setup Styles */
-    .profile-setup {
-      text-align: center;
-    }
-
-    .profile-avatar {
-      position: relative;
-      margin: 20px auto;
-      width: 120px;
-      height: 120px;
-    }
-
-    .avatar-circle {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      background: linear-gradient(to right, #FF0051, #FF002E);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 48px;
-      position: relative;
-      cursor: pointer;
-      overflow: hidden;
-    }
-
-    .avatar-img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 50%;
-    }
-
-    .avatar-upload {
-      position: absolute;
-      bottom: 0;
-      right: 0;
-      background: #fff;
-      border: 2px solid #FF0051;
-      border-radius: 50%;
-      width: 35px;
-      height: 35px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      color: #FF0051;
-    }
-
-    /* User Profile Page Styles */
-    .profile-header {
-      text-align: center;
-      padding: 20px 0;
-    }
-
-    .profile-user-avatar {
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
-      background: linear-gradient(to right, #FF0051, #FF002E);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 36px;
-      margin: 0 auto 15px;
-      overflow: hidden;
-    }
-
-    .profile-user-avatar img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 50%;
-    }
-
-    .profile-username {
-      font-size: 24px;
-      font-weight: bold;
-      color: #333;
-      margin-bottom: 5px;
-    }
-
-    .profile-bio {
-      color: #666;
-      margin-bottom: 15px;
-    }
-
-    .profile-stats {
-      display: flex;
-      justify-content: center;
-      gap: 30px;
-      margin: 20px 0;
-    }
-
-    .stat-item {
-      text-align: center;
-    }
-
-    .stat-number {
-      font-size: 20px;
-      font-weight: bold;
-      color: #FF0051;
-    }
-
-    .stat-label {
-      font-size: 14px;
-      color: #666;
-    }
-
-    /* Settings Menu Styles */
-    .settings-menu {
-      padding: 20px;
-      max-width: 400px;
-      margin: 0 auto;
-    }
-
-    .settings-profile-header {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 30px;
-    }
-
-    .settings-avatar {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      background: linear-gradient(to right, #FF0051, #FF002E);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 28px;
-      overflow: hidden;
-    }
-
-    .settings-avatar img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 50%;
-    }
-
-    .settings-item {
-      display: flex;
-      align-items: center;
-      padding: 15px 0;
-      border-bottom: 1px solid #f0f0f0;
-      cursor: pointer;
-      color: #333;
-      text-decoration: none;
-      transition: color 0.3s ease;
-    }
-
-    .settings-item:hover {
-      color: #FF0051;
-    }
-
-    .settings-item i {
-      width: 40px;
-      font-size: 18px;
-      margin-right: 15px;
-      color: #FF0051;
-    }
-
-    .about-content {
-      padding: 20px;
-      max-width: 500px;
-      margin: 0 auto;
-      line-height: 1.6;
-    }
-
-    .about-content h3 {
-      color: #FF0051;
-      margin-bottom: 15px;
-      font-size: 18px;
-    }
-
-    .about-content p {
-      color: #666;
-      margin-bottom: 15px;
-    }
-
-    .contact-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      background: linear-gradient(to right, #FF0051, #FF002E);
-      color: white;
-      padding: 12px 25px;
-      border-radius: 25px;
-      text-decoration: none;
-      margin: 10px 0;
-      transition: transform 0.2s ease;
-    }
-
-    .contact-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(255, 0, 80, 0.3);
-    }
-
-    /* Upload Page Styles */
-    .upload-container {
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      position: fixed;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      width: 100%;
-      z-index: 1;
-    }
-    .upload-btn {
-      background: linear-gradient(to right, #FF0051, #FF002E);
-      border: none; color: white; font-size: 18px;
-      padding: 12px 30px;
-      border-radius: 30px;
-      cursor: pointer; margin: 10px 0;
-      box-shadow: 0 4px 12px rgba(255, 0, 80, 0.2);
-    }
-
-    .preview-border {
-      margin-top: 20px;
-      padding: 2px;
-      border-radius: 12px;
-      background: linear-gradient(to right, #FF0051, #FF002E);
-      position: relative;
-      display: inline-block;
-    }
-
-    .preview-img {
-      width: 220px;
-      height: auto;
-      border-radius: 10px;
-      display: block;
-      background: #fff;
-      padding: 3px;
-      margin-bottom: 0;
-    }
-
-    .edit-icon {
-      position: absolute;
-      top: 6px;
-      left: 6px;
-      background: linear-gradient(to right, #FF0051, #FF002E);
-      opacity: 0.4;
-      border-radius: 50%;
-      width: 30px;
-      height: 30px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: opacity 0.2s ease;
-    }
-
-    .edit-icon:hover {
-      opacity: 0.7;
-    }
-
-    .edit-icon svg {
-      width: 16px;
-      height: 16px;
-      fill: #fff;
-    }
-
-    .title-input {
-      padding: 10px; border: 2px solid #FF0051;
-      border-radius: 25px; width: 220px;
-      margin: 12px 0 10px 0;
-      outline: none;
-    }
-    .loading-line {
-      width: 80%; max-width: 300px;
-      height: 6px; background: #eee;
-      border-radius: 4px; overflow: hidden;
-      margin-top: 15px;
-    }
-    .loading-progress {
-      width: 0%; height: 100%;
-      background: linear-gradient(to right, #FF0051, #FF002E);
-      transition: width 0.3s;
-    }
-    .success-msg {
-      color: #fff;
-      background: linear-gradient(to right, #FF0051, #FF002E);
-      padding: 12px 20px;
-      border-radius: 25px;
-      margin-top: 20px;
-      animation: fadeOut 3s forwards;
-    }
-    @keyframes fadeOut {
-      0% { opacity: 1; }
-      80% { opacity: 1; }
-      100% { opacity: 0; display: none; }
-    }
-
-    /* Image Viewer Styles */
-    .image-viewer {
-      display: none;
-      padding: 20px;
-      background-color: #ffffff;
-      font-family: Arial, sans-serif;
-    }
-    
-    .image-viewer.active {
-      display: block;
-    }
-    
-    .image-wrapper {
-      max-width: 800px;
-      margin: auto;
-      margin-top: 60px;
-    }
-
-    .image-container {
-      position: relative;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      flex-direction: column;
-    }
-
-    .image-container img {
-      width: 100%;
-      border-radius: 20px;
-    }
-
-    .back-button {
-      position: absolute;
-      top: 6px;
-      left: 6px;
-      background: linear-gradient(135deg, #ff0051, #ff002e);
-      color: white;
-      border: none;
-      border-radius: 50%;
-      width: 42px;
-      height: 42px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-      font-size: 18px;
-      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
-    }
-
-    .back-button i {
-      pointer-events: none;
-    }
-
-    .title-row {
-      display: flex;
-      align-items: center;
-      margin-top: 5px;
-    }
-
-    .title-bar {
-      background: linear-gradient(135deg, #ff0051, #ff002e);
-      border-radius: 50px;
-      padding: 9px 20px;
-      color: white;
-      font-size: 18px;
-      font-weight: bold;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      max-width: calc(100% - 90px);
-    }
-
-    .icon-container {
-      margin-left: 10px;
-      display: flex;
-      gap: 10px;
-      position: relative;
-    }
-
-    .icon-container i {
-      font-size: 20px;
-      cursor: pointer;
-      background: linear-gradient(135deg, #ff0051, #ff002e);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      text-fill-color: transparent;
-      transition: transform 0.2s ease;
-    }
-
-    .icon-container i:hover {
-      transform: scale(1.2);
-    }
-
-    .particle {
-      position: absolute;
-      font-size: 10px;
-      opacity: 0;
-      animation: explode 0.6s forwards;
-      pointer-events: none;
-    }
-
-    @keyframes explode {
-      0% {
-        transform: translate(0, 0) scale(1);
-        opacity: 1;
-      }
-      100% {
-        transform: translate(var(--x), var(--y)) scale(0.5);
-        opacity: 0;
-      }
-    }
-
-    .divider-line {
-      height: 1px;
-      width: 100%;
-      background-color: #ff002e;
-      margin-top: 15px;
-      border-radius: 1px;
-    }
-
-    .related-images-section {
-      margin-top: 20px;
-    }
-
-    .related-images-grid {
-      column-count: 2;
-      column-gap: 12px;
-      margin-top: 10px;
-    }
-
-    .related-images-grid img {
-      width: 100%;
-      margin-bottom: 12px;
-      border-radius: 12px;
-      break-inside: avoid;
-      transition: transform 0.2s ease;
-      cursor: pointer;
-    }
-
-    .related-images-grid img:hover {
-      transform: scale(1.02);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    }
-
-    @media (min-width: 768px) { 
-      .related-images-grid { column-count: 3; } 
-    }
-    @media (min-width: 1024px) { 
-      .related-images-grid { column-count: 4; } 
-    }
-
-    .message {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 12px 20px;
-      border-radius: 500px;
-      color: white;
-      font-size: 15px;
-      max-width: 90%;
-      margin: 0 auto;
-      text-align: center;
+       /* NVN Verse - Complete CSS with Enhanced Features */
+
+* {  
+  margin: 0; padding: 0; box-sizing: border-box;  
+  font-family: "Segoe UI", sans-serif;  
+}  
+
+body {  
+  background: #fff;  
+  color: #333;  
+  min-height: 100vh;  
+  padding-bottom: 80px;  
+}  
+
+.top-header {  
+  position: fixed; top: 0; left: 0; width: 100%;  
+  background: #fff; padding: 6px 18px;  
+  display: flex; justify-content: space-between; align-items: center;  
+  z-index: 999;  
+  font-family: 'Bebas Neue', sans-serif;  
+  font-size: 1rem;  
+}  
+
+.top-header h1 {  
+  background: linear-gradient(to right, #FF0051, #FF002E);  
+  -webkit-background-clip: text;  
+  color: transparent;  
+  font-family: 'Bebas Neue', sans-serif;  
+}  
+
+/* Enhanced Category Filter Dropdown - Gradient Style & Home Page Only */
+.category-filter {
+  position: relative;
+  display: inline-block;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
-    .message.success {
-      background: linear-gradient(to right, #ff002e, #ff0051);
-    }
+.category-filter.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
 
-    .message.error {
-      background: linear-gradient(to right, #ff002e, #ff0051);
-    }
+.filter-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  padding: 8px 16px;
+  background: linear-gradient(135deg, #FF0051, #FF002E);
+  border-radius: 25px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(255, 0, 80, 0.2);
+}
+
+.filter-header:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(255, 0, 80, 0.3);
+}
+
+.filter-text {
+  font-size: 14px;
+  font-weight: 600;
+  color: white;
+  transition: all 0.2s ease;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.filter-arrow {
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 5px solid white;
+  transition: transform 0.3s ease;
+}
+
+.filter-arrow.rotated {
+  transform: rotate(180deg);
+}
+
+.filter-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: white;
+  border: none;
+  border-radius: 12px;
+  min-width: 200px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px) scale(0.95);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  z-index: 1001;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  backdrop-filter: blur(10px);
+  overflow: hidden;
+}
+
+.filter-menu:before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  right: 20px;
+  width: 12px;
+  height: 12px;
+  background: white;
+  transform: rotate(45deg);
+  border-radius: 2px;
+}
+
+.filter-menu.open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+}
+
+.filter-item {
+  padding: 12px 18px;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: left;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+.filter-item:last-child {
+  border-bottom: none;
+}
+
+.filter-item:hover {
+  background: linear-gradient(135deg, #FF0051, #FF002E);
+  color: white;
+  transform: translateX(2px);
+}
+
+.filter-item:hover:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 3px;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Error Toast Styles */
+.error-toast {
+  position: fixed;
+  top: 70px;
+  right: 20px;
+  background: linear-gradient(135deg, #FF0051, #FF002E);
+  color: white;
+  padding: 12px 16px;
+  border-radius: 8px;
+  display: none;
+  align-items: center;
+  gap: 10px;
+  z-index: 1001;
+  box-shadow: 0 4px 12px rgba(255, 0, 80, 0.3);
+  max-width: 300px;
+  animation: slideIn 0.3s ease;
+}
+
+.error-toast.show {
+  display: flex;
+}
+
+.error-toast i {
+  font-size: 16px;
+}
+
+.error-close {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 2px;
+  margin-left: auto;
+}
+
+.error-close:hover {
+  opacity: 0.8;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.page { 
+  display: none; 
+  padding: 80px 20px 20px; 
+  transition: opacity 0.2s ease;
+}  
+
+.page.active { 
+  display: block; 
+  opacity: 1;
+}  
+
+.page:not(.active) {
+  opacity: 0;
+}
+
+.bottom-header {  
+  position: fixed; bottom: 20px; left: 50%;  
+  transform: translateX(-50%);  
+  width: 90%;  
+  background: rgba(255, 255, 255, 0.7);  
+  border-radius: 40px;  
+  padding: 12px;  
+  display: flex; justify-content: space-around; align-items: center;  
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);  
+  z-index: 999;  
+  backdrop-filter: blur(6px);  
+}  
+
+.nav-btn {  
+  width: 50px; height: 50px; border-radius: 50%;  
+  background: linear-gradient(to right, #FF0051, #FF002E);  
+  color: #fff; font-size: 24px;  
+  display: flex; justify-content: center; align-items: center;  
+  border: none; cursor: pointer;  
+  transition: transform 0.2s ease, background 0.3s;  
+  box-shadow: 0 4px 10px rgba(255, 0, 80, 0.2);  
+}  
+
+.nav-btn:active { transform: scale(0.95); }  
+
+.nav-btn.active {  
+  background: linear-gradient(to right, #FF002E, #FF0051);  
+  box-shadow: 0 0 20px rgba(255, 0, 80, 0.4);  
+}  
+
+.loading-box {
+  width: 100%;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  break-inside: avoid;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  /* Removed transition and animation properties for instant hiding */
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Different random heights for Pinterest look */
+.loading-box.small { height: 150px; }
+.loading-box.medium { height: 200px; }
+.loading-box.large { height: 280px; }
+.loading-box.extra-large { height: 320px; }
+
+/* Loading box colors - Pinterest style */
+.loading-box.blue {
+  background: linear-gradient(90deg, #e3f2fd 25%, #bbdefb 50%, #e3f2fd 75%);
+  background-size: 200% 100%;
+}
+
+.loading-box.purple {
+  background: linear-gradient(90deg, #f3e5f5 25%, #e1bee7 50%, #f3e5f5 75%);
+  background-size: 200% 100%;
+}
+
+.loading-box.green {
+  background: linear-gradient(90deg, #e8f5e8 25%, #c8e6c9 50%, #e8f5e8 75%);
+  background-size: 200% 100%;
+}
+
+.loading-box.orange {
+  background: linear-gradient(90deg, #fff3e0 25%, #ffcc02 50%, #fff3e0 75%);
+  background-size: 200% 100%;
+}
+
+.loading-box.pink {
+  background: linear-gradient(90deg, #fce4ec 25%, #f8bbd9 50%, #fce4ec 75%);
+  background-size: 200% 100%;
+}
+
+.loading-box.teal {
+  background: linear-gradient(90deg, #e0f2f1 25%, #b2dfdb 50%, #e0f2f1 75%);
+  background-size: 200% 100%;
+}
+
+/* Fixed Gallery Layout - Proper Masonry */
+.gallery {
+  column-count: 2;
+  column-gap: 12px;
+  column-fill: balance;
+  padding: 0 20px;
+}
+
+.gallery img {
+  width: 100%;
+  margin-bottom: 12px;
+  border-radius: 12px;
+  break-inside: avoid;
+  transition: transform 0.2s ease;
+  cursor: pointer;
+  display: block;
+  opacity: 1;
+}
+
+.gallery img:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive columns */
+@media (min-width: 768px) { 
+  .gallery { 
+    column-count: 3;
+    padding: 0 30px;
+  } 
+}
+@media (min-width: 1024px) { 
+  .gallery { 
+    column-count: 4;
+    padding: 0 40px;
+  } 
+}
+
+@media (max-width: 480px) {
+  .gallery {
+    padding: 0 10px;
+  }
+}
+
+.search-wrapper {
+  position: fixed;
+  top: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 500px;
+  z-index: 1000;
+  background: linear-gradient(to right, #FF0051, #FF002E);
+  padding: 2px;
+  border-radius: 9999px;
+}
+
+.search-inner {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 9999px;
+  padding-left: 16px;
+  position: relative;
+}
+
+.search-bar {
+  width: 100%;
+  padding: 12px 16px 12px 0;
+  border: none;
+  font-size: 16px;
+  color: #333;
+  background: transparent;
+  outline: none;
+  border-radius: 9999px;
+}
+
+.search-icon-btn {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  color: #333;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+/* Enhanced Image Viewer Styles */
+.image-viewer {
+  display: none;
+  padding: 20px;
+  background-color: #ffffff;
+  font-family: Arial, sans-serif;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.image-viewer.active {
+  display: block;
+  opacity: 1;
+}
+
+.image-wrapper {
+  max-width: 800px;
+  margin: auto;
+  margin-top: 60px;
+}
+
+.image-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column;
+}
+
+.image-container img {
+  width: 100%;
+  border-radius: 20px;
+  transition: opacity 0.3s ease;
+}
+
+.back-button {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  background: linear-gradient(135deg, #ff0051, #ff002e);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 42px;
+  height: 42px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 18px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease;
+}
+
+.back-button:hover {
+  transform: scale(1.1);
+}
+
+.back-button i {
+  pointer-events: none;
+}
+
+.title-row {
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
+}
+
+.title-bar {
+  background: linear-gradient(135deg, #ff0051, #ff002e);
+  border-radius: 50px;
+  padding: 9px 20px;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: calc(100% - 90px);
+}
+
+.icon-container {
+  margin-left: 10px;
+  display: flex;
+  gap: 10px;
+  position: relative;
+}
+
+.icon-container i {
+  font-size: 20px;
+  cursor: pointer;
+  background: linear-gradient(135deg, #ff0051, #ff002e);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+  transition: transform 0.2s ease;
+}
+
+.icon-container i:hover {
+  transform: scale(1.2);
+}
+
+.particle {
+  position: absolute;
+  font-size: 10px;
+  opacity: 0;
+  animation: explode 0.6s forwards;
+  pointer-events: none;
+}
+
+@keyframes explode {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--x), var(--y)) scale(0.5);
+    opacity: 0;
+  }
+}
+
+.divider-line {
+  height: 1px;
+  width: 100%;
+  background-color: #ff002e;
+  margin-top: 15px;
+  border-radius: 1px;
+}
+
+.related-images-section {
+  margin-top: 20px;
+}
+
+.related-images-grid {
+  column-count: 2;
+  column-gap: 12px;
+  margin-top: 10px;
+}
+
+.related-images-grid img {
+  width: 100%;
+  margin-bottom: 12px;
+  border-radius: 12px;
+  break-inside: avoid;
+  transition: transform 0.2s ease;
+  cursor: pointer;
+}
+
+.related-images-grid img:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+@media (min-width: 768px) { 
+  .related-images-grid { column-count: 3; } 
+}
+@media (min-width: 1024px) { 
+  .related-images-grid { column-count: 4; } 
+}
+
+/* Upload Page Styles */
+.upload-container {  
+  display: flex; flex-direction: column;  
+  align-items: center; justify-content: center;  
+  position: fixed;  
+  top: 50%; left: 50%;  
+  transform: translate(-50%, -50%);  
+  width: 100%;  
+  z-index: 1;  
+}  
+
+.upload-btn {  
+  background: linear-gradient(to right, #FF0051, #FF002E);  
+  border: none; color: white; font-size: 18px;  
+  padding: 12px 30px;  
+  border-radius: 30px;  
+  cursor: pointer; margin: 10px 0;  
+  box-shadow: 0 4px 12px rgba(255, 0, 80, 0.2);
+  transition: transform 0.2s ease;  
+}  
+
+.upload-btn:hover {
+  transform: translateY(-2px);
+}
+
+.preview-border {
+  margin-top: 20px;
+  padding: 2px;
+  border-radius: 12px;
+  background: linear-gradient(to right, #FF0051, #FF002E);
+  position: relative;
+  display: inline-block;
+}
+
+.preview-img {
+  width: 220px;
+  height: auto;
+  border-radius: 10px;
+  display: block;
+  background: #fff;
+  padding: 3px;
+  margin-bottom: 0;
+}
+
+.edit-icon {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  background: linear-gradient(to right, #FF0051, #FF002E);
+  opacity: 0.4;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.edit-icon:hover {
+  opacity: 0.7;
+}
+
+.edit-icon svg {
+  width: 16px;
+  height: 16px;
+  fill: #fff;
+}
+
+.title-input {  
+  padding: 10px; border: 2px solid #FF0051;  
+  border-radius: 25px; width: 220px;
+  margin: 12px 0 10px 0;
+  outline: none;
+  transition: border-color 0.2s ease;  
+}  
+
+.title-input:focus {
+  border-color: #FF002E;
+}
+
+.loading-line {  
+  width: 80%; max-width: 300px;  
+  height: 6px; background: #eee;  
+  border-radius: 4px; overflow: hidden;  
+  margin-top: 15px;  
+}  
+
+.loading-progress {  
+  width: 0%; height: 100%;  
+  background: linear-gradient(to right, #FF0051, #FF002E);  
+  transition: width 0.3s;  
+}  
+
+.success-msg {  
+  color: #fff;  
+  background: linear-gradient(to right, #FF0051, #FF002E);  
+  padding: 12px 20px;  
+  border-radius: 25px;  
+  margin-top: 20px;  
+  animation: fadeOut 3s forwards;  
+}  
+
+@keyframes fadeOut {  
+  0% { opacity: 1; }  
+  80% { opacity: 1; }  
+  100% { opacity: 0; display: none; }  
+}
+
+/* Enhanced responsive design */
+@media (max-width: 480px) {
+  .title-bar {
+    font-size: 16px;
+    padding: 8px 16px;
+  }
+  
+  .icon-container i {
+    font-size: 18px;
+  }
+  
+  .error-toast {
+    right: 10px;
+    left: 10px;
+    max-width: none;
+  }
+  
+  .filter-text {
+    font-size: 13px;
+  }
+  
+  .filter-menu {
+    min-width: 180px;
+  }
+  
+  .filter-header {
+    padding: 6px 12px;
+  }
+}
   </style>
+  	
+	<!-- 100% privacy-first analytics -->
   <script async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
-</head>
-<body>
+	
+</head>  
+<body>    
   <div class="top-header">
     <h1>NVN VERSE</h1>
-    <button class="three-dots" id="threeDots" onclick="showSettings()">
-      <i class="fas fa-ellipsis-v"></i>
+    
+    <!-- Enhanced Category Filter Dropdown - Only for Home Page -->
+    <div class="category-filter" id="categoryFilter">
+      <div class="filter-header" onclick="toggleFilter()">
+        <span class="filter-text" id="filterText">All</span>
+        <div class="filter-arrow" id="filterArrow"></div>
+      </div>
+      <div class="filter-menu" id="filterMenu">
+        <div class="filter-item" onclick="selectFilter('All')" data-category="All">All</div>
+        <div class="filter-item" onclick="selectFilter('Wallpapers')" data-category="Wallpapers">Wallpapers</div>
+        <div class="filter-item" onclick="selectFilter('Animals')" data-category="Animals">Animals</div>
+        <div class="filter-item" onclick="selectFilter('Nature & Landscape')" data-category="Nature & Landscape">Nature & Landscape</div>
+        <div class="filter-item" onclick="selectFilter('Lifestyle & Fashion')" data-category="Lifestyle & Fashion">Lifestyle & Fashion</div>
+      </div>
+    </div>
+  </div>    
+  
+  <!-- Error Toast Container -->
+  <div class="error-toast" id="errorToast">
+    <i class="fas fa-exclamation-triangle"></i>
+    <span id="errorMessage">An error occurred</span>
+    <button class="error-close" onclick="closeError()">
+      <i class="fas fa-times"></i>
     </button>
   </div>
-
-  <div id="home" class="page active">
-    <div class="gallery" id="gallery"></div>
-  </div>
-
-  <div id="search" class="page">
-    <div class="search-wrapper">
-      <div class="search-inner">
-        <input id="searchInput" type="text" placeholder="Search..." class="search-bar" />
-        <button class="search-icon-btn" onclick="performSearch()">
-          <i class="fas fa-search"></i>
-        </button>
-      </div>
-    </div>
-    <div class="gallery" id="searchResults" style="margin-top: 120px;"></div>
-  </div>
-
-  <div id="notifications" class="page">
-    <p class="upload-container">No notifications yet.</p>
-  </div>
-
-  <!-- User Authentication Pages -->
-  <div id="login" class="page">
-    <div class="auth-container">
-      <h2 class="auth-title">NVN VERSE</h2>
-      <p class="auth-subtitle">Welcome back to NVN VERSE! Sign in to continue exploring amazing content.</p>
-      
-      <form id="loginForm">
-        <input type="email" id="loginEmail" class="auth-input" placeholder="Email Address" required>
-        <input type="password" id="loginPassword" class="auth-input" placeholder="Password" required>
-        <button type="submit" class="auth-btn">Login</button>
-      </form>
-      
-      <div class="divider">
-        <span>or</span>
-      </div>
-      
-      <button class="google-btn" onclick="signInWithGoogle()">
-        <i class="fab fa-google"></i>
-        Continue with Google
-      </button>
-      
-      <a href="#" class="auth-link" onclick="showSignup()">Don't have an account? Create new account</a>
-    </div>
-  </div>
-
-  <div id="signup" class="page">
-    <div class="auth-container">
-      <h2 class="auth-title">JOIN NVN VERSE</h2>
-      <p class="auth-subtitle">Create your account and start sharing your amazing content with the world!</p>
-      
-      <form id="signupForm">
-        <input type="text" id="signupName" class="auth-input" placeholder="Full Name" required>
-        <input type="email" id="signupEmail" class="auth-input" placeholder="Email Address" required>
-        <input type="password" id="signupPassword" class="auth-input" placeholder="Password" required>
-        <button type="submit" class="auth-btn">Create Account</button>
-      </form>
-      
-      <div class="divider">
-        <span>or</span>
-      </div>
-      
-      <button class="google-btn" onclick="signInWithGoogle()">
-        <i class="fab fa-google"></i>
-        Sign up with Google
-      </button>
-      
-      <a href="#" class="auth-link" onclick="showLogin()">Already have an account? Sign in here</a>
-    </div>
-  </div>
-
-  <div id="emailVerify" class="page">
-    <div class="auth-container">
-      <h2 class="auth-title">VERIFY EMAIL</h2>
-      <div class="email-verify">
-        <i class="fas fa-envelope" style="font-size: 48px; margin-bottom: 15px; color: #F57C00;"></i>
-        <h3>Please check your email</h3>
-        <p>We've sent a verification link to your email address. Please click the link to verify your account.</p>
-        <button class="auth-btn" onclick="resendVerification()" style="margin-top: 15px;">Resend Email</button>
-      </div>
-      <a href="#" class="auth-link" onclick="showLogin()">Back to Login</a>
-    </div>
-  </div>
-
-  <div id="profileSetup" class="page">
-    <div class="auth-container profile-setup">
-      <h2 class="auth-title">COMPLETE PROFILE</h2>
-      <p class="auth-subtitle">Set up your profile to get started</p>
-      
-      <div class="profile-avatar">
-        <div class="avatar-circle" onclick="selectProfileImage()">
-          <i class="fas fa-user" id="defaultAvatar"></i>
-          <img id="profileImagePreview" style="display: none;" class="avatar-img">
-        </div>
-        <div class="avatar-upload" onclick="selectProfileImage()">
-          <i class="fas fa-camera"></i>
-        </div>
-        <input type="file" id="profileImageInput" style="display: none;" accept="image/*" onchange="previewProfileImage()">
-      </div>
-      
-      <input type="text" id="setupUsername" class="auth-input" placeholder="Username" required>
-      <textarea id="setupBio" class="auth-input" placeholder="Bio (optional)" style="min-height: 80px; resize: vertical;"></textarea>
-      
-      <button class="auth-btn" onclick="completeProfile()">Complete Setup</button>
-    </div>
-  </div>
-
-  <div id="profile" class="page">
-    <div class="profile-header">
-      <div class="profile-user-avatar" id="userAvatar">
-        <i class="fas fa-user"></i>
-      </div>
-      <div class="profile-username" id="displayUsername">Loading...</div>
-      <div class="profile-bio" id="displayBio">Welcome to my profile!</div>
-      
-      <div class="profile-stats">
-        <div class="stat-item">
-          <div class="stat-number" id="userPostsCount">0</div>
-          <div class="stat-label">Posts</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-number">125</div>
-          <div class="stat-label">Followers</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-number">89</div>
-          <div class="stat-label">Following</div>
-        </div>
-      </div>
-    </div>
-    
-    <div class="gallery" id="userGallery"></div>
-  </div>
-
-  <div id="settings" class="page">
-    <div class="settings-menu">
-      <div class="settings-profile-header">
-        <div class="settings-avatar" id="settingsAvatar">
-          <i class="fas fa-user"></i>
-        </div>
-      </div>
-      
-      <a href="#" class="settings-item" onclick="editProfile()">
-        <i class="fas fa-edit"></i>
-        <span>Edit Profile</span>
-      </a>
-      
-      <a href="#" class="settings-item" onclick="showAppSettings()">
-        <i class="fas fa-cog"></i>
-        <span>Settings</span>
-      </a>
-      
-      <a href="#" class="settings-item" onclick="showAbout()">
-        <i class="fas fa-info-circle"></i>
-        <span>About App</span>
-      </a>
-      
-      <a href="#" class="settings-item" onclick="contactSupport()">
-        <i class="fas fa-envelope"></i>
-        <span>Contact Us</span>
-      </a>
-      
-      <a href="#" class="settings-item" onclick="logout()" style="color: #f44336;">
-        <i class="fas fa-sign-out-alt" style="color: #f44336;"></i>
-        <span>Logout</span>
-      </a>
-    </div>
-  </div>
-
-  <div id="about" class="page">
-    <div class="about-content">
-      <h3>About NVN VERSE</h3>
-      <p>NVN VERSE is a creative platform where users can share, discover, and explore amazing visual content. Our mission is to connect creators and inspire creativity through beautiful imagery and meaningful interactions.</p>
-      
-      <h3>Features</h3>
-      <p>• Upload and share your creative content</p>
-      <p>• Discover amazing content from other creators</p>
-      <p>• Search and explore diverse categories</p>
-      <p>• Build your personal collection</p>
-      <p>• Connect with like-minded creators</p>
-      
-      <h3>Version</h3>
-      <p>NVN VERSE v2.0 - Enhanced with user profiles and social features</p>
-      
-      <a href="mailto:support.nvn@gmail.com" class="contact-btn">
-        <i class="fas fa-envelope"></i>
-        Contact Support
-      </a>
-    </div>
-  </div>
-
-  <div id="upload" class="page">
-    <div class="upload-container" id="uploadStart">
-      <button class="upload-btn" onclick="startUpload()">Upload Verse</button>
-    </div>
-    <div class="upload-container" id="uploadUI" style="display:none">
+  
+  <!-- Home Page with Enhanced Gallery -->
+  <div id="home" class="page active">  
+    <div class="gallery-enhanced" id="gallery"></div>  
+  </div>    
+  
+  <!-- Search Page -->
+  <div id="search" class="page">  
+    <div class="search-wrapper">  
+      <div class="search-inner">  
+        <input id="searchInput" type="text" placeholder="Search..." class="search-bar" />  
+        <button class="search-icon-btn" onclick="performSearch()">  
+          <i class="fas fa-search"></i>  
+        </button>  
+      </div>  
+    </div>  
+    <div class="gallery-enhanced" id="searchResults" style="margin-top: 120px;"></div>  
+  </div>    
+  
+  <!-- Notifications Page -->
+  <div id="notifications" class="page">  
+    <p class="upload-container">No notifications yet.</p>  
+  </div>    
+  
+  <!-- Profile Page -->
+  <div id="profile" class="page">  
+    <p class="upload-container">Edit profile coming Soon</p>  
+  </div>    
+  
+  <!-- Upload Page -->
+  <div id="upload" class="page">  
+    <div class="upload-container" id="uploadStart">  
+      <button class="upload-btn" onclick="startUpload()">Upload Verse</button>  
+    </div>  
+    <div class="upload-container" id="uploadUI" style="display:none">  
       <div class="preview-border">
-        <img id="preview" class="preview-img" />
+        <img id="preview" class="preview-img" />  
         <div class="edit-icon" onclick="startUpload()">
           <svg viewBox="0 0 24 24">
             <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 
@@ -948,21 +783,23 @@
         </div>
       </div>
       <input id="imgTitle" class="title-input" placeholder="Verse Title">
-      <button class="upload-btn" onclick="uploadImage()">Upload</button>
-    </div>
-    <input type="file" id="imageInput" accept="image/*" style="display:none" onchange="previewImage()">
-    <div class="upload-container" id="uploadProgress" style="display:none">
-      <div class="loading-line"><div id="progressBar" class="loading-progress"></div></div>
-    </div>
-    <div class="upload-container" id="uploadSuccess" style="display:none">
-      <div class="success-msg">Verse uploaded successfully!</div>
-    </div>
-  </div>
-
+      <input id="imgCategory" class="title-input" placeholder="Category (e.g., Wallpapers, Animals)">
+      <button class="upload-btn" onclick="uploadImage()">Upload</button>  
+    </div>  
+    <input type="file" id="imageInput" accept="image/*" style="display:none" onchange="previewImage()">  
+    <div class="upload-container" id="uploadProgress" style="display:none">  
+      <div class="loading-line"><div id="progressBar" class="loading-progress"></div></div>  
+    </div>  
+    <div class="upload-container" id="uploadSuccess" style="display:none">  
+      <div class="success-msg">Verse uploaded successfully!</div>  
+    </div>  
+  </div>    
+  
+  <!-- Enhanced Image Viewer Page -->
   <div id="imageViewer" class="image-viewer">
     <div class="image-wrapper">
       <div class="image-container">
-        <button class="back-button" onclick="closeImageViewer()">
+        <button class="back-button" onclick="goBackToGallery()">
           <i class="fas fa-arrow-left"></i>
         </button>
         <img id="viewerImage" src="" alt="Preview Image" />
@@ -978,599 +815,868 @@
       <div class="divider-line"></div>
       
       <div class="related-images-section">
-        <div class="related-images-grid" id="relatedImages"></div>
+        <div class="related-images-grid" id="relatedImages">
+          <!-- Related images will be populated here -->
+        </div>
       </div>
     </div>
   </div>
-
-  <div class="bottom-header">
-    <button class="nav-btn active" onclick="showPage('home')"><i class="fas fa-home"></i></button>
-    <button class="nav-btn" onclick="showPage('search')"><i class="fas fa-search"></i></button>
-    <button class="nav-btn" onclick="showPage('upload')"><i class="fas fa-plus"></i></button>
-    <button class="nav-btn" onclick="showPage('notifications')"><i class="fas fa-bell"></i></button>
-    <button class="nav-btn" onclick="showPage('profile')"><i class="fas fa-user"></i></button>
-  </div>
-
-  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  
+  <!-- Bottom Navigation -->
+  <div class="bottom-header">  
+    <button class="nav-btn active" onclick="showPage('home')"><i class="fas fa-home"></i></button>  
+    <button class="nav-btn" onclick="showPage('search')"><i class="fas fa-search"></i></button>  
+    <button class="nav-btn" onclick="showPage('upload')"><i class="fas fa-plus"></i></button>  
+    <button class="nav-btn" onclick="showPage('notifications')"><i class="fas fa-bell"></i></button>  
+    <button class="nav-btn" onclick="showPage('profile')"><i class="fas fa-user"></i></button>  
+  </div>    
+  
   <script>
-    const SUPABASE_URL = "https://scljuwuznhqnlglanijg.supabase.co";
-    const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNjbGp1d3V6bmhxbmxnbGFuaWpnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ4MzMyODcsImV4cCI6MjA3MDQwOTI4N30.TYTgGq6yHU_JLweMq5TeGRhP0OKnCAkCSp2CCbo2FDQ";
+      /* Complete Enhanced JavaScript - NVN Verse with Improved Features */
+
+// API Configuration
+const API_KEY = "$2a$10$P6MeZQIjBrN/EJrGKJCpF.VVL5VcwGO40ZL4tuMmSQgt8Fl084vIW";
+const BIN_ID = "6829d3268a456b7966a05cb4";
+
+// Global Variables
+let allImages = [];
+let allImageData = [];
+let currentScrollPosition = { page: 'home', position: 0 };
+let lastActivePage = 'home';
+let currentFilter = 'All';
+let navigationHistory = ['home'];
+let isNavigating = false;
+
+// Category Keywords Configuration
+const categoryKeywords = {
+  'Wallpapers': ['wall', 'wallpaper', 'background', 'wall', 'paper'],
+  'Animals': ['animal', 'cat', 'dog', 'bird', 'pet', 'wild', 'zoo'],
+   'Nature & Landscape': ['nature', 'landscape', 'tree', 'mountain', 'forest', 'beach', 'sky', 'sunset', 'nat', 'land'],
+  'Lifestyle & Fashion': ['lifestyle', 'fashion', 'style', 'cloth', 'dress', 'life', 'fash']
+};
+
+// Error Handling System
+function showError(message) {
+  const errorToast = document.getElementById('errorToast');
+  const errorMessage = document.getElementById('errorMessage');
+  
+  errorMessage.textContent = message;
+  errorToast.classList.add('show');
+  
+  setTimeout(() => {
+    closeError();
+  }, 5000);
+}
+
+function closeError() {
+  const errorToast = document.getElementById('errorToast');
+  errorToast.classList.remove('show');
+}
+
+// Enhanced Category Filter Functions
+function toggleFilter() {
+  const filterMenu = document.getElementById('filterMenu');
+  const filterArrow = document.getElementById('filterArrow');
+  
+  filterMenu.classList.toggle('open');
+  filterArrow.classList.toggle('rotated');
+}
+
+function selectFilter(category) {
+  const filterText = document.getElementById('filterText');
+  const filterMenu = document.getElementById('filterMenu');
+  const filterArrow = document.getElementById('filterArrow');
+  const allFilterItems = filterMenu.querySelectorAll('.filter-item');
+  
+  // Get current selected category
+  const previousCategory = filterText.textContent;
+  
+  // Update filter text to selected category
+  filterText.textContent = category;
+  currentFilter = category;
+  
+  // Update the filter menu items - swap selected with "All"
+  allFilterItems.forEach(item => {
+    if (item.dataset.category === category) {
+      item.textContent = previousCategory;
+      item.dataset.category = previousCategory;
+      item.onclick = () => selectFilter(previousCategory);
+    } else if (item.dataset.category === previousCategory && previousCategory !== 'All') {
+      item.textContent = category;
+      item.dataset.category = category;
+      item.onclick = () => selectFilter(category);
+    }
+  });
+  
+  // Close menu
+  filterMenu.classList.remove('open');
+  filterArrow.classList.remove('rotated');
+  
+  // Filter images
+  filterImagesByCategory(category);
+}
+
+// Show/Hide Category Filter Based on Page
+function updateCategoryFilterVisibility(pageId) {
+  const categoryFilter = document.getElementById('categoryFilter');
+  
+  if (pageId === 'home') {
+    categoryFilter.classList.remove('hidden');
+  } else {
+    categoryFilter.classList.add('hidden');
+  }
+}
+
+// Enhanced Image Filtering by Category
+function filterImagesByCategory(category) {
+  const gallery = document.getElementById("gallery");
+  
+  if (category === 'All') {
+    displayImagesImmediate(allImageData, gallery);
+    return;
+  }
+  
+  const keywords = categoryKeywords[category] || [];
+  
+  const filteredImages = allImageData.filter(imageData => {
+    const searchText = (imageData.title + ' ' + imageData.description).toLowerCase();
     
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-    const API_KEY = "$2a$10$P6MeZQIjBrN/EJrGKJCpF.VVL5VcwGO40ZL4tuMmSQgt8Fl084vIW";
-    const BIN_ID = "6829d3268a456b7966a05cb4";
-    let allImages = [];
-    let currentUser = null;
-    let pageHistory = [];
-
-    function showPage(id) {
-      if (currentUser === null && (id === 'profile' || id === 'upload')) {
-        showLogin();
-        return;
-      }
-
-      pageHistory.push(getCurrentActivePage());
-      
-      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-      document.getElementById(id).classList.add('active');
-      document.getElementById('imageViewer').classList.remove('active');
-
-      document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-      const icons = {
-        home: 'fa-home', search: 'fa-search',
-        upload: 'fa-plus', notifications: 'fa-bell', profile: 'fa-user'
-      };
-      document.querySelectorAll('.nav-btn').forEach(btn => {
-        if (btn.querySelector('i').classList.contains(icons[id])) btn.classList.add('active');
-      });
-
-      const threeDots = document.getElementById('threeDots');
-      if (id === 'profile' && currentUser) {
-        threeDots.style.display = 'block';
-      } else {
-        threeDots.style.display = 'none';
-      }
-
-      if (id === 'home') loadUploadedImages();
-      if (id === 'profile' && currentUser) loadUserProfile();
-    }
-
-    function getCurrentActivePage() {
-      const activePage = document.querySelector('.page.active');
-      return activePage ? activePage.id : 'home';
-    }
-
-    function handleBackNavigation() {
-      if (pageHistory.length > 0) {
-        const previousPage = pageHistory.pop();
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.getElementById(previousPage).classList.add('active');
-        document.getElementById('imageViewer').classList.remove('active');
-        return true;
+    return keywords.some(keyword => {
+      if (keyword.length >= 3) {
+        return searchText.includes(keyword.toLowerCase());
       }
       return false;
-    }
-
-    window.addEventListener('popstate', function(event) {
-      handleBackNavigation();
     });
+  });
+  
+  if (filteredImages.length === 0) {
+    gallery.innerHTML = `<p style="text-align:center; color:#666; padding: 40px;">No images found in "${category}" category.</p>`;
+    return;
+  }
+  
+  displayImagesImmediate(filteredImages, gallery);
+}
 
-    async function checkAuthState() {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (session) {
-        currentUser = session.user;
-        updateUIForLoggedInUser();
-      }
-    }
-
-    function showLogin() {
-      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-      document.getElementById('login').classList.add('active');
-      document.getElementById('threeDots').style.display = 'none';
-    }
-
-    function showSignup() {
-      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-      document.getElementById('signup').classList.add('active');
-    }
-
-    document.getElementById('loginForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const email = document.getElementById('loginEmail').value;
-      const password = document.getElementById('loginPassword').value;
-
-      try {
-        const { data, error } = await supabase.auth.signInWithPassword({
-          email: email,
-          password: password
-        });
-
-        if (error) throw error;
-
-        currentUser = data.user;
-        showMessage('Login successful! Welcome back to NVN VERSE', 'success');
-        updateUIForLoggedInUser();
-        showPage('profile');
-        
-      } catch (error) {
-        showMessage('Error: ' + error.message, 'error');
-      }
+// Enhanced Immediate Display Images Function - No Fade Animation
+function displayImagesImmediate(imageDataArray, container) {
+  container.innerHTML = "";
+  
+  const shuffledImages = shuffleArray(imageDataArray);
+  
+  // Create left and right column containers
+  const leftColumn = document.createElement('div');
+  const rightColumn = document.createElement('div');
+  leftColumn.style.cssText = 'display: inline-block; width: calc(50% - 4px); vertical-align: top;';
+  rightColumn.style.cssText = 'display: inline-block; width: calc(50% - 4px); vertical-align: top; margin-left: 8px;';
+  
+  container.appendChild(leftColumn);
+  container.appendChild(rightColumn);
+  
+  // Distribute images to columns and load them simultaneously
+  const imagePromises = shuffledImages.map((imageData, index) => {
+    return new Promise((resolve) => {
+      const img = document.createElement("img");
+      img.src = imageData.url;
+      img.onclick = () => openImageViewer(imageData.url, allImageData.findIndex(item => item.url === imageData.url));
+      
+      // Immediate styling - no transitions or animations
+      img.style.cssText = `
+        width: 100%;
+        margin-bottom: 8px;
+        border-radius: 12px;
+        cursor: pointer;
+        display: block;
+        transition: transform 0.2s ease;
+      `;
+      
+      img.onload = () => {
+        // Add to alternating columns for balanced distribution
+        const targetColumn = index % 2 === 0 ? leftColumn : rightColumn;
+        targetColumn.appendChild(img);
+        resolve();
+      };
+      
+      img.onerror = () => {
+        console.error('Failed to load image:', imageData.url);
+        resolve();
+      };
     });
+  });
+  
+  // All images load simultaneously
+  Promise.all(imagePromises).then(() => {
+    console.log('All images loaded simultaneously');
+  });
+}
 
-    document.getElementById('signupForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const name = document.getElementById('signupName').value;
-      const email = document.getElementById('signupEmail').value;
-      const password = document.getElementById('signupPassword').value;
-
-      if (password.length < 6) {
-        showMessage('Password must be at least 6 characters long', 'error');
-        return;
-      }
-
-      try {
-        const { data, error } = await supabase.auth.signUp({
-          email: email,
-          password: password,
-          options: {
-            data: {
-              full_name: name
-            }
-          }
-        });
-
-        if (error) throw error;
-
-        if (data.user) {
-          showMessage('Account created! Please check your email to verify.', 'success');
-          document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-          document.getElementById('emailVerify').classList.add('active');
-        }
-      } catch (error) {
-        showMessage('Error: ' + error.message, 'error');
-      }
-    });
-
-    async function signInWithGoogle() {
-      try {
-        const { data, error } = await supabase.auth.signInWithOAuth({
-          provider: 'google',
-          options: {
-            redirectTo: window.location.origin
-          }
-        });
-
-        if (error) throw error;
-        
-      } catch (error) {
-        showMessage('Error: ' + error.message, 'error');
-      }
-    }
-
-    async function resendVerification() {
-      const email = document.getElementById('signupEmail').value;
-      if (!email) return;
-
-      try {
-        const { error } = await supabase.auth.resend({
-          type: 'signup',
-          email: email
-        });
-
-        if (error) throw error;
-        showMessage('Verification email sent!', 'success');
-      } catch (error) {
-        showMessage('Error: ' + error.message, 'error');
-      }
-    }
-
-    function selectProfileImage() {
-      document.getElementById('profileImageInput').click();
-    }
-
-    function previewProfileImage() {
-      const file = document.getElementById('profileImageInput').files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          document.getElementById('defaultAvatar').style.display = 'none';
-          document.getElementById('profileImagePreview').style.display = 'block';
-          document.getElementById('profileImagePreview').src = e.target.result;
-        };
-        reader.readAsDataURL(file);
-      }
-    }
-
-    async function completeProfile() {
-      const username = document.getElementById('setupUsername').value;
-      const bio = document.getElementById('setupBio').value;
-      
-      if (!username.trim()) {
-        showMessage('Please enter a username', 'error');
-        return;
-      }
-
-      try {
-        const { error } = await supabase
-          .from('profiles')
-          .upsert({
-            id: currentUser.id,
-            username: username,
-            bio: bio,
-            full_name: currentUser.user_metadata?.full_name || username
-          });
-
-        if (error) throw error;
-
-        const userProfile = {
-          id: currentUser.id,
-          email: currentUser.email,
-          username: username,
-          bio: bio,
-          full_name: currentUser.user_metadata?.full_name || username
-        };
-        
-        localStorage.setItem('nvn_user_profile', JSON.stringify(userProfile));
-        
-        showMessage('Profile setup complete!', 'success');
-        updateUIForLoggedInUser();
-        showPage('profile');
-        
-      } catch (error) {
-        showMessage('Error: ' + error.message, 'error');
-      }
-    }
-
-    function updateUIForLoggedInUser() {
-      const profile = JSON.parse(localStorage.getItem('nvn_user_profile') || '{}');
-      
-      const displayUsername = profile.username || currentUser.user_metadata?.full_name || currentUser.email.split('@')[0];
-      const displayBio = profile.bio || 'Welcome to my profile!';
-      
-      document.getElementById('displayUsername').textContent = displayUsername;
-      document.getElementById('displayBio').textContent = displayBio;
-      
-      const avatarElements = ['userAvatar', 'settingsAvatar'];
-      avatarElements.forEach(id => {
-        const avatar = document.getElementById(id);
-        const initials = displayUsername.substring(0, 2).toUpperCase();
-        avatar.innerHTML = initials;
-      });
-    }
-
-    function showSettings() {
-      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-      document.getElementById('settings').classList.add('active');
-    }
-
-    function editProfile() {
-      showMessage('Profile editing feature coming soon!', 'success');
-    }
-
-    function showAppSettings() {
-      showMessage('App settings coming soon!', 'success');
-    }
-
-    function showAbout() {
-      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-      document.getElementById('about').classList.add('active');
-    }
-
-    function contactSupport() {
-      window.open('mailto:support.nvn@gmail.com?subject=NVN VERSE Support&body=Hello, I need help with...');
-    }
-
-    async function logout() {
-      try {
-        const { error } = await supabase.auth.signOut();
-        if (error) throw error;
-
-        currentUser = null;
-        localStorage.removeItem('nvn_user_profile');
-        document.getElementById('threeDots').style.display = 'none';
-        showMessage('Logged out successfully', 'success');
-        showPage('home');
-        
-      } catch (error) {
-        showMessage('Error: ' + error.message, 'error');
-      }
-    }
-
-    async function loadUserProfile() {
-      if (!currentUser) return;
-      
-      try {
-        const res = await fetch("https://api.jsonbin.io/v3/b/" + BIN_ID + "/latest", {
-          headers: { "X-Master-Key": API_KEY }
-        });
-        const data = await res.json();
-        const userImages = data.record.images || [];
-        
-        document.getElementById('userPostsCount').textContent = userImages.length;
-        
-        const userGallery = document.getElementById('userGallery');
-        userGallery.innerHTML = '';
-        
-        userImages.forEach((url, index) => {
-          const img = document.createElement('img');
-          img.src = url;
-          img.onclick = () => openImageViewer(url, index);
-          userGallery.appendChild(img);
-        });
-        
-      } catch (error) {
-        console.error('Error loading user profile:', error);
-      }
-    }
-
-    function startUpload() {
-      if (!currentUser) {
-        showMessage('Please login to upload content', 'error');
-        showLogin();
-        return;
-      }
-      document.getElementById('imageInput').click();
-    }
-
-    function previewImage() {
-      const file = document.getElementById('imageInput').files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = e => {
-          document.getElementById('preview').src = e.target.result;
-          document.getElementById('uploadStart').style.display = 'none';
-          document.getElementById('uploadUI').style.display = 'flex';
-        };
-        reader.readAsDataURL(file);
-      }
-    }
-
-    async function uploadImage() {
-      const file = document.getElementById("imageInput").files[0];
-      const title = document.getElementById("imgTitle").value;
-      if (!file) return;
-
-      document.getElementById("uploadUI").style.display = "none";
-      document.getElementById("uploadProgress").style.display = "flex";
-      const progress = document.getElementById("progressBar");
-      progress.style.width = "0%";
-
-      const formData = new FormData();
-      formData.append("key", "27b2c3d5c8a0bd62a61ed7f0f5905824");
-      formData.append("image", file);
-      if (title) formData.append("name", title);
-
-      let percent = 0;
-      const simulate = setInterval(() => {
-        percent += 10;
-        if (percent > 90) clearInterval(simulate);
-        progress.style.width = percent + "%";
-      }, 200);
-
-      try {
-        const res = await fetch("https://api.imgbb.com/1/upload", {
-          method: "POST",
-          body: formData,
-        });
-        const data = await res.json();
-        clearInterval(simulate);
-        progress.style.width = "100%";
-        const imageUrl = data.data.url;
-
-        const getRes = await fetch("https://api.jsonbin.io/v3/b/" + BIN_ID + "/latest", {
-          headers: { "X-Master-Key": API_KEY }
-        });
-        const getData = await getRes.json();
-        const existing = getData.record.images || [];
-
-        existing.unshift(imageUrl);
-
-        await fetch("https://api.jsonbin.io/v3/b/" + BIN_ID, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            "X-Master-Key": API_KEY,
-          },
-          body: JSON.stringify({ images: existing }),
-        });
-
-        setTimeout(() => {
-          document.getElementById("uploadProgress").style.display = "none";
-          document.getElementById("uploadSuccess").style.display = "flex";
-          setTimeout(() => {
-            document.getElementById("uploadSuccess").style.display = "none";
-            document.getElementById("uploadStart").style.display = "flex";
-            document.getElementById("imageInput").value = "";
-            document.getElementById("imgTitle").value = "";
-          }, 3000);
-        }, 500);
-      } catch (error) {
-        alert("Upload failed. Try again.");
-        console.error(error);
-      }
-    }
-
-    async function loadUploadedImages() {
-      const gallery = document.getElementById("gallery");
-      gallery.innerHTML = "";
-
-      try {
-        const res = await fetch("https://api.jsonbin.io/v3/b/" + BIN_ID + "/latest", {
-          headers: { "X-Master-Key": API_KEY }
-        });
-        const data = await res.json();
-        allImages = data.record.images || [];
-
-        allImages.forEach((url, index) => {
-          const img = document.createElement("img");
-          img.src = url;
-          img.onclick = () => openImageViewer(url, index);
-          gallery.appendChild(img);
-        });
-      } catch (err) {
-        console.error("Error loading images:", err);
-      }
-    }
-
-    document.getElementById("searchInput").addEventListener("keydown", function (event) {
-      if (event.key === "Enter") {
-        event.preventDefault();
-        performSearch();
-      }
-    });
-
-    async function performSearch() {
-      const query = document.getElementById("searchInput").value.toLowerCase();
-      const resultsContainer = document.getElementById("searchResults");
-      resultsContainer.innerHTML = "";
-
-      try {
-        const res = await fetch("https://api.jsonbin.io/v3/b/" + BIN_ID + "/latest", {
-          headers: { "X-Master-Key": API_KEY }
-        });
-        const data = await res.json();
-        const images = data.record.images || [];
-
-        const filtered = images.filter(url => url.toLowerCase().includes(query));
-
-        if (filtered.length === 0) {
-          resultsContainer.innerHTML = "<p style='text-align:center; color:#666;'>No results found.</p>";
-          return;
-        }
-
-        filtered.forEach((url, index) => {
-          const img = document.createElement("img");
-          img.src = url;
-          img.onclick = () => openImageViewer(url, allImages.indexOf(url));
-          resultsContainer.appendChild(img);
-        });
-      } catch (err) {
-        console.error("Search failed:", err);
-        resultsContainer.innerHTML = "<p style='text-align:center; color:#666;'>Error loading search results.</p>";
-      }
-    }
-
-    function openImageViewer(imageSrc, imageIndex) {
-      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-      document.getElementById('imageViewer').classList.add('active');
-      
-      document.getElementById('viewerImage').src = imageSrc;
-      
-      const urlParts = imageSrc.split('/');
-      const filename = urlParts[urlParts.length - 1];
-      const title = filename.split('.')[0].replace(/[^a-zA-Z0-9]/g, ' ').toUpperCase() || 'UNTITLED IMAGE';
-      document.getElementById('viewerTitle').textContent = title;
-      
-      loadRelatedImages(imageIndex);
-    }
-
-    function loadRelatedImages(currentIndex) {
-      const relatedContainer = document.getElementById('relatedImages');
-      relatedContainer.innerHTML = '';
-      
-      const otherImages = allImages.filter((img, index) => index !== currentIndex);
-      
-      otherImages.forEach((url, index) => {
-        const img = document.createElement('img');
-        img.src = url;
-        img.onclick = () => openImageViewer(url, allImages.indexOf(url));
-        relatedContainer.appendChild(img);
-      });
-    }
-
-    function closeImageViewer() {
-      document.getElementById('imageViewer').classList.remove('active');
-      document.getElementById('home').classList.add('active');
-    }
-
-    function downloadImage() {
-      const imageUrl = document.getElementById('viewerImage').src;
-      const link = document.createElement('a');
-      link.href = imageUrl;
-      link.download = 'nvn-verse-image.jpg';
-      link.target = '_blank';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
-
-    const heartIcon = document.getElementById('heart-icon');
+// Simplified Loading Boxes - Immediate Replacement
+function createLoadingBoxes(container, count = 12) {
+  container.innerHTML = '';
+  const heights = ['small', 'medium', 'large', 'extra-large'];
+  const colors = ['blue', 'purple', 'green', 'orange', 'pink', 'teal'];
+  
+  for (let i = 0; i < count; i++) {
+    const loadingBox = document.createElement('div');
+    loadingBox.className = 'loading-box';
     
-    heartIcon.addEventListener('click', () => {
-      const container = heartIcon.parentElement;
-      const icons = ['fa-heart', 'fa-star', 'fa-circle'];
-      for (let i = 0; i < 8; i++) {
-        const particle = document.createElement('i');
-        particle.classList.add('fas', icons[Math.floor(Math.random() * icons.length)], 'particle');
-        const angle = (Math.PI * 2 * i) / 8;
-        const radius = 30;
-        const x = Math.cos(angle) * radius;
-        const y = Math.sin(angle) * radius;
-        particle.style.setProperty('--x', `${x}px`);
-        particle.style.setProperty('--y', `${y}px`);
-        container.appendChild(particle);
-        setTimeout(() => {
-          particle.remove();
-        }, 600);
-      }
-    });
+    const randomHeight = heights[Math.floor(Math.random() * heights.length)];
+    loadingBox.classList.add(randomHeight);
+    
+    const randomColor = colors[Math.floor(Math.random() * colors.length)];
+    loadingBox.classList.add(randomColor);
+    
+    container.appendChild(loadingBox);
+  }
+}
 
-    function showMessage(text, type) {
-      const existing = document.querySelector('.message');
-      if (existing) existing.remove();
+// Scroll Position Management
+function saveCurrentScrollPosition() {
+  try {
+    const currentPage = document.querySelector('.page.active');
+    if (currentPage && currentPage.id !== 'imageViewer') {
+      currentScrollPosition = {
+        page: currentPage.id,
+        position: window.pageYOffset || document.documentElement.scrollTop
+      };
+    }
+  } catch (error) {
+    console.error('Error saving scroll position:', error);
+  }
+}
 
-      const message = document.createElement('div');
-      message.className = `message ${type}`;
-      message.textContent = text;
-      document.body.appendChild(message);
+function restoreScrollPosition(pageId) {
+  try {
+    if (currentScrollPosition.page === pageId && currentScrollPosition.position > 0) {
+      window.scrollTo(0, currentScrollPosition.position);
+    }
+  } catch (error) {
+    console.error('Error restoring scroll position:', error);
+  }
+}
 
-      setTimeout(() => {
-        message.remove();
-      }, 4000);
+// Navigation Functions
+function updateNavigationButtons(activePageId) {
+  const icons = {
+    home: 'fa-home', 
+    search: 'fa-search',
+    upload: 'fa-plus', 
+    notifications: 'fa-bell', 
+    profile: 'fa-user'
+  };
+  
+  document.querySelectorAll('.nav-btn').forEach(btn => {
+    btn.classList.remove('active');
+    if (btn.querySelector('i').classList.contains(icons[activePageId])) {
+      btn.classList.add('active');
+    }
+  });
+}
+
+function showPageWithHistory(id) {
+  if (isNavigating) return;
+  
+  try {
+    saveCurrentScrollPosition();
+    
+    const currentPage = navigationHistory[navigationHistory.length - 1];
+    if (currentPage !== id) {
+      navigationHistory.push(id);
+      history.pushState({ page: id, historyIndex: navigationHistory.length - 1 }, '', `#${id}`);
+    }
+    
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('imageViewer').classList.remove('active');
+    document.getElementById(id).classList.add('active');
+
+    updateNavigationButtons(id);
+    updateCategoryFilterVisibility(id); // Show/hide category filter
+    lastActivePage = id;
+
+    if (id === 'home') {
+      loadUploadedImages();
+      setTimeout(() => restoreScrollPosition('home'), 50);
+    } else {
+      window.scrollTo(0, 0);
     }
 
-    supabase.auth.onAuthStateChange(async (event, session) => {
-      if (event === 'SIGNED_IN' && session) {
-        currentUser = session.user;
-        
-        try {
-          const { data, error } = await supabase
-            .from('profiles')
-            .select('username, bio, full_name')
-            .eq('id', session.user.id)
-            .single();
+  } catch (error) {
+    showError('Failed to switch page: ' + error.message);
+  }
+}
 
-          if (data && data.username) {
-            const userProfile = {
-              id: session.user.id,
-              email: session.user.email,
-              username: data.username,
-              bio: data.bio,
-              full_name: data.full_name
-            };
-            localStorage.setItem('nvn_user_profile', JSON.stringify(userProfile));
-            updateUIForLoggedInUser();
-            showPage('profile');
-          } else {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById('profileSetup').classList.add('active');
-          }
-        } catch (error) {
-          document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-          document.getElementById('profileSetup').classList.add('active');
-        }
-      } else if (event === 'SIGNED_OUT') {
-        currentUser = null;
-        localStorage.removeItem('nvn_user_profile');
-        document.getElementById('threeDots').style.display = 'none';
-      }
+function showPageDirect(id) {
+  try {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('imageViewer').classList.remove('active');
+    document.getElementById(id).classList.add('active');
+
+    updateNavigationButtons(id);
+    updateCategoryFilterVisibility(id); // Show/hide category filter
+    lastActivePage = id;
+
+    if (id === 'home') {
+      restoreScrollPosition('home');
+    } else {
+      window.scrollTo(0, 0);
+    }
+
+  } catch (error) {
+    showError('Failed to show page: ' + error.message);
+  }
+}
+
+function showPage(id) {
+  showPageWithHistory(id);
+}
+
+// Utility Functions
+function shuffleArray(array) {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+}
+
+function extractImageMetadata(url) {
+  try {
+    const urlParts = url.split('/');
+    const filename = urlParts[urlParts.length - 1];
+    
+    let title = filename.split('.')[0];
+    title = decodeURIComponent(title);
+    title = title.replace(/[^a-zA-Z0-9]/g, ' ').trim();
+    
+    return {
+      url: url,
+      title: title || 'Untitled',
+      description: title || ''
+    };
+  } catch (error) {
+    return {
+      url: url,
+      title: 'Untitled',
+      description: ''
+    };
+  }
+}
+
+// Enhanced Image Loading with Immediate Display
+async function loadUploadedImages() {
+  const gallery = document.getElementById("gallery");
+  
+  try {
+    createLoadingBoxes(gallery, 16);
+
+    const res = await fetch("https://api.jsonbin.io/v3/b/" + BIN_ID + "/latest", {
+      headers: {
+        "X-Master-Key": API_KEY,
+      },
     });
 
-    window.onload = async () => {
-      await checkAuthState();
-      loadUploadedImages();
+    if (!res.ok) {
+      throw new Error(`HTTP error! status: ${res.status}`);
+    }
+
+    const data = await res.json();
+    const originalImages = data.record.images || [];
+    
+    if (originalImages.length === 0) {
+      gallery.innerHTML = '<p style="text-align:center; color:#666; padding: 40px;">No images uploaded yet.</p>';
+      return;
+    }
+
+    allImageData = originalImages.map(url => extractImageMetadata(url));
+    allImages = originalImages;
+    
+    // Immediate replacement - no delay
+    setTimeout(() => {
+      filterImagesByCategory(currentFilter);
+    }, 200); // Very short delay for smooth transition
+
+  } catch (error) {
+    console.error("Error loading images:", error);
+    showError("Failed to load images. Please check your connection and try again.");
+    gallery.innerHTML = '<p style="text-align:center; color:#ff0051; padding: 40px;">Failed to load images. Please refresh the page.</p>';
+  }
+}
+
+// Upload Functions
+function startUpload() {
+  try {
+    document.getElementById('imageInput').click();
+  } catch (error) {
+    showError('Failed to open file picker: ' + error.message);
+  }
+}
+
+function previewImage() {
+  try {
+    const file = document.getElementById('imageInput').files[0];
+    if (!file) {
+      showError('No file selected');
+      return;
+    }
+
+    if (!file.type.startsWith('image/')) {
+      showError('Please select a valid image file');
+      return;
+    }
+
+    if (file.size > 10 * 1024 * 1024) {
+      showError('Image size must be less than 10MB');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = e => {
+      document.getElementById('preview').src = e.target.result;
+      document.getElementById('uploadStart').style.display = 'none';
+      document.getElementById('uploadUI').style.display = 'flex';
     };
+    reader.onerror = () => {
+      showError('Failed to read the image file');
+    };
+    reader.readAsDataURL(file);
+
+  } catch (error) {
+    showError('Error previewing image: ' + error.message);
+  }
+}
+
+async function uploadImage() {
+  try {
+    const file = document.getElementById("imageInput").files[0];
+    const title = document.getElementById("imgTitle").value.trim();
+    const category = document.getElementById("imgCategory")?.value.trim() || '';
+
+    if (!file) {
+      showError('Please select an image to upload');
+      return;
+    }
+
+    document.getElementById("uploadUI").style.display = "none";
+    document.getElementById("uploadProgress").style.display = "flex";
+    const progress = document.getElementById("progressBar");
+    progress.style.width = "0%";
+
+    const formData = new FormData();
+    formData.append("key", "27b2c3d5c8a0bd62a61ed7f0f5905824");
+    formData.append("image", file);
+    
+    let imageName = '';
+    if (category) imageName += category.replace(/\s+/g, '_') + '_';
+    if (title) imageName += title.replace(/\s+/g, '_');
+    if (!imageName) imageName = 'nvn_verse_image';
+    
+    formData.append("name", imageName);
+
+    let percent = 0;
+    const simulate = setInterval(() => {
+      percent += Math.random() * 15;
+      if (percent > 90) clearInterval(simulate);
+      progress.style.width = Math.min(percent, 90) + "%";
+    }, 200);
+
+    const res = await fetch("https://api.imgbb.com/1/upload", {
+      method: "POST",
+      body: formData,
+    });
+
+    if (!res.ok) {
+      throw new Error(`Upload failed with status: ${res.status}`);
+    }
+
+    const data = await res.json();
+    
+    if (!data.success) {
+      throw new Error(data.error?.message || 'Upload failed');
+    }
+
+    clearInterval(simulate);
+    progress.style.width = "95%";
+
+    const imageUrl = data.data.url;
+
+    const getRes = await fetch("https://api.jsonbin.io/v3/b/" + BIN_ID + "/latest", {
+      headers: {
+        "X-Master-Key": API_KEY,
+      },
+    });
+
+    if (!getRes.ok) {
+      throw new Error(`Failed to fetch existing data: ${getRes.status}`);
+    }
+
+    const getData = await getRes.json();
+    const existing = getData.record.images || [];
+
+    existing.unshift(imageUrl);
+
+    const updateRes = await fetch("https://api.jsonbin.io/v3/b/" + BIN_ID, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Master-Key": API_KEY,
+      },
+      body: JSON.stringify({ images: existing }),
+    });
+
+    if (!updateRes.ok) {
+      throw new Error(`Failed to save image data: ${updateRes.status}`);
+    }
+
+    progress.style.width = "100%";
+
+    setTimeout(() => {
+      document.getElementById("uploadProgress").style.display = "none";
+      document.getElementById("uploadSuccess").style.display = "flex";
+      
+      setTimeout(() => {
+        document.getElementById("uploadSuccess").style.display = "none";
+        document.getElementById("uploadStart").style.display = "flex";
+        document.getElementById("imageInput").value = "";
+        document.getElementById("imgTitle").value = "";
+        if (document.getElementById("imgCategory")) {
+          document.getElementById("imgCategory").value = "";
+        }
+      }, 3000);
+    }, 500);
+
+  } catch (error) {
+    console.error('Upload error:', error);
+    showError('Upload failed: ' + error.message);
+    
+    document.getElementById("uploadProgress").style.display = "none";
+    document.getElementById("uploadUI").style.display = "flex";
+  }
+}
+
+// Search Functionality
+document.getElementById("searchInput")?.addEventListener("keydown", function (event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    performSearch();
+  }
+});
+
+async function performSearch() {
+  const searchInput = document.getElementById("searchInput");
+  const resultsContainer = document.getElementById("searchResults");
+  
+  if (!searchInput || !resultsContainer) return;
+  
+  const query = searchInput.value.toLowerCase().trim();
+  
+  try {
+    if (!query) {
+      showError('Please enter a search term');
+      return;
+    }
+
+    createLoadingBoxes(resultsContainer, 12);
+
+    const res = await fetch("https://api.jsonbin.io/v3/b/" + BIN_ID + "/latest", {
+      headers: {
+        "X-Master-Key": API_KEY,
+      },
+    });
+
+    if (!res.ok) {
+      throw new Error(`Search failed: ${res.status}`);
+    }
+
+    const data = await res.json();
+    const images = data.record.images || [];
+    
+    const searchImageData = images.map(url => extractImageMetadata(url));
+    
+    const filtered = searchImageData.filter(imageData => {
+      const searchText = (imageData.title + ' ' + imageData.description).toLowerCase();
+      return query.length >= 3 && searchText.includes(query);
+    });
+
+    setTimeout(() => {
+      if (filtered.length === 0) {
+        resultsContainer.innerHTML = "<p style='text-align:center; color:#666; padding: 40px;'>No results found for \"" + query + "\"</p>";
+        return;
+      }
+
+      displayImagesImmediate(filtered, resultsContainer);
+    }, 200); // Very short delay
+
+  } catch (error) {
+    console.error("Search error:", error);
+    showError('Search failed: ' + error.message);
+    resultsContainer.innerHTML = "<p style='text-align:center; color:#ff0051; padding: 40px;'>Search failed. Please try again.</p>";
+  }
+}
+
+// Image Viewer Functions
+function openImageViewerWithHistory(imageSrc, imageIndex) {
+  try {
+    saveCurrentScrollPosition();
+    
+    navigationHistory.push('imageViewer');
+    history.pushState({ 
+      page: 'imageViewer', 
+      imageSrc: imageSrc, 
+      imageIndex: imageIndex,
+      historyIndex: navigationHistory.length - 1 
+    }, '', '#imageViewer');
+    
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('imageViewer').classList.add('active');
+    
+    window.scrollTo(0, 0);
+    
+    const viewerImage = document.getElementById('viewerImage');
+    viewerImage.style.opacity = '0';
+    viewerImage.src = imageSrc;
+    
+    viewerImage.onload = () => {
+      viewerImage.style.opacity = '1';
+    };
+    
+    viewerImage.onerror = () => {
+      showError('Failed to load image');
+    };
+    
+    const imageData = allImageData.find(item => item.url === imageSrc) || extractImageMetadata(imageSrc);
+    const title = imageData.title || 'UNTITLED IMAGE';
+    document.getElementById('viewerTitle').textContent = title.toUpperCase();
+    
+    loadRelatedImages(imageIndex);
+
+  } catch (error) {
+    showError('Failed to open image viewer: ' + error.message);
+  }
+}
+
+function openImageViewer(imageSrc, imageIndex) {
+  openImageViewerWithHistory(imageSrc, imageIndex);
+}
+
+function loadRelatedImages(currentIndex) {
+  try {
+    const relatedContainer = document.getElementById('relatedImages');
+    relatedContainer.innerHTML = '';
+    
+    const otherImages = allImageData.filter((img, index) => index !== currentIndex);
+    
+    if (otherImages.length === 0) {
+      relatedContainer.innerHTML = '<p style="text-align:center; color:#666; padding: 20px;">No related images found.</p>';
+      return;
+    }
+
+    const shuffledRelated = shuffleArray(otherImages);
+    
+    shuffledRelated.forEach((imageData, index) => {
+      const img = document.createElement('img');
+      img.src = imageData.url;
+      img.onclick = () => openImageViewer(imageData.url, allImageData.indexOf(imageData));
+      img.style.animationDelay = `${index * 0.03}s`;
+      
+      img.onload = () => {
+        relatedContainer.appendChild(img);
+      };
+      
+      img.onerror = () => {
+        console.error('Failed to load related image:', imageData.url);
+      };
+    });
+
+  } catch (error) {
+    console.error('Error loading related images:', error);
+    showError('Failed to load related images');
+  }
+}
+
+// Back Navigation
+function handleBackNavigation(event) {
+  isNavigating = true;
+  
+  try {
+    let targetPage = 'home';
+    let targetState = null;
+    
+    if (event && event.state) {
+      targetPage = event.state.page;
+      targetState = event.state;
+    } else {
+      if (navigationHistory.length > 1) {
+        navigationHistory.pop();
+        targetPage = navigationHistory[navigationHistory.length - 1];
+      }
+    }
+    
+    if (targetPage === 'imageViewer' && targetState) {
+      openImageViewerDirect(targetState.imageSrc, targetState.imageIndex);
+    } else if (targetPage === 'imageViewer') {
+      if (navigationHistory.length > 1) {
+        navigationHistory.pop();
+        targetPage = navigationHistory[navigationHistory.length - 1];
+      } else {
+        targetPage = 'home';
+      }
+      showPageDirect(targetPage);
+    } else {
+      showPageDirect(targetPage);
+    }
+    
+  } catch (error) {
+    console.error('Back navigation error:', error);
+    showPageDirect('home');
+    navigationHistory = ['home'];
+  } finally {
+    isNavigating = false;
+  }
+}
+
+function openImageViewerDirect(imageSrc, imageIndex) {
+  try {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('imageViewer').classList.add('active');
+    
+    window.scrollTo(0, 0);
+    
+    const viewerImage = document.getElementById('viewerImage');
+    viewerImage.style.opacity = '0';
+    viewerImage.src = imageSrc;
+    
+    viewerImage.onload = () => {
+      viewerImage.style.opacity = '1';
+    };
+    
+    viewerImage.onerror = () => {
+      showError('Failed to load image');
+    };
+    
+    const imageData = allImageData.find(item => item.url === imageSrc) || extractImageMetadata(imageSrc);
+    const title = imageData.title || 'UNTITLED IMAGE';
+    document.getElementById('viewerTitle').textContent = title.toUpperCase();
+    
+    loadRelatedImages(imageIndex);
+
+  } catch (error) {
+    showError('Failed to open image viewer: ' + error.message);
+  }
+}
+
+function goBackToGallery() {
+  if (navigationHistory.length > 1) {
+    history.back();
+  } else {
+    showPageWithHistory('home');
+  }
+}
+
+// Download Function
+function downloadImage() {
+  try {
+    const imageUrl = document.getElementById('viewerImage').src;
+    const link = document.createElement('a');
+    link.href = imageUrl;
+    link.download = 'nvn-verse-image.jpg';
+    link.target = '_blank';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  } catch (error) {
+    showError('Download failed: ' + error.message);
+  }
+}
+
+// Heart Effect
+function initializeHeartEffect() {
+  const heartIcon = document.getElementById('heart-icon');
+  
+  if (heartIcon) {
+    heartIcon.addEventListener('click', () => {
+      try {
+        const container = heartIcon.parentElement;
+        const icons = ['fa-heart', 'fa-star', 'fa-circle'];
+        
+        for (let i = 0; i < 8; i++) {
+          const particle = document.createElement('i');
+          particle.classList.add('fas', icons[Math.floor(Math.random() * icons.length)], 'particle');
+          
+          const angle = (Math.PI * 2 * i) / 8;
+          const radius = 30;
+          const x = Math.cos(angle) * radius;
+          const y = Math.sin(angle) * radius;
+          
+          particle.style.setProperty('--x', `${x}px`);
+          particle.style.setProperty('--y', `${y}px`);
+          
+          container.appendChild(particle);
+          
+          setTimeout(() => {
+            if (particle.parentNode) {
+              particle.remove();
+            }
+          }, 600);
+        }
+      } catch (error) {
+        console.error('Heart effect error:', error);
+      }
+    });
+  }
+}
+
+// Close Filter Menu
+function initializeFilterClose() {
+  document.addEventListener('click', function(event) {
+    const categoryFilter = document.querySelector('.category-filter');
+    const filterMenu = document.getElementById('filterMenu');
+    const filterArrow = document.getElementById('filterArrow');
+    
+    if (categoryFilter && !categoryFilter.contains(event.target)) {
+      filterMenu.classList.remove('open');
+      filterArrow.classList.remove('rotated');
+    }
+  });
+}
+
+// Initialize Back Button Handling
+function initializeBackButtonHandling() {
+  window.addEventListener('popstate', handleBackNavigation);
+  
+  const initialHash = window.location.hash.substring(1);
+  if (initialHash && ['home', 'search', 'upload', 'notifications', 'profile'].includes(initialHash)) {
+    navigationHistory = [initialHash];
+    showPageDirect(initialHash);
+  } else {
+    history.replaceState({ page: 'home', historyIndex: 0 }, '', '#home');
+  }
+  
+  window.addEventListener('beforeunload', function() {
+    // Mobile browser compatibility
+  });
+}
+
+// Initialize App
+window.onload = function() {
+  try {
+    console.log('NVN Verse app initializing with enhanced features...');
+    
+    initializeBackButtonHandling();
+    initializeHeartEffect();
+    initializeFilterClose();
+    
+    // Show category filter only on home page initially
+    updateCategoryFilterVisibility('home');
+    
+    loadUploadedImages();
+    
+    console.log('NVN Verse app initialized successfully');
+  } catch (error) {
+    console.error('App initialization error:', error);
+    showError('App failed to initialize properly');
+  }
+};
   </script>
-</body>
+  
+</body>  
 </html>
